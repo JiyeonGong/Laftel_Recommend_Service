@@ -1,8 +1,9 @@
 import React from 'react'
 
-const Mbti () => {
+const Mbti = () => {
     return (
         <div>
+            <h2>Mbti 컨테이너</h2>
         </div>
     )
 }

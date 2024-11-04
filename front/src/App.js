@@ -1,25 +1,19 @@
 import './App.css';
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { LoginCallback } from "./pages/LoginCallback"
+import { Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./api/AuthContext";
+import Main from "./pages/Main"
+import LoginCallback from "./pages/LoginCallback"
 
 const App = () => {
-    const nav = useNavigate();
-
-    const onClickButton = (link) => {
-        nav(link);
-    };
-
+    // 관리자 여부에 따라 보이는 페이지가 다르게 수정 !!
     return (
-        <>
-            <div>
-                <button onClick={() => onClickButton("/")}>Main 페이지로 이동</button>
-            </div>
+        <AuthProvider>
             <Routes>
                 <Route path="/" element={<Main />} /> {/* 메인페이지 */}
-                <Route path="/oauth2" element={<LoginCallback />} /> {/* 로그인 redirect 페이지 */}
-                <Route path="/" element={<Main />} /> {/*  -  */}
+                <Route path="/oauth2/callback" element={<LoginCallback />} /> {/* 로그인 redirect 페이지 */}
+                <Route path="*" element={<Main />} /> {/*  -  */}
             </Routes>
-        </>
+        </AuthProvider>
     );
 }
 

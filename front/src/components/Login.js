@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
-import axios from "axios";
+import React, { useContext } from 'react';
+import { AuthContext } from "../api/AuthContext";
 
 const Login = () => {
-    const API_KEY = process.env.REACT_APP_API_KEY; //REST API KEY
-    const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI; //Redirect URI
+    const API_KEY = process.env.REACT_APP_API_KEY; // REST API KEY
+    const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI; // Redirect URI
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
 
-    // 로그인 버튼 클릭 시 카카오 OAuth 페이지로 리다이렉트
-    const handleLogin = () => {
-        window.location.href = kakaoURL
-    }
+    const { isLoggedIn, logout } = useContext(AuthContext);
 
     return (
         <div>
-            <img src="/image/kakao_login.png" alt="Kakao Logo" onClick={handleLogin}/>
+            {!isLoggedIn ? (
+                <img src="/image/kakao_login.png" alt="Kakao Logo" onClick={() => window.location.href = kakaoURL} />
+            ) : (
+                <button onClick={logout}>로그아웃</button>
+            )}
         </div>
     );
 };
