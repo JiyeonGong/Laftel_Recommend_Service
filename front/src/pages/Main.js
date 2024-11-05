@@ -7,10 +7,14 @@ import Mbti from '../components/Mbti'
 const Main = () => {
     return (
         <div>
-            <Header /><hr />
-            <Top /><hr />
-            <Weather /><hr />
-            <Mbti />
+            <div>
+                <Header /><hr />
+            </div>
+            <div>
+                <Top /><hr />
+                <Weather /><hr />
+                <Mbti />
+            </div>
         </div>
     )
 }

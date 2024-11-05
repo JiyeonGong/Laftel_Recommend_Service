@@ -35,7 +35,6 @@ const LoginCallback = () => {
             }
         };
 
-
             getUserInfo();
         }
     }, [code, login, navigate]);

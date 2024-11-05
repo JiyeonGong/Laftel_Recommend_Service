@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.SecretKey;
@@ -49,25 +51,29 @@ public class AuthService {
         log.info("info = {}", reqUrl);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        String requestBody = "grant_type=authorization_code"
-            + "&client_id=" + apiKey
-            + "&redirect_uri=" + redirectUri
-            + "&code=" + code;
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", "4fd8035dab85a9abd91f5269225e57b7");
+        params.add("redirect_uri", "http://localhost:3000/oauth2/callback");
+        params.add("code", code);
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
 
         try {
             // Kakao API 호출
-            ResponseEntity<String> response = restTemplate.exchange(reqUrl, HttpMethod.POST, requestEntity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(
+                    reqUrl, HttpMethod.POST, requestEntity, String.class
+            );
 
             // 응답 처리
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response.getBody());
-            accessToken = jsonNode.get("access_token").asText();
-            log.info("accessToken: {}", accessToken);
-
+            if (response.getStatusCode() == HttpStatus.OK) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.getBody());
+                accessToken = jsonNode.get("access_token").asText();
+                log.info("accessToken: {}", accessToken);
+            }
         } catch (Exception e) {
             log.error("액세스 토큰 오류: {}", e.getMessage(), e);
         }
