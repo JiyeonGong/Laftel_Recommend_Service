@@ -1,0 +1,248 @@
+.before-login {
+    background-image: url(./assets/beforeLogin.svg);
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 1536px;
+    width: 2048px;
+}
+
+.before-login .overlap {
+    border-radius: 50px;
+    height: 1536px;
+    position: relative;
+}
+
+.before-login .root {
+    background-image: url(./assets/background.png);
+    background-position: 50% 50%;
+    background-size: cover;
+    border-radius: 50px;
+    height: 1536px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 2048px;
+}
+
+.before-login .overlap-group {
+    background-image: url(./assets/back.png);
+    background-size: 100% 100%;
+    height: 1535px;
+}
+
+.before-login .slider {
+    height: 944px;
+    left: 290px;
+    position: absolute;
+    top: 60px;
+    width: 1712px;
+}
+
+.before-login .view {
+    background-image: url(./assets/headerBar.png);
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 1424px;
+    left: 46px;
+    position: absolute;
+    top: 56px;
+    width: 188px;
+}
+
+.before-login .profile {
+    height: 95px;
+    left: 48px;
+    object-fit: cover;
+    position: absolute;
+    top: 1270px;
+    width: 95px;
+}
+
+.before-login .bar-wrapper {
+    background-image: url(./assets/Image.png);
+    background-size: 100% 100%;
+    height: 26px;
+    left: 38px;
+    position: absolute;
+    top: 1224px;
+    width: 110px;
+}
+
+.before-login .overlap-2 {
+    height: 308px;
+    left: 82px;
+    position: absolute;
+    top: 446px;
+    width: 381px;
+}
+
+.before-login .text-wrapper {
+    color: #ffffff;
+    font-family: "Gumi Romance TTF-Regular", Helvetica;
+    font-size: 250px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-shadow: 0px 4px 4px #00000040;
+    top: 29px;
+    white-space: nowrap;
+    width: 381px;
+}
+
+.before-login .pngwing-com {
+    height: 56px;
+    left: 10px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 281px;
+}
+
+.before-login .p {
+    color: #ffffff;
+    font-family: "Gumi Romance TTF-Regular", Helvetica;
+    font-size: 36px;
+    font-weight: 400;
+    left: 92px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 806px;
+    white-space: nowrap;
+    width: 680px;
+}
+
+.before-login .text-wrapper-2 {
+    color: #ffffff;
+    font-family: "Gumi Romance TTF-Regular", Helvetica;
+    font-size: 36px;
+    font-weight: 400;
+    left: 92px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 754px;
+    white-space: nowrap;
+    width: 182px;
+}
+
+.before-login .view {
+    background-image: url(./assets/headerBar.png);
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 1424px;
+    left: 46px;
+    position: absolute;
+    top: 56px;
+    width: 188px;
+}
+
+.before-login .profile {
+    height: 95px;
+    left: 48px;
+    object-fit: cover;
+    position: absolute;
+    top: 1270px;
+    width: 95px;
+}
+
+.before-login .bar-wrapper {
+    background-image: url(./assets/Image.png);
+    background-size: 100% 100%;
+    height: 26px;
+    left: 38px;
+    position: absolute;
+    top: 1224px;
+    width: 110px;
+}
+
+.before-login .bar {
+    height: 1px;
+    left: 37px;
+    object-fit: cover;
+    position: absolute;
+    top: 15px;
+    width: 41px;
+}
+
+.before-login .search {
+    height: 40px;
+    left: 76px;
+    object-fit: cover;
+    position: absolute;
+    top: 465px;
+    width: 40px;
+}
+
+.before-login .home {
+    height: 92px;
+    left: 49px;
+    object-fit: cover;
+    position: absolute;
+    top: 304px;
+    width: 93px;
+}
+
+.before-login .help {
+    height: 50px;
+    left: 74px;
+    object-fit: cover;
+    position: absolute;
+    top: 639px;
+    width: 44px;
+}
+
+.before-login .logo {
+    height: 93px;
+    left: 49px;
+    object-fit: cover;
+    position: absolute;
+    top: 109px;
+    width: 93px;
+}
+
+.before-login .green {
+    height: 14px;
+    left: 77px;
+    object-fit: cover;
+    position: absolute;
+    top: 32px;
+    width: 14px;
+}
+
+.before-login .yellow {
+    height: 14px;
+    left: 54px;
+    object-fit: cover;
+    position: absolute;
+    top: 32px;
+    width: 14px;
+}
+
+.before-login .red {
+    height: 14px;
+    left: 31px;
+    object-fit: cover;
+    position: absolute;
+    top: 32px;
+    width: 14px;
+}
+
+.before-login .archive {
+    height: 48px;
+    left: 72px;
+    object-fit: cover;
+    position: absolute;
+    top: 553px;
+    width: 48px;
+}
+
+.before-login .log-in {
+    height: 53px;
+    left: 66px;
+    position: absolute;
+    top: 1158px;
+    width: 50px;
+}
