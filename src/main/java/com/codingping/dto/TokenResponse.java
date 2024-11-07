@@ -8,12 +8,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TokenResponseDTO {
+public class TokenResponse {
     private String jwtToken;
     private String kakaoAccessToken;
 
     @Builder
-    public TokenResponseDTO(String jwtToken, String kakaoAccessToken) {
+    public TokenResponse(String jwtToken, String kakaoAccessToken) {
         this.jwtToken = jwtToken;
         this.kakaoAccessToken = kakaoAccessToken;
     }

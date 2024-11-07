@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [tempAuth, setTempAuth] = useState(null); // 임시 상태 저장용
 
     // 1. JWT 토큰 만료시 refreshToken으로 재발급 하는 함수
 
@@ -33,13 +34,12 @@ export const AuthProvider = ({ children }) => {
                     },
                 }
             );
+
             console.log("로그아웃 성공");
 
             setIsLoggedIn(false);
-            localStorage.removeItem("kakaoAccessToken");
-            localStorage.removeItem("jwtToken");
-            localStorage.removeItem("refreshToken");
-            localStorage.removeItem("kakaoId");
+            clearTempAuth();
+            localStorage.clear();
 
             console.log("localStorage - kakaoAccessToken:", localStorage.getItem("kakaoAccessToken"));
             console.log("localStorage - jwtToken:", localStorage.getItem("jwtToken"));
@@ -52,8 +52,16 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const storeTempAuth = (authData) => {
+        setTempAuth(authData);
+    };
+
+    const clearTempAuth = () => {
+        setTempAuth(null);
+    };
+
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, login, logout, tempAuth, storeTempAuth, clearTempAuth }}>
             {children}
         </AuthContext.Provider>
     );

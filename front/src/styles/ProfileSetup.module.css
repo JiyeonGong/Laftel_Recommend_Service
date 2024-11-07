@@ -1,0 +1,65 @@
+.formContainer {
+    width: 100%;
+    max-width: 400px; /* 폼의 최대 너비를 설정하여 폭을 제한 */
+    margin: 0 auto; /* 수평 중앙 정렬 */
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center; /* 내부 텍스트 및 요소 가운데 정렬 */
+}
+
+.formContainer h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.formLabel {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #555;
+    font-weight: 500;
+    text-align: left; /* 입력 필드 설명을 왼쪽 정렬 */
+}
+
+.formLabel input[type="text"],
+.formLabel input[type="file"],
+.formLabel select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    box-sizing: border-box; /* padding을 포함한 크기 계산 */
+}
+
+.formLabel input[type="text"]:focus,
+.formLabel input[type="file"]:focus,
+.formLabel select:focus {
+    outline: none;
+    border-color: #5b9bd5;
+}
+
+.formButton {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.formButton:hover {
+    background-color: #0056b3;
+}

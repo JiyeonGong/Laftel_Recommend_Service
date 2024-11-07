@@ -1,12 +1,13 @@
 package com.codingping.service;
 
-import com.codingping.dto.UserInfoDTO;
-import com.codingping.dto.TokenRequestDTO;
-import com.codingping.dto.TokenResponseDTO;
+import com.codingping.dto.TokenRequest;
+import com.codingping.dto.TokenResponse;
+import com.codingping.repository.UserInfoRepository;
 import com.codingping.util.JwtUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -17,13 +18,16 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-//사용자의 로그인 처리 서비스
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class AuthService {
+    private final UserInfoRepository userInfoRepository;
+    private final SecretKey secretKey;
 
     @Value("${kakao.api.Key}")
     private String apiKey;
@@ -31,24 +35,15 @@ public class AuthService {
     @Value("${kakao.redirect.url}")
     private String redirectUri;
 
-    //@Value("${jwt.secret.key}")
-    //private String secretKey;
-
     // JWT 토큰 만료 기간
     private static final long JWT_EXPIRATION_MS = 3600000; // 1시간
     private static final long REFRESH_EXPIRATION_MS = 1209600000;// 2주
-
-    private final SecretKey secretKey;
-    public AuthService() {
-        this.secretKey = JwtUtils.generateSecretKey();
-    }
 
     // 액세스 토큰 발급
     public String getAccessToken(String code) {
         String accessToken = "";
         String reqUrl = "https://kauth.kakao.com/oauth/token";
         RestTemplate restTemplate = new RestTemplate();
-        log.info("info = {}", reqUrl);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -82,7 +77,7 @@ public class AuthService {
     }
 
     // 사용자 정보 조회
-    public UserInfoDTO getUserInfo(String accessToken) {
+    public Map<String, Object> getUserInfo(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();
         String reqUrl = "https://kapi.kakao.com/v2/user/me";
 
@@ -101,44 +96,28 @@ public class AuthService {
                     Map.class
             );
 
-            int responseCode = response.getStatusCode().value();
-            log.info("[KakaoApi.getUserInfo] responseCode: {}", responseCode);
-
             // 응답을 성공적으로 받았을 때
+            int responseCode = response.getStatusCode().value();
             if (responseCode >= 200 && responseCode < 300) {
                 Map<String, Object> body = response.getBody();
 
-                // id 값이 null일 경우 처리
-                Long id = Optional.ofNullable(body)
+                Long kakaoId = Optional.ofNullable(body)
                         .map(b -> (Number) b.get("id"))
                         .map(Number::longValue)
-                        .orElse(null);
+                        .orElseThrow(() -> new IllegalArgumentException("Kakao ID가 존재하지 않습니다."));
 
-                Map<String, Object> kakaoAccount = (Map<String, Object>) body.get("kakao_account");
-                log.info("kakaoAccount: {}", kakaoAccount.toString());
+                // 기존 사용자 여부 확인
+                boolean isExistingUser = userInfoRepository.findByKakaoId(kakaoId).isPresent();
+                if (isExistingUser) {
+                    log.info("기존 사용자입니다.");
+                } else {
+                    log.info("신규 사용자입니다.");
+                }
 
-                // has_gender와 has_age_range가 null일 때 기본값을 false로 처리
-                boolean hasGender = Optional.ofNullable(kakaoAccount)
-                        .map(account -> (Boolean) account.get("has_gender"))
-                        .orElse(false);
-
-                boolean hasAgeRange = Optional.ofNullable(kakaoAccount)
-                        .map(account -> (Boolean) account.get("has_age_range"))
-                        .orElse(false);
-
-                // 성별과 연령대 값 존재 여부에 따른 처리
-                String gender = hasGender ? (String) kakaoAccount.get("gender") : null;
-                String ageRange = hasAgeRange ? (String) kakaoAccount.get("age_range") : null;
-                log.info("gender: {}", gender);
-                log.info("ageRange: {}", ageRange);
-
-                UserInfoDTO userInfo = UserInfoDTO.builder()
-                        .kakaoId(id)
-                        .gender(gender)
-                        .ageRange(ageRange)
-                        .build();
-
-                return userInfo;
+                Map<String, Object> result = new HashMap<>();
+                result.put("kakaoId", kakaoId);
+                result.put("isExistingUser", isExistingUser);
+                return result;
             } else {
                 log.error("사용자 정보 조회 응답 오류");
             }
@@ -170,9 +149,9 @@ public class AuthService {
     }
 
     // JWT 리프레시 토큰으로 새로운 액세스 토큰 발급
-    public TokenResponseDTO refreshTokens(TokenRequestDTO tokenRequest) {
+    public TokenResponse refreshTokens(TokenRequest tokenRequest) {
         // 리프레시 토큰 검증 및 새로운 액세스 토큰 발급 로직 구현 !!
-        TokenResponseDTO tokenResponse = null;
+        TokenResponse tokenResponse = null;
         return tokenResponse;
     }
 }

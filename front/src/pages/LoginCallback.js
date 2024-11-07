@@ -5,7 +5,7 @@ import axios from "axios"
 
 const LoginCallback = () => {
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext);
+    const { login, storeTempAuth } = useContext(AuthContext);
     const [isFetching, setIsFetching] = useState(false);
     const code = new URL(window.location.href).searchParams.get("code"); // url에서 인가 코드를 추출
 
@@ -14,7 +14,7 @@ const LoginCallback = () => {
         if (code && !isFetching) {
             setIsFetching(true);
 
-            // 인가 코드 -> 백엔드로 보냄
+            // 인가 코드로 사용자의 kakaoId 조회
             const getUserInfo = async () => {
                 try {
                 const res = await axios.post(
@@ -22,14 +22,18 @@ const LoginCallback = () => {
                     { code },
                     { headers: { "Content-Type": "application/json" } }
                 )
-                console.log(res);
 
-                // 받은 사용자 정보를 로컬스토리지에 저장 / 로그인 상태 업데이트
-                const { kakaoAccessToken, jwtToken, refreshToken, kakaoId } = res.data;
-                login({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
+                // 신규, 기존 사용자 구분해서 ProfileSetup 페이지로 이동 여부에 따른 처리와 DB 저장
+                // 사용자 정보 로컬스토리지에 저장 / 로그인 상태 업데이트
+                const { kakaoAccessToken, jwtToken, refreshToken, kakaoId, isExistingUser } = res.data;
+                if (isExistingUser) {
+                    login({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
+                    navigate("/");
+                } else {
+                    storeTempAuth({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
+                    navigate("/user/profile/setup");
+                }
 
-                // 메인페이지로 이동
-                navigate("/");
             } catch (error) {
                 console.error("카카오 로그인 중 에러 발생", error);
             }
