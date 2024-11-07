@@ -10,7 +10,7 @@ import green from "./assets/green.png";
 import help2 from "./assets/help2.png";
 import home from "./assets/home.png";
 import logIn from "./assets/log-in.png";
-import logo from "./assets/logo.png";
+
 import profile from "./assets/profile.png";
 import red from "./assets/red.png";
 import search from "./assets/search.png";
@@ -37,7 +37,7 @@ const Slider = () => (
                 <img className="search" alt="Search" src={search} />
                 <img className="home" alt="Home" src={home} />
                 <img className="help" alt="Help" src={help2} />
-                <img className="logo" alt="Logo" src={logo} />
+
                 <img className="green" alt="Green" src={green} />
                 <img className="yellow" alt="Yellow" src={yellow} />
                 <img className="red" alt="Red" src={red} />
