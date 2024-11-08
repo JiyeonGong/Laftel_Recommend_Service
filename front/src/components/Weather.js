@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function WeatherRecommendationComponent() {
+function WeatherComponent() {
     const [city, setCity] = useState("");
-    const [apiKey, setApiKey] = useState("");
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    // Flask 서버와 통신하도록 API URL 수정
     const API_URL = process.env.REACT_APP_WEATHER_API_URL || 'http://localhost:8080/api/get-weather-recommendations';
-
+    const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
     const handleCityChange = (e) => {
         setCity(e.target.value);
     };
 
-    const handleApiKeyChange = (e) => {
-        setApiKey(e.target.value);
-    };
-
-    const isValidInput = () => {
-        return city.trim() !== "" && apiKey.trim() !== "";
-    };
-
     const fetchWeatherRecommendations = async () => {
+        if (!OPENWEATHER_API_KEY) {
+            setError("API 키가 설정되지 않았습니다. 관리자에게 문의하세요.");
+            return;
+        }
+
         setLoading(true);
         setError("");
         try {
-            const response = await axios.post(API_URL, { city, api_key: apiKey });
+            const response = await axios.post(API_URL, { city, api_key: OPENWEATHER_API_KEY });
             setRecommendations(response.data);
         } catch (err) {
             console.error("Error fetching weather recommendations", err);
@@ -52,14 +47,7 @@ function WeatherRecommendationComponent() {
                 placeholder="도시 이름을 입력하세요 (예: Seoul)"
                 style={{ margin: '10px 0', padding: '10px', width: '300px' }}
             />
-            <input
-                type="text"
-                value={apiKey}
-                onChange={handleApiKeyChange}
-                placeholder="OpenWeatherMap API 키를 입력하세요"
-                style={{ margin: '10px 0', padding: '10px', width: '300px' }}
-            />
-            <button onClick={fetchWeatherRecommendations} disabled={loading || !isValidInput()}>
+            <button onClick={fetchWeatherRecommendations} disabled={loading || !city}>
                 추천 받기
             </button>
 
@@ -83,4 +71,5 @@ function WeatherRecommendationComponent() {
     );
 }
 
-export default WeatherRecommendationComponent;
+export default WeatherComponent;
+
