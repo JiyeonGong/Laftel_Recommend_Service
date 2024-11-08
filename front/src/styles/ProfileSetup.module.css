@@ -1,12 +1,19 @@
+.parentContainer {
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 100vh;
+}
+
 .formContainer {
     width: 100%;
-    max-width: 400px; /* 폼의 최대 너비를 설정하여 폭을 제한 */
-    margin: 0 auto; /* 수평 중앙 정렬 */
+    max-width: 400px;
+    margin: 0 auto;
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center; /* 내부 텍스트 및 요소 가운데 정렬 */
+    text-align: center;
 }
 
 .formContainer h2 {
@@ -18,11 +25,11 @@
 
 .formLabel {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 17px;
     font-size: 16px;
     color: #555;
     font-weight: 500;
-    text-align: left; /* 입력 필드 설명을 왼쪽 정렬 */
+    text-align: left;
 }
 
 .formLabel input[type="text"],
@@ -62,4 +69,10 @@
 
 .formButton:hover {
     background-color: #0056b3;
+}
+
+.formContainer p {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 16px;
 }

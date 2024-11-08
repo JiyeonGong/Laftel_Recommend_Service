@@ -51,7 +51,7 @@ const Slider = () => (
 // View Component
 const View = () => (
     <div className="view-container">
-        <p>View Component Placeholder</p>
+        <p></p>
     </div>
 );
 

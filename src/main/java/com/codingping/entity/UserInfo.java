@@ -27,10 +27,10 @@ public class UserInfo {
     @Column(name = "age_range")
     private String ageRange;
 
-    @Column(name = "fav_genre")
+    @Column(name = "fav_genre", columnDefinition = "VARCHAR(255) DEFAULT 'unknown'")
     private String favGenre;
 
-    @Column(name = "fav_tag")
+    @Column(name = "fav_tag", columnDefinition = "VARCHAR(255) DEFAULT 'unknown'")
     private String favTag;
 
     @Column(name = "mbti")

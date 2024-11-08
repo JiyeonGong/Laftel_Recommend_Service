@@ -3,13 +3,11 @@ package com.codingping.controller;
 import com.codingping.dto.TokenRequest;
 import com.codingping.dto.TokenResponse;
 import com.codingping.service.AuthService;
-import com.codingping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor

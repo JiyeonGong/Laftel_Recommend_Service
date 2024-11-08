@@ -22,11 +22,9 @@ public class UserService {
 
             // 기존 사용자인 경우
             if (existingUser.isPresent()) {
-                log.info("기존 사용자입니다.");
                 return false;
             } else {
                 // 신규 사용자인 경우
-                log.info("신규 사용자입니다.");
                 UserInfo newUserInfo = UserInfo.builder()
                         .kakaoId(userInfoRequest.getKakaoId())
                         .name(userInfoRequest.getNickname())

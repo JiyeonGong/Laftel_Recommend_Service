@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoggedIn(false);
             clearTempAuth();
             localStorage.clear();
+            sessionStorage.clear();
 
             console.log("localStorage - kakaoAccessToken:", localStorage.getItem("kakaoAccessToken"));
             console.log("localStorage - jwtToken:", localStorage.getItem("jwtToken"));

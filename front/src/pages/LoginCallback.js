@@ -17,25 +17,25 @@ const LoginCallback = () => {
             // 인가 코드로 사용자의 kakaoId 조회
             const getUserInfo = async () => {
                 try {
-                const res = await axios.post(
-                    `${process.env.REACT_APP_BACKEND_URI}/kakaoApi/login`,
-                    { code },
-                    { headers: { "Content-Type": "application/json" } }
-                )
+                    const res = await axios.post(
+                        `${process.env.REACT_APP_BACKEND_URI}/kakaoApi/login`,
+                        { code },
+                        { headers: { "Content-Type": "application/json" } }
+                    )
 
-                // 신규, 기존 사용자 구분해서 ProfileSetup 페이지로 이동 여부에 따른 처리와 DB 저장
-                // 사용자 정보 로컬스토리지에 저장 / 로그인 상태 업데이트
-                const { kakaoAccessToken, jwtToken, refreshToken, kakaoId, isExistingUser } = res.data;
-                if (isExistingUser) {
-                    login({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
-                    navigate("/");
-                } else {
-                    storeTempAuth({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
-                    navigate("/user/profile/setup");
-                }
+                    // 신규, 기존 사용자 구분해서 ProfileSetup 페이지로 이동 여부에 따른 처리와 DB 저장
+                    // 사용자 정보 로컬스토리지에 저장 / 로그인 상태 업데이트
+                    const { kakaoAccessToken, jwtToken, refreshToken, kakaoId, isExistingUser } = res.data;
+                    if (isExistingUser) {
+                        login({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
+                        navigate("/");
+                    } else {
+                        storeTempAuth({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
+                        navigate("/user/profile/setup");
+                    }
 
-            } catch (error) {
-                console.error("카카오 로그인 중 에러 발생", error);
+                } catch (error) {
+                    console.error("카카오 로그인 중 에러 발생", error);
             }
         };
 

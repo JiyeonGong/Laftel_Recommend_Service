@@ -1,10 +1,8 @@
 package com.codingping.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @Getter
@@ -15,5 +13,4 @@ public class UserInfoRequest {
     private String gender;
     private String ageRange;
     private String mbti;
-    private MultipartFile profileImage;
 }

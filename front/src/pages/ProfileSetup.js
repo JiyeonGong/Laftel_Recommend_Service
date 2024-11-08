@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { AuthContext } from "../api/AuthContext";
 import styles from '../styles/ProfileSetup.module.css';
+import axios from "axios";
 
 const ProfileSetup = () => {
     const navigate = useNavigate();
@@ -12,14 +12,34 @@ const ProfileSetup = () => {
     const [profileImage, setProfileImage] = useState(null);
     const [ageRange, setAgeRange] = useState('');
     const [mbti, setMbti] = useState('');
+    const [error, setError] = useState('');
     const kakaoId = tempAuth?.kakaoId;
 
     const handleFileChange = (e) => {
         setProfileImage(e.target.files[0]); // 이미지 파일 객체 저장
     };
 
+    const validateForm = () => {
+        if (!nickname || !gender || !ageRange || !mbti) {
+            setError("모든 항목을 입력해주세요.");
+            return false;
+        }
+
+        if (gender === "" || ageRange === "" || mbti === "") {
+            setError("선택 항목을 선택해주세요.");
+            return false;
+        }
+
+        setError("");
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
 
         const formData = new FormData();
             formData.append('kakaoId', kakaoId);
@@ -29,13 +49,9 @@ const ProfileSetup = () => {
             formData.append('mbti', mbti);
             formData.append('profileImage', profileImage);
 
+        // DB에 저장
         try {
-            // DB에 저장
-            await fetch(`${process.env.REACT_APP_BACKEND_URI}/user/profile/setup`, {
-                method: 'POST',
-                body: formData,
-            });
-
+            await axios.post(`${process.env.REACT_APP_BACKEND_URI}/user/profile/setup`, formData);
             login(tempAuth);
             clearTempAuth();
             navigate("/");
@@ -46,43 +62,65 @@ const ProfileSetup = () => {
     };
 
     return (
-        <div className="formContainer">
-            <h2>프로필 설정</h2>
-            <form onSubmit={handleSubmit}>
-                <label className={styles.formLabel}>
-                    닉네임:
-                    <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
-                </label>
-                <label className={styles.formLabel}>
-                    성별:
-                    <select value={gender} onChange={(e) => setGender(e.target.value)}>
-                        <option value="">선택하세요</option>
-                        <option value="M">남성</option>
-                        <option value="F">여성</option>
-                        <option value="O">기타</option>
-                    </select>
-                </label>
-                <label className={styles.formLabel}>
-                    프로필 이미지:
-                    <input type="file" onChange={handleFileChange} />
-                </label>
-                <label className={styles.formLabel}>
-                    연령대:
-                    <select value={ageRange} onChange={(e) => setAgeRange(e.target.value)}>
-                        <option value="">선택하세요</option>
-                        <option value="10대">10대</option>
-                        <option value="20대">20대</option>
-                        <option value="30대">30대</option>
-                        <option value="40대">40대</option>
-                        <option value="50대 이상">50대 이상</option>
-                    </select>
-                </label>
-                <label className={styles.formLabel}>
-                    MBTI:
-                    <input type="text" value={mbti} onChange={(e) => setMbti(e.target.value)} />
-                </label>
-                <button className={styles.formButton} type="submit">저장</button>
-            </form>
+        <div className={styles.parentContainer}>
+            <div className={styles.formContainer}>
+                <h2>프로필 설정</h2>
+                <p>이미지를 제외한 모든 항목은 필수입니다.</p>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                <form onSubmit={handleSubmit}>
+                    <label className={styles.formLabel}>
+                        닉네임
+                        <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+                    </label>
+                    <label className={styles.formLabel}>
+                        성별
+                        <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                            <option value="">선택해주세요.</option>
+                            <option value="M">남성</option>
+                            <option value="F">여성</option>
+                            <option value="O">기타</option>
+                        </select>
+                    </label>
+                    <label className={styles.formLabel}>
+                        프로필 이미지
+                        <input type="file" onChange={handleFileChange} />
+                    </label>
+                    <label className={styles.formLabel}>
+                        연령대
+                        <select value={ageRange} onChange={(e) => setAgeRange(e.target.value)}>
+                            <option value="">선택해주세요.</option>
+                            <option value="10대">10대</option>
+                            <option value="20대">20대</option>
+                            <option value="30대">30대</option>
+                            <option value="40대">40대</option>
+                            <option value="50대 이상">50대 이상</option>
+                        </select>
+                    </label>
+                    <label className={styles.formLabel}>
+                        MBTI
+                        <select value={mbti} onChange={(e) => setMbti(e.target.value)}>
+                            <option value="">선택해주세요.</option>
+                            <option value="ENFP">ENFP</option>
+                            <option value="ENFJ">ENFJ</option>
+                            <option value="ENTP">ENTP</option>
+                            <option value="ENTJ">ENTJ</option>
+                            <option value="ESFP">ESFP</option>
+                            <option value="ESFJ">ESFJ</option>
+                            <option value="ESTP">ESTP</option>
+                            <option value="ESTJ">ESTJ</option>
+                            <option value="INFP">INFP</option>
+                            <option value="INFJ">INFJ</option>
+                            <option value="INTP">INTP</option>
+                            <option value="INTJ">INTJ</option>
+                            <option value="ISFP">ISFP</option>
+                            <option value="ISFJ">ISFJ</option>
+                            <option value="ISTP">ISTP</option>
+                            <option value="ISTJ">ISTJ</option>
+                        </select>
+                    </label>
+                    <button className={styles.formButton} type="submit">저장</button>
+                </form>
+            </div>
         </div>
     )
 }
