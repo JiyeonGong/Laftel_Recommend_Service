@@ -23,6 +23,10 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('nettyVersion', '4.1.97.Final')  // 사용하는 Netty의 버전 설정 (예: 4.1.97.Final)
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -37,6 +41,22 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//python 알고리즘을 이어주면서 추가한 의존성입니다.
+	// Spring WebFlux for WebClient and Mono
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	// Spring Web for common web features
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Netty resolver for DNS support on MacOS
+	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.97.Final'
+	// Netty 네이티브 라이브러리
+	implementation "io.netty:netty-resolver-dns-native-macos:${nettyVersion}"
+	// Netty 관련 모든 의존성을 동일 버전으로 맞춤
+	implementation "io.netty:netty-all:${nettyVersion}"
+	//
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 }
 
 tasks.named('test') {
