@@ -8,7 +8,7 @@ function MbtiRecommendationComponent() {
     const [error, setError] = useState("");
 
     // Flask 서버와 통신하도록 API URL 수정
-    const API_URL = process.env.REACT_APP_MBTI_API_URL || 'http://localhost:8080/api/get-mbti-recommendations';
+    const API_URL = process.env.REACT_APP_MBTI_API_URL || 'http://localhost:5001/api/mbti_recommendations';
 
     const handleMbtiChange = (e) => {
         setMbti(e.target.value);
@@ -17,12 +17,16 @@ function MbtiRecommendationComponent() {
     const fetchRecommendations = async () => {
         setLoading(true);
         setError("");
+        setRecommendations([]);
         try {
             const response = await axios.post(API_URL, { mbti });
             setRecommendations(response.data);
         } catch (err) {
             console.error("Error fetching MBTI recommendations", err);
-            if (err.response) {
+            if (err.response && err.response.data && err.response.data.error) {
+                // 서버에서 반환된 오류 메시지를 화면에 표시
+                setError(err.response.data.error);
+            } else if (err.response) {
                 setError(`추천을 가져오는 도중 문제가 발생했습니다: ${err.response.data.error || '서버 오류'}`);
             } else {
                 setError("추천을 가져오는 도중 문제가 발생했습니다. 네트워크 오류를 확인하세요.");
@@ -39,7 +43,7 @@ function MbtiRecommendationComponent() {
                 type="text"
                 value={mbti}
                 onChange={handleMbtiChange}
-                placeholder="MBTI를 입력하세요 (예: INFP, intp)"
+                placeholder="MBTI를 입력하세요 (예: INFP, ENTP)"
                 style={{ margin: '10px 0', padding: '10px', width: '300px' }}
             />
             <button onClick={fetchRecommendations} disabled={loading || !mbti}>
