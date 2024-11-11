@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Top from '../components/Top';
 import Weather from '../components/Weather';
 import Mbti from '../components/Mbti';
+import Login from '../components/Login'
 
 import archive1 from "./assets/archive1.png";
 import bar from "./assets/bar.png";
@@ -10,6 +11,7 @@ import green from "./assets/green.png";
 import help2 from "./assets/help2.png";
 import home from "./assets/home.png";
 import logIn from "./assets/log-in.png";
+import titleLogo from "./assets/titleLogo.png"
 
 import profile from "./assets/profile.png";
 import red from "./assets/red.png";
@@ -17,6 +19,7 @@ import search from "./assets/search.png";
 import slider from "./assets/slider.png";
 import yellow from "./assets/yellow.png";
 
+import styles from '../styles/Main.module.css'; //Main css 파일
 import "./style.css";
 
 // Slider Component
@@ -72,18 +75,21 @@ const MainContent = () => (
 // Main Component
 const Main = () => {
     return (
-        <div>
-            <MainContent />
-            {/* Header, Top, Weather, Mbti를 InfoSection으로 묶어서 간결하게 표현 */}
-            <div className="info-section">
-                <Header />
-                <div className="divider"></div>
-                <Top />
-                <div className="divider"></div>
-                <Weather />
-                <div className="divider"></div>
-                <Mbti />
+        <div className={styles.mainContainer}>
+            <div className={styles.logoContainer}>
+                <img src={titleLogo} alt="titleLogo" className={styles.logo} />
             </div>
+            <div className={styles.contentContainer}>
+                <div className={styles.headerContainer}>
+                    <Header />
+                </div>
+                <div className="info-section">
+                    <Top />
+                    <Weather />
+                    <Mbti />
+                </div>
+            </div>
+            <Login/>
         </div>
     );
 };

@@ -1,0 +1,80 @@
+.headerContainer {
+    position: relative;
+    width: 100%;
+}
+
+.headerBarContainer {
+    position: relative; /* 아이콘들의 기준점이 되는 요소 */
+    width: 100%; /* 원하는 크기로 설정 */
+    display: flex;
+    justify-content: center; /* headerBar를 중앙에 배치 */
+}
+
+.headerBar {
+    width: 70px;
+}
+
+.redIcon {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 7px;
+    height: 7px;
+}
+
+.yellowIcon {
+    position: absolute;
+    top: 12px;
+    left: 23px;
+    width: 7px;
+    height: 7px;
+}
+
+.greenIcon {
+    position: absolute;
+    top: 12px;
+    left: 34px;
+    width: 7px;
+    height: 7px;
+}
+
+.profileLogo {
+    position: absolute;
+    top: 40px;
+    left: 17px;
+    width: 38px;
+    height: 38px;
+
+}
+
+.homeBtn {
+    position: absolute;
+    top: 110px;
+    left: 17px;
+    width: 38px;
+    height: 38px;
+}
+
+.searchBtn {
+    position: absolute;
+    top: 170px;
+    left: 26px;
+    width: 19px;
+    height: 19px;
+}
+
+.storageBtn {
+    position: absolute;
+    top: 208px;
+    left: 26px;
+    width: 20px;
+    height: 20px;
+}
+
+.helpBtn {
+    position: absolute;
+    top: 246px;
+    left: 26px;
+    width: 19px;
+    height: 22px;
+}

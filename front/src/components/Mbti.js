@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../styles/Mbti.module.css';
 import axios from 'axios';
 
 function MbtiRecommendationComponent() {
@@ -33,7 +34,7 @@ function MbtiRecommendationComponent() {
     };
 
     return (
-        <div>
+        <div className={styles.weatherContainer}>
             <h2>MBTI 기반 애니메이션 추천 시스템</h2>
             <input
                 type="text"

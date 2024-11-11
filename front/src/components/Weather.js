@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from '../styles/Weather.module.css';
 import axios from 'axios';
 
 function WeatherComponent() {
@@ -38,7 +39,7 @@ function WeatherComponent() {
     };
 
     return (
-        <div>
+        <div className={styles.weatherContainer}>
             <h2>날씨 기반 애니메이션 추천 시스템</h2>
             <input
                 type="text"
