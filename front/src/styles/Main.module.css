@@ -1,3 +1,26 @@
-.main {
+.mainContainer {
     background-color: #ECECEF;
+    min-height: 100vh; /* 화면 전체 높이 */
+    width: 100vw; /* 화면 전체 너비 */
+}
+
+.contentContainer {
+    display: flex; /* 가로 정렬 */
+    gap: 20px; /* 두 요소 사이의 간격 */
+    align-items: flex-start; /* 상단 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    width: 100%;
+        padding-top: 30px;
+}
+
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+    width: 100%;
+}
+
+.logo {
+    width: 180px;
+    height: auto;
 }
