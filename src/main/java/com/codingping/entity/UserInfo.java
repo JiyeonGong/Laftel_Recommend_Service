@@ -35,7 +35,4 @@ public class UserInfo {
 
     @Column(name = "mbti")
     private String mbti;
-
-    @Column(name = "profile_img")
-    private String profileImg;
 }

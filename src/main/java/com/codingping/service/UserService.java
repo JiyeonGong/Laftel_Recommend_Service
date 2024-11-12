@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UserService {
     private final UserInfoRepository userInfoRepository;
 
-    public boolean saveUserInfo(UserInfoRequest userInfoRequest, String profileImageUrl) {
+    public boolean saveUserInfo(UserInfoRequest userInfoRequest) {
         try {
             // 기존 사용자 조회
             Optional<UserInfo> existingUser = userInfoRepository.findByKakaoId(userInfoRequest.getKakaoId());
@@ -31,7 +31,6 @@ public class UserService {
                         .gender(userInfoRequest.getGender())
                         .ageRange(userInfoRequest.getAgeRange())
                         .mbti(userInfoRequest.getMbti())
-                        .profileImg(profileImageUrl)
                         .build();
 
                 userInfoRepository.save(newUserInfo);

@@ -9,15 +9,10 @@ const ProfileSetup = () => {
     const { login, tempAuth, clearTempAuth } = useContext(AuthContext);
     const [nickname, setNickname] = useState('');
     const [gender, setGender] = useState('');
-    const [profileImage, setProfileImage] = useState(null);
     const [ageRange, setAgeRange] = useState('');
     const [mbti, setMbti] = useState('');
     const [error, setError] = useState('');
     const kakaoId = tempAuth?.kakaoId;
-
-    const handleFileChange = (e) => {
-        setProfileImage(e.target.files[0]); // 이미지 파일 객체 저장
-    };
 
     const validateForm = () => {
         if (!nickname || !gender || !ageRange || !mbti) {
@@ -47,7 +42,6 @@ const ProfileSetup = () => {
             formData.append('gender', gender);
             formData.append('ageRange', ageRange);
             formData.append('mbti', mbti);
-            formData.append('profileImage', profileImage);
 
         // DB에 저장
         try {
@@ -65,7 +59,7 @@ const ProfileSetup = () => {
         <div className={styles.parentContainer}>
             <div className={styles.formContainer}>
                 <h2>프로필 설정</h2>
-                <p>이미지를 제외한 모든 항목은 필수입니다.</p>
+                <p>모든 항목은 필수입니다.</p>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <form onSubmit={handleSubmit}>
                     <label className={styles.formLabel}>
@@ -80,10 +74,6 @@ const ProfileSetup = () => {
                             <option value="F">여성</option>
                             <option value="O">기타</option>
                         </select>
-                    </label>
-                    <label className={styles.formLabel}>
-                        프로필 이미지
-                        <input type="file" onChange={handleFileChange} />
                     </label>
                     <label className={styles.formLabel}>
                         연령대
