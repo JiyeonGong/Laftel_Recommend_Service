@@ -1,8 +1,7 @@
 import React from 'react'
 import styles from '../styles/Header.module.css';
 
-import profileLogo from "../pages/assets/logo.png"
-import profileImg from "../pages/assets/profile.png"
+import profileLogo from "../assets/logo.png"
 
 const Header = () => {
     return (
@@ -68,14 +67,14 @@ const Header = () => {
                     <title>로그인</title>
                     <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z"/>
                 </svg>
-                <svg
+                {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 -960 960 960"
                     className={styles.log_in_out}
                 >
                     <title>로그아웃</title>
                     <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
-                </svg>
+                </svg>*/}
             </div>
         </div>
     )

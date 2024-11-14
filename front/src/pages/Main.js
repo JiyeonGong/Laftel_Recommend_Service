@@ -4,7 +4,7 @@ import Top from '../components/Top';
 import Weather from '../components/Weather';
 import Mbti from '../components/Mbti';
 import Login from '../components/Login'
-import titleLogo from "./assets/titleLogo.png"
+import titleLogo from "../assets/titleLogo.png"
 import styles from '../styles/Main.module.css'; //Main css 파일
 
 const Main = () => {
