@@ -1,3 +1,17 @@
-.weatherContainer {
-    padding-top: 50px;
+.purpleClick {
+    transition: fill 0.3s ease;
+}
+
+.purpleClick:hover {
+    fill: #2a3fb8;
+    cursor: pointer;
+}
+
+.whiteClick {
+    transition: fill 0.3s ease;
+}
+
+.whiteClick:hover {
+    fill: #DBDBDB;
+    cursor: pointer;
 }

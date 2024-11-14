@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from '../styles/Top.module.css';
+import { CustomNextArrow, CustomPrevArrow } from './CustomArrows';
 
 import slide1 from '../assets/slide1.png'
 import slide2 from '../assets/slide2.png';
@@ -19,7 +20,9 @@ const Top = () => {
         autoplay: true,
         autoplaySpeed: 3000,
         pauseOnHover: true,
-        adaptiveHeight: true
+        adaptiveHeight: true,
+        nextArrow: <CustomNextArrow />,
+        prevArrow: <CustomPrevArrow />
     };
 
     return (

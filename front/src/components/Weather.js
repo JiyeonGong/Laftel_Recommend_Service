@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../styles/Weather.module.css';
 import axios from 'axios';
 
-function WeatherComponent() {
+const Weather = () => {
     const [city, setCity] = useState("");
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -72,5 +72,5 @@ function WeatherComponent() {
     );
 }
 
-export default WeatherComponent;
+export default Weather;
 

@@ -4,6 +4,7 @@ import Top from '../components/Top';
 import Weather from '../components/Weather';
 import Mbti from '../components/Mbti';
 import Login from '../components/Login'
+import TeruTeru from '../components/TeruTeru'
 import titleLogo from "../assets/titleLogo.png"
 import styles from '../styles/Main.module.css'; //Main css 파일
 
@@ -19,8 +20,12 @@ const Main = () => {
                 </div>
                 <div className="info-section">
                     <Top />
+                    <div>
+                        <Mbti />
+                        <TeruTeru />
+                    </div>
+
                     <Weather />
-                    <Mbti />
                 </div>
             </div>
             <Login/>

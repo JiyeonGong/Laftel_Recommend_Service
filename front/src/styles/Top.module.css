@@ -9,9 +9,33 @@
 .slideImg {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .slickList {
     width: 900px;
     margin: 0 auto;
+}
+
+.nextArrow, .prevArrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: black;
+    cursor: pointer;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.nextArrow {
+    right: 10px;
+}
+
+.prevArrow {
+    left: 10px;
+}
+
+.nextArrow:hover, .prevArrow:hover {
+    color: darkblue;
 }
