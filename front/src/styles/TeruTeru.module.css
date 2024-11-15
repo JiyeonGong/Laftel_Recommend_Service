@@ -1,0 +1,19 @@
+.teruteruContainer {
+    position: relative;
+    top: 7px;
+    left: 7px;
+}
+
+.moveBtn {
+    transition: fill 0.3s ease;
+}
+
+.moveBtn:hover {
+    fill: #B6BDB5;
+}
+
+.arrowIcon {
+    position: absolute;
+    top: 224.5px;
+    left: 114px;
+}

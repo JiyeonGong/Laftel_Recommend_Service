@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styles from '../styles/Weather.module.css';
 import axios from 'axios';
 
+import weatherComp from '../assets/weatherComp.png';
+import cloudImg from '../assets/cloud.png';
+
 const Weather = () => {
     const [city, setCity] = useState("");
     const [recommendations, setRecommendations] = useState([]);
@@ -39,35 +42,41 @@ const Weather = () => {
     };
 
     return (
-        <div className={styles.weatherContainer}>
-            <h2>날씨 기반 애니메이션 추천 시스템</h2>
-            <input
-                type="text"
-                value={city}
-                onChange={handleCityChange}
-                placeholder="도시 이름을 입력하세요 (예: Seoul)"
-                style={{ margin: '10px 0', padding: '10px', width: '300px' }}
-            />
-            <button onClick={fetchWeatherRecommendations} disabled={loading || !city}>
-                추천 받기
-            </button>
+        <div>
+            <div>
+                <img src={weatherComp} alt="weatherComp" className={styles.weatherCont}/>
+                <img src={cloudImg} alt="cloudImg" className={styles.cloudImg}/>
+            </div>
+            <div className={styles.weatherContainer}>
+                <h2>날씨 기반 애니메이션 추천 시스템</h2>
+                <input
+                    type="text"
+                    value={city}
+                    onChange={handleCityChange}
+                    placeholder="도시 이름을 입력하세요 (예: Seoul)"
+                    style={{ margin: '10px 0', padding: '10px', width: '300px' }}
+                />
+                <button onClick={fetchWeatherRecommendations} disabled={loading || !city}>
+                    추천 받기
+                </button>
 
-            {loading && <p>추천을 가져오는 중...</p>}
+                {loading && <p>추천을 가져오는 중...</p>}
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
 
-            {recommendations.length > 0 && (
-                <div>
-                    <h3>추천된 애니메이션 리스트:</h3>
-                    <ul>
-                        {recommendations.map((anime, index) => (
-                            <li key={index}>
-                                {anime.name} (평점: {anime.avg_rating})
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+                {recommendations.length > 0 && (
+                    <div>
+                        <h3>추천된 애니메이션 리스트:</h3>
+                        <ul>
+                            {recommendations.map((anime, index) => (
+                                <li key={index}>
+                                    {anime.name} (평점: {anime.avg_rating})
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

@@ -3,7 +3,6 @@ import Header from '../components/Header';
 import Top from '../components/Top';
 import Weather from '../components/Weather';
 import Mbti from '../components/Mbti';
-import Login from '../components/Login'
 import TeruTeru from '../components/TeruTeru'
 import titleLogo from "../assets/titleLogo.png"
 import styles from '../styles/Main.module.css'; //Main css 파일
@@ -18,17 +17,17 @@ const Main = () => {
                 <div className={styles.headerContainer}>
                     <Header />
                 </div>
-                <div className="info-section">
+                <div className={styles.infoContainer}>
                     <Top />
-                    <div>
+                    <div className={styles.secondSection}>
                         <Mbti />
                         <TeruTeru />
                     </div>
-
-                    <Weather />
+                    <div className={styles.thirdSection}>
+                        <Weather />
+                    </div>
                 </div>
             </div>
-            <Login/>
         </div>
     );
 };

@@ -1,3 +1,4 @@
+
 .purpleClick {
     transition: fill 0.3s ease;
 }
@@ -12,6 +13,14 @@
 }
 
 .whiteClick:hover {
-    fill: #DBDBDB;
+    fill: #E3E2E2;
+}
+
+.searchBtn {
+    transition: fill 0.3s ease;
+}
+
+.searchBtn:hover {
+    fill: #9D9D9D;
     cursor: pointer;
 }

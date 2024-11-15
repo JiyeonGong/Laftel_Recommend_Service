@@ -5,10 +5,9 @@
 }
 
 .contentContainer {
-    display: flex;/* 가로 정렬 */
-    gap: 20px; /* 두 요소 사이의 간격 */
-    align-item: flex-start; /* 상단 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
+    display: flex;
+    gap: 20px;
+    justify-content: center;
     width: 100%;
     padding-top: 45px;
 }
@@ -23,4 +22,27 @@
 .logo {
     width: 180px;
     height: auto;
+}
+
+.infoContainer {
+    width: 900px;
+}
+
+.firstSection {
+    width: 100%;
+}
+
+.secondSection {
+    display: flex;
+    width: 100%;
+    height: 300px;
+    align-items: stretch;
+}
+
+.secondSection > div {
+    padding: 2px;
+}
+
+.thirdSection {
+
 }
