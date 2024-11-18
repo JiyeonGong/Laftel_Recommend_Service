@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -15,17 +15,20 @@ import java.util.Optional;
 public class UserService {
     private final UserInfoRepository userInfoRepository;
 
+    //private static final Set<Long> ADMIN_KAKAO_IDS = Set.of(, );
+
+    private String determineRole(Long kakaoId) {
+        // 특정 kakaoId를 기준으로 역할 설정
+        if ("특정_관리자_kakaoId".equals(kakaoId)) {
+            return "ADMIN";
+        }
+        return "USER";
+    }
+
     public boolean saveUserInfo(UserInfoRequest userInfoRequest) {
         try {
-            // 기존 사용자 조회
-            Optional<UserInfo> existingUser = userInfoRepository.findByKakaoId(userInfoRequest.getKakaoId());
-
-            // 기존 사용자인 경우
-            if (existingUser.isPresent()) {
-                return false;
-            } else {
-                // 신규 사용자인 경우
-                UserInfo newUserInfo = UserInfo.builder()
+            //String role = determineRole(userInfoRequest.getKakaoId());
+            UserInfo userInfo = UserInfo.builder()
                         .kakaoId(userInfoRequest.getKakaoId())
                         .name(userInfoRequest.getNickname())
                         .gender(userInfoRequest.getGender())
@@ -33,12 +36,14 @@ public class UserService {
                         .mbti(userInfoRequest.getMbti())
                         .build();
 
-                userInfoRepository.save(newUserInfo);
-                return true;
-            }
+            userInfoRepository.save(userInfo);
+            return true;
+
         } catch (Exception e) {
             log.error("사용자 정보 저장 중 오류 발생: {}", e.getMessage(), e);
             return false;
         }
+
+
     }
 }

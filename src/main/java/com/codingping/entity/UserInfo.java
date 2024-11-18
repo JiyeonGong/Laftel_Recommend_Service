@@ -35,4 +35,7 @@ public class UserInfo {
 
     @Column(name = "mbti")
     private String mbti;
+
+    @Column(name = "role")
+    private String role;
 }

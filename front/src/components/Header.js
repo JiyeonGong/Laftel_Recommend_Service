@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import styles from '../styles/Header.module.css';
 import { AuthContext } from "../api/AuthContext";
 
@@ -9,6 +10,11 @@ const Header = () => {
     const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI; // Redirect URI
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
     const { isLoggedIn, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleStorageBtn = () => {
+        navigate("/");
+    }
 
     return (
         <div className={styles.headerContainer}>
@@ -36,7 +42,7 @@ const Header = () => {
                     viewBox="0 -960 960 960"
                     className={styles.searchIcon}
                 >
-                    <title>다른 사용자 검색</title> /* 툴팁 */
+                    <title>다른 사용자 검색</title>
                     <path d="M380-320q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
                 </svg>
                 <svg
@@ -44,7 +50,9 @@ const Header = () => {
                     className={styles.storageIcon}
                 >
                     <title>애니메이션 보관함</title>
-                    <path d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z"/>
+                    <path d="M200-80q-33 0-56.5-23.5T120-160v-451q-18-11-29-28.5T80-680v-120q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v120q0 23-11 40.5T840-611v451q0 33-23.5 56.5T760-80H200Zm0-520v440h560v-440H200Zm-40-80h640v-120H160v120Zm200 280h240v-80H360v80Zm120 20Z"
+                        onClick={handleStorageBtn}
+                    />
                 </svg>
                 <svg
                     viewBox="0 -960 960 960"

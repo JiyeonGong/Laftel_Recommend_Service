@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import styles from '../styles/TeruTeru.module.css';
 import { motion } from 'framer-motion';
+import { useNavigate } from "react-router-dom";
 
 import chatImg from '../assets/chatImg.png';
 
 const TeruTeru = () => {
+    const navigate = useNavigate();
+    const handleBtn = () => {
+        navigate("/chat/teruteru");
+    }
+
     return (
         <div className={styles.teruteruContainer}>
             <svg width="215" height="270" viewBox="0 0 401 504" fill="none" className={styles.TeruTeruComponent}>
@@ -13,6 +19,7 @@ const TeruTeru = () => {
                     d="M145.5 424.989C145.5 413.121 155.121 403.5 166.989 403.5H227.884C240.375 403.5 250.5 413.625 250.5 426.116C250.5 436.821 241.821 445.5 231.116 445.5H166.011C154.683 445.5 145.5 436.317 145.5 424.989Z"
                     fill="#E0EDE5"
                     className={styles.moveBtn}
+                    onClick={handleBtn}
                 />
                 <image href={chatImg} x="105" y="50" width="190" height="190" />
                 <text fontSize="25" fill="#616060" fontWeight="600" textAnchor="middle">

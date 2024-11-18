@@ -10,7 +10,6 @@ const LoginCallback = () => {
     const code = new URL(window.location.href).searchParams.get("code"); // url에서 인가 코드를 추출
 
     useEffect(() => {
-        // code가 존재하고 아직 요청 중이 아닐 때만 실행 -> 중복 호출 방지
         if (code && !isFetching) {
             setIsFetching(true);
 
