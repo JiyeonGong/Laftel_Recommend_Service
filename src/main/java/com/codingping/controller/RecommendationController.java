@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true") // 모든 도메인에서 접근 허용 (프론트엔드와의 연계 위해)
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true") // React 프론트엔드 접근 허용 (포트 맞추기)
 @RestController
 @RequestMapping("/api")
 public class RecommendationController {
@@ -44,16 +44,19 @@ public class RecommendationController {
                 .onErrorResume(error -> Mono.just(ResponseEntity.status(500).body("Failed to get MBTI recommendations from Python server")));
     }
 
-    // 날씨 추천 API 엔드포인트
+    // 날씨 추천 API 엔드포인트 (위도와 경도 기반)
     @PostMapping("/get-weather-recommendations")
-    public Mono<ResponseEntity<Object>> getWeatherRecommendations(@RequestBody Map<String, String> request) {
-        String cityName = request.get("city");
-        String apiKey = request.get("api_key");
+    public Mono<ResponseEntity<Object>> getWeatherRecommendations(@RequestBody Map<String, Object> request) {
+        // 위도와 경도를 받아오기
+        Double latitude = (Double) request.get("latitude");
+        Double longitude = (Double) request.get("longitude");
+        String apiKey = (String) request.get("api_key");
 
-        if (cityName == null || cityName.isEmpty() || apiKey == null || apiKey.isEmpty()) {
-            return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "City name and API key are required"));
+        if (latitude == null || longitude == null || apiKey == null || apiKey.isEmpty()) {
+            return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Latitude, Longitude, and API key are required"));
         }
 
+        // Flask 서버로 요청 전송 (위도와 경도 사용)
         return webClient.post()
                 .uri(pythonServerUrl + "/api/weather_recommendations")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

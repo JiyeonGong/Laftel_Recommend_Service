@@ -6,7 +6,6 @@ import weatherComp from '../assets/weatherComp.png';
 import cloudImg from '../assets/cloud.png';
 
 const Weather = () => {
-    const [city, setCity] = useState("");
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -14,11 +13,7 @@ const Weather = () => {
     const API_URL = process.env.REACT_APP_WEATHER_API_URL || 'http://localhost:8080/api/get-weather-recommendations';
     const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
-    const handleCityChange = (e) => {
-        setCity(e.target.value);
-    };
-
-    const fetchWeatherRecommendations = async () => {
+    const fetchWeatherRecommendations = async (latitude, longitude) => {
         if (!OPENWEATHER_API_KEY) {
             setError("API 키가 설정되지 않았습니다. 관리자에게 문의하세요.");
             return;
@@ -27,7 +22,12 @@ const Weather = () => {
         setLoading(true);
         setError("");
         try {
-            const response = await axios.post(API_URL, { city, api_key: OPENWEATHER_API_KEY });
+            // 위치 정보와 API 키를 포함하여 Spring Boot 서버로 POST 요청 전송
+            const response = await axios.post(API_URL, {
+                latitude,
+                longitude,
+                api_key: OPENWEATHER_API_KEY
+            });
             setRecommendations(response.data);
         } catch (err) {
             console.error("Error fetching weather recommendations", err);
@@ -41,6 +41,26 @@ const Weather = () => {
         }
     };
 
+    const getUserLocation = () => {
+        if (navigator.geolocation) {
+            // HTML5 Geolocation API를 사용하여 사용자의 위치 가져오기
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    // 위치 정보가 성공적으로 가져와졌다면, 추천 요청 시작
+                    fetchWeatherRecommendations(latitude, longitude);
+                },
+                (error) => {
+                    console.error("Error obtaining location:", error);
+                    setError("위치 정보를 가져오는 데 실패했습니다. 위치 서비스가 활성화되어 있는지 확인하세요.");
+                }
+            );
+        } else {
+            setError("이 브라우저는 위치 기반 서비스를 지원하지 않습니다.");
+        }
+    };
+
     return (
         <div>
             <div>
@@ -49,14 +69,7 @@ const Weather = () => {
             </div>
             <div className={styles.weatherContainer}>
                 <h2>날씨 기반 애니메이션 추천 시스템</h2>
-                <input
-                    type="text"
-                    value={city}
-                    onChange={handleCityChange}
-                    placeholder="도시 이름을 입력하세요 (예: Seoul)"
-                    style={{ margin: '10px 0', padding: '10px', width: '300px' }}
-                />
-                <button onClick={fetchWeatherRecommendations} disabled={loading || !city}>
+                <button onClick={getUserLocation} disabled={loading}>
                     추천 받기
                 </button>
 
@@ -82,4 +95,3 @@ const Weather = () => {
 }
 
 export default Weather;
-
