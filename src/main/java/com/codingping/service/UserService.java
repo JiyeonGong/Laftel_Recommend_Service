@@ -15,11 +15,10 @@ import java.util.Set;
 public class UserService {
     private final UserInfoRepository userInfoRepository;
 
-    //private static final Set<Long> ADMIN_KAKAO_IDS = Set.of(, );
+    private static final Set<Long> ADMIN_KAKAO_IDS = Set.of(0L, 3768643496L);
 
     private String determineRole(Long kakaoId) {
-        // 특정 kakaoId를 기준으로 역할 설정
-        if ("특정_관리자_kakaoId".equals(kakaoId)) {
+        if (ADMIN_KAKAO_IDS.contains(kakaoId)) {
             return "ADMIN";
         }
         return "USER";
@@ -27,13 +26,14 @@ public class UserService {
 
     public boolean saveUserInfo(UserInfoRequest userInfoRequest) {
         try {
-            //String role = determineRole(userInfoRequest.getKakaoId());
+            String role = determineRole(userInfoRequest.getKakaoId());
             UserInfo userInfo = UserInfo.builder()
                         .kakaoId(userInfoRequest.getKakaoId())
                         .name(userInfoRequest.getNickname())
                         .gender(userInfoRequest.getGender())
                         .ageRange(userInfoRequest.getAgeRange())
                         .mbti(userInfoRequest.getMbti())
+                        .role(role)
                         .build();
 
             userInfoRepository.save(userInfo);
@@ -43,7 +43,5 @@ public class UserService {
             log.error("사용자 정보 저장 중 오류 발생: {}", e.getMessage(), e);
             return false;
         }
-
-
     }
 }
