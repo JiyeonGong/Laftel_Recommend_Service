@@ -1,6 +1,6 @@
 .topContainer {
     width: 900px;
-    height: 500px; /* 높이 값 설정 */
+    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;

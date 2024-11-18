@@ -1,3 +1,20 @@
+.weatherCont {
+    position: relative;
+    width: 900px;
+    height: 500px;
+}
+
+.cloudImg {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    top: 1080px;
+    left: 650px;
+}
+
+
+
+
 .weatherContainer {
     padding-top: 50px;
 }
