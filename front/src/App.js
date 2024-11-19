@@ -5,6 +5,8 @@ import Main from "./pages/Main"
 import LoginCallback from "./pages/LoginCallback"
 import ProfileSetup from "./pages/ProfileSetup"
 import Chatting from "./pages/Chatting"
+import Storage from "./pages/Storage"
+
 
 const App = () => {
     // 관리자 여부에 따라 보이는 페이지가 다르게 수정 !!
@@ -16,6 +18,7 @@ const App = () => {
                 <Route path="/user/profile/setup" element={<ProfileSetup />} /> {/* 신규 사용자 정보 수집 페이지 */}
                 <Route path="/chat/teruteru" element={<Chatting />} /> {/* 신규 사용자 정보 수집 페이지 */}
                 <Route path="*" element={<Main />} /> {/*  -  */}
+                <Route path="/storage" element={<Storage />} /> {/*보관함 페이지(찜목록)*/}
             </Routes>
         </AuthProvider>
     );

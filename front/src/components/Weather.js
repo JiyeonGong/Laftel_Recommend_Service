@@ -64,8 +64,8 @@ const Weather = () => {
     return (
         <div>
             <div>
-                <img src={weatherComp} alt="weatherComp" className={styles.weatherCont}/>
-                <img src={cloudImg} alt="cloudImg" className={styles.cloudImg}/>
+                {/**<img src={weatherComp} alt="weatherComp" className={styles.weatherCont}/>
+                <img src={cloudImg} alt="cloudImg" className={styles.cloudImg}/>**/}
             </div>
             <div className={styles.weatherContainer}>
                 <h2>날씨 기반 애니메이션 추천 시스템</h2>
