@@ -1,0 +1,18 @@
+.fade-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.retryBtn {
+    transition: fill 0.3s ease;
+}
+
+.retryBtn:hover {
+    fill: #E3E2E2;
+}

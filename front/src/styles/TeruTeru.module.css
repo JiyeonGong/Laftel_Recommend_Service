@@ -1,7 +1,6 @@
 .teruteruContainer {
     position: relative;
-    top: 7px;
-    left: 7px;
+    left: 10px;
 }
 
 .moveBtn {
@@ -14,6 +13,6 @@
 
 .arrowIcon {
     position: absolute;
-    top: 224.5px;
-    left: 114px;
+    top: 222.5px;
+    left: 115px;
 }

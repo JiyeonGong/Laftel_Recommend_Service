@@ -67,6 +67,8 @@ const Weather = () => {
     };
 
     return (
+    <div>
+
         <div>
             <div>
                 <img src={weatherComp} alt="weatherComp" className={styles.weatherCont}/>
@@ -102,6 +104,7 @@ const Weather = () => {
                 )}
             </div>
         </div>
+    </div>
     );
 };
 

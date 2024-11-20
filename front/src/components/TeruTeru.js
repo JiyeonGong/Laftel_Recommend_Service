@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../styles/TeruTeru.module.css';
-import { motion } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 
 import chatImg from '../assets/chatImg.png';
@@ -13,22 +12,22 @@ const TeruTeru = () => {
 
     return (
         <div className={styles.teruteruContainer}>
-            <svg width="215" height="270" viewBox="0 0 401 504" fill="none" className={styles.TeruTeruComponent}>
-                <path d="M0 38C0 17.0132 17.0132 0 38 0H363C383.987 0 401 17.0132 401 38V466C401 486.987 383.987 504 363 504H38C17.0132 504 0 486.987 0 466V38Z" fill="#FEFEFE"/>
+            <svg width="219" height="270" viewBox="0 0 219 270" fill="none" className={styles.TeruTeruComponent}>
+                <rect width="219" height="270" rx="20" fill="#FEFEFE"/>
                 <path
-                    d="M145.5 424.989C145.5 413.121 155.121 403.5 166.989 403.5H227.884C240.375 403.5 250.5 413.625 250.5 426.116C250.5 436.821 241.821 445.5 231.116 445.5H166.011C154.683 445.5 145.5 436.317 145.5 424.989Z"
+                    d="M83.5 227.761C83.5 221.542 88.5419 216.5 94.7614 216.5H124.636C131.188 216.5 136.5 221.812 136.5 228.364C136.5 233.962 131.962 238.5 126.364 238.5H94.2386C88.3079 238.5 83.5 233.692 83.5 227.761Z"
                     fill="#E0EDE5"
                     className={styles.moveBtn}
                     onClick={handleBtn}
                 />
-                <image href={chatImg} x="105" y="50" width="190" height="190" />
-                <text fontSize="25" fill="#616060" fontWeight="600" textAnchor="middle">
-                    <tspan x="200" dy="300">테루테루에게</tspan>
-                    <tspan x="195" dy="42">추천받기</tspan>
+                <image href={chatImg} x="60" y="30" width="100" height="100" />
+                <text fontSize="13" fill="#616060" textAnchor="middle" fontFamily="Gumi Romance TTF, sans-serif">
+                    <tspan x="111" dy="160  ">테루테루에게</tspan>
+                    <tspan x="110" dy="23">추천받기</tspan>
                 </text>
                 <text
-                    x="190" y="433"
-                    fontSize="20.5" fill="#308452" fontWeight="700"
+                    x="106" y="232"
+                    fontSize="11" fill="#308452" fontWeight="700"
                     textAnchor="middle"
                     pointerEvents="none"
                 >

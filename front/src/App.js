@@ -7,9 +7,7 @@ import ProfileSetup from "./pages/ProfileSetup"
 import Chatting from "./pages/Chatting"
 import Storage from "./pages/Storage"
 
-
 const App = () => {
-    // 관리자 여부에 따라 보이는 페이지가 다르게 수정 !!
     return (
         <AuthProvider>
             <Routes>

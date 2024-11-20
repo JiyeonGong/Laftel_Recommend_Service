@@ -203,7 +203,7 @@ def get_mbti_recommendations():
 
     # 추천 결과 반환
     response_data = [
-        {"name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre")}
+        {"name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre"), "img_url": anime.get("img_url")}
         for anime in recommended_animes
     ]
 

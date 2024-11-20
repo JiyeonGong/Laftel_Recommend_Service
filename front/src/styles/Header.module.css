@@ -51,23 +51,9 @@
     fill: #4a90e2;
 }
 
-.searchIcon {
-    position: absolute;
-    top: 170px;
-    left: 26px;
-    width: 25px;
-    height: 24px;
-    fill: #535353;
-    transition: fill 0.3s ease;
-}
-
-.searchIcon:hover {
-  fill: #A696E8;
-}
-
 .storageIcon {
     position: absolute;
-    top: 208px;
+    top: 172px;
     left: 27px;
     width: 22px;
     height: 22px;
@@ -81,8 +67,8 @@
 
 .helpIcon {
     position: absolute;
-    top: 246px;
-    left: 27px;
+    top: 210px;
+    left: 26.5px;
     width: 23px;
     height: 22px;
     fill: #535353;

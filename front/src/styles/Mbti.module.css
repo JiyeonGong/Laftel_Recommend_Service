@@ -1,3 +1,6 @@
+.mbtiComponent {
+    height: 270px;
+}
 
 .purpleClick {
     transition: fill 0.3s ease;
