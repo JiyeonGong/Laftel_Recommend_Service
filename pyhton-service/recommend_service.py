@@ -46,6 +46,16 @@ def load_anime_data(file_path):
         data = json.load(file)
     return data
 
+# MBTI 데이터 로드 함수
+def load_mbti_data():
+    try:
+        with open('mbti_genre_tags.json', 'r', encoding='utf-8') as f:
+            mbti_data = json.load(f)
+    except FileNotFoundError:
+        print("MBTI 데이터 파일을 찾을 수 없습니다.")
+        mbti_data = {}
+    return mbti_data
+
 # 계절 판별 함수
 def get_current_season():
     today = datetime.now()
@@ -60,13 +70,14 @@ def get_current_season():
     else:
         return "겨울"
 
-# 날씨 데이터 가져오기 (OpenWeatherMap API 사용)
-def get_weather(api_key, city_name):
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}&lang=kr"
+# 날씨 데이터 가져오기 (위도와 경도 사용)
+def get_weather(api_key, latitude, longitude):
+    url = f"http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={api_key}&lang=kr"
     response = requests.get(url)
     if response.status_code == 200:
         weather_data = response.json()
-        weather_main = weather_data['weather'][0]['main'].lower()
+        weather_main = weather_data.get('weather', [{}])[0].get('main', '').lower()
+        city_name = weather_data.get('name', 'Unknown')
 
         if weather_main in ["thunderstorm", "drizzle", "rain"]:
             weather_condition = "비"
@@ -79,31 +90,10 @@ def get_weather(api_key, city_name):
         else:
             weather_condition = None  # 기타 경우는 제외
 
-        print(f"현재 {city_name}의 날씨 상태: {weather_condition}")
-        return weather_condition
+        return city_name, weather_condition
     else:
         print(f"Error fetching weather data: {response.status_code}")
-        return None
-
-# MBTI 데이터 로드 함수
-def load_mbti_data():
-    try:
-        with open('mbti_genre_tags.json', 'r', encoding='utf-8') as f:
-            mbti_data = json.load(f)
-    except FileNotFoundError:
-        print("MBTI 데이터 파일을 찾을 수 없습니다.")
-        mbti_data = {}
-    return mbti_data
-
-# MBTI 유효성 체크 함수
-def is_valid_mbti(mbti_input):
-    valid_mbti_types = [
-        "INTJ", "INTP", "ENTJ", "ENTP",
-        "INFJ", "INFP", "ENFJ", "ENFP",
-        "ISTJ", "ISFJ", "ESTJ", "ESFJ",
-        "ISTP", "ISFP", "ESTP", "ESFP"
-    ]
-    return mbti_input.upper() in valid_mbti_types
+        return None, None
 
 # 애니메이션 추천 함수 (날씨 기반)
 def recommend_anime_weather(season, weather, anime_data):
@@ -114,7 +104,7 @@ def recommend_anime_weather(season, weather, anime_data):
 
     # 장르와 일치하는 애니메이션 필터링, 'GL 백합'과 'BL'을 제외
     recommendations = []
-    for series_list in anime_data.values():  # anime_data.values()를 사용하여 모든 시리즈의 애니메이션을 가져옵니다.
+    for series_list in anime_data.values():
         for series in series_list:
             anime_genres = series.get("genre", [])
             if any(genre in anime_genres for genre in weather_genres) and not ("GL 백합" in anime_genres or "BL" in anime_genres):
@@ -138,7 +128,7 @@ def recommend_anime_mbti(mbti, anime_data, mbti_data):
 
     # 장르와 일치하는 애니메이션 필터링, 'GL 백합'과 'BL'을 제외
     recommendations = []
-    for series_list in anime_data.values():  # anime_data.values()를 사용하여 모든 시리즈의 애니메이션을 가져옵니다.
+    for series_list in anime_data.values():
         for series in series_list:
             anime_genres = series.get("genre", [])
             anime_tags = series.get("tags", [])
@@ -160,28 +150,36 @@ def recommend_anime_mbti(mbti, anime_data, mbti_data):
 @app.route('/api/weather_recommendations', methods=['POST'])
 def get_weather_recommendations():
     data = request.json
-    city_name = data.get('city')
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
     api_key = data.get('api_key')
     file_path = "grouped_by_series_id_no_production.json"
+
+    if not latitude or not longitude or not api_key:
+        return jsonify({"error": "위치 정보 또는 API 키가 누락되었습니다."}), 400
 
     # JSON 데이터 로드
     anime_data = load_anime_data(file_path)
 
     # 현재 계절과 날씨 가져오기
     current_season = get_current_season()
-    current_weather = get_weather(api_key, city_name)
+    city_name, current_weather = get_weather(api_key, latitude, longitude)
 
-    if not current_weather:
+    if not current_weather or not city_name:
         return jsonify({"error": "날씨 데이터를 가져올 수 없습니다."}), 500
 
     # 애니메이션 추천 실행 (날씨 기반)
     recommended_animes = recommend_anime_weather(current_season, current_weather, anime_data)
 
     # 추천 결과 반환
-    response_data = [
-        {"name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre")}
-        for anime in recommended_animes
-    ]
+    response_data = {
+        "city": city_name,
+        "weather": current_weather,
+        "recommendations": [
+            {"name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre")}
+            for anime in recommended_animes
+        ]
+    }
 
     return jsonify(response_data)
 
@@ -194,7 +192,7 @@ def get_mbti_recommendations():
 
     # JSON 데이터 로드
     anime_data = load_anime_data(file_path)
-    mbti_data = load_mbti_data()  # 수정된 부분: 함수 호출 시 매개변수 제거
+    mbti_data = load_mbti_data()  # 여기에서 함수 호출 시 오류가 발생하지 않도록 load_mbti_data가 정의된 위치 이후에 호출
 
     # MBTI 입력 검증
     if not user_mbti or not is_valid_mbti(user_mbti):
@@ -211,5 +209,16 @@ def get_mbti_recommendations():
 
     return jsonify(response_data)
 
+# MBTI 유효성 체크 함수
+def is_valid_mbti(mbti_input):
+    valid_mbti_types = [
+        "INTJ", "INTP", "ENTJ", "ENTP",
+        "INFJ", "INFP", "ENFJ", "ENFP",
+        "ISTJ", "ISFJ", "ESTJ", "ESFJ",
+        "ISTP", "ISFP", "ESTP", "ESFP"
+    ]
+    return mbti_input.upper() in valid_mbti_types
+
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
+
