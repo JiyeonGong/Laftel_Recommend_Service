@@ -9,6 +9,8 @@ const Weather = () => {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [currentWeather, setCurrentWeather] = useState(null); // 현재 날씨 상태
+    const [cityName, setCityName] = useState(""); // 현재 도시 이름
 
     const API_URL = process.env.REACT_APP_WEATHER_API_URL || 'http://localhost:8080/api/get-weather-recommendations';
     const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
@@ -28,7 +30,12 @@ const Weather = () => {
                 longitude,
                 api_key: OPENWEATHER_API_KEY
             });
-            setRecommendations(response.data);
+
+            const { recommendations, weather, city } = response.data;
+
+            setRecommendations(recommendations);
+            setCurrentWeather(weather);
+            setCityName(city);
         } catch (err) {
             console.error("Error fetching weather recommendations", err);
             if (err.response) {
@@ -43,12 +50,10 @@ const Weather = () => {
 
     const getUserLocation = () => {
         if (navigator.geolocation) {
-            // HTML5 Geolocation API를 사용하여 사용자의 위치 가져오기
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-                    // 위치 정보가 성공적으로 가져와졌다면, 추천 요청 시작
                     fetchWeatherRecommendations(latitude, longitude);
                 },
                 (error) => {
@@ -64,18 +69,24 @@ const Weather = () => {
     return (
         <div>
             <div>
-                {/**<img src={weatherComp} alt="weatherComp" className={styles.weatherCont}/>
-                <img src={cloudImg} alt="cloudImg" className={styles.cloudImg}/>**/}
+                <img src={weatherComp} alt="weatherComp" className={styles.weatherCont}/>
+                <img src={cloudImg} alt="cloudImg" className={styles.cloudImg}/>
             </div>
             <div className={styles.weatherContainer}>
                 <h2>날씨 기반 애니메이션 추천 시스템</h2>
                 <button onClick={getUserLocation} disabled={loading}>
-                    추천 받기
+                    {loading ? "로딩 중..." : "추천 받기"}
                 </button>
 
                 {loading && <p>추천을 가져오는 중...</p>}
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}
+
+                {currentWeather && cityName && (
+                    <p>
+                        지금 <strong>{cityName}</strong>의 날씨는 <strong>{currentWeather}</strong>입니다!
+                    </p>
+                )}
 
                 {recommendations.length > 0 && (
                     <div>
@@ -92,6 +103,6 @@ const Weather = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Weather;
