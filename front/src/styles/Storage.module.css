@@ -1,37 +1,231 @@
-/* Storage.module.css */
+/* Storage 페이지의 css를 관리하는 module*/
+
+/* 페이지 전체 셋팅*/
 .pageContainer {
     background-color: #F2F2F8; /* 전체 페이지 배경색 설정 */
     min-height: 100vh; /* 페이지 높이를 설정하여 화면을 가득 채움 */
 }
 
+/* 메뉴바 영역*/
+/* 메뉴바 영역*/
+/* 메뉴바 영역*/
 .menuBar {
     background-color: white; /* 메뉴바 색상을 흰색으로 설정 */
-    padding: 20px; /* 메뉴바에 패딩 추가 */
+    padding: 10px 20px; /* 메뉴바에 패딩 추가 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 메뉴바에 약간의 그림자 효과 추가 */
-    height: 3vh;
+    display: flex; /* 요소들을 수평으로 나열 */
+    align-items: center; /* 세로 가운데 정렬 */
+    height: 50px; /* 메뉴바의 높이 설정 */
 }
 
 .mainContent {
     padding: 20px; /* 메인 콘텐츠 영역에 패딩 추가 */
 }
 
+/* 로고 영역*/
+/* 로고 영역*/
+/* 로고 영역*/
 .logo {
-    height: 33px; /* 로고의 높이 설정 */
+    height: 35px; /* 로고의 높이 설정 */
     margin-right: 20px; /* 로고와 텍스트 사이 여백 설정 */
-    vertical-align: middle; /* 로고를 텍스트와 수평 정렬 */
-    margin-left: 20px
+    margin-left: 10px; /* 왼쪽에 여백 추가 */
+
 }
 
-.mainButton {
-    margin-left: 20px; /* 로고와 버튼 사이의 여백 */
-    padding: 10px 20px; /* 버튼의 패딩 */
-    background-color: #007BFF; /* 버튼 배경색 */
-    color: white; /* 버튼 텍스트 색상 */
+.centerLogo {
+    @media (max-width: 1000px) {
+        margin: 0 auto; /* 로고를 가운데에 배치 */
+        display: block; /* 가운데 정렬을 위해 블록으로 설정 */
+        text-align: center; /* 로고가 페이지의 정가운데 위치하도록 정렬 */
+    }
+}
+
+
+.centerOnSmallScreen {
+    @media (max-width: 1000px) {
+        margin: 0 auto; /* 로고를 중앙에 배치 */
+        display: block; /* 중앙 정렬을 위해 블록으로 변경 */
+    }
+}
+
+.hideOnSmallScreen {
+    @media (max-width: 1000px) {
+        display: none; /* 1000px 이하일 때 요소 숨기기 */
+    }
+}
+
+.goToMainWrapper {
+    margin-left: 15px; /* 로고와 "메인으로" 이미지를 좌우로 떨어뜨림 */
+}
+
+.mainButtonIcon {
+    width: 50px;
+    height: 20px; /* 메인으로 이동 아이콘의 높이 설정 */
+    cursor: pointer; /* 마우스를 올렸을 때 포인터 표시 */
+    position: relative;
+}
+
+.contentWrapper {
+    display: flex; /* 프로필 정보와 보관함을 가로로 배치 */
+    gap: 20px; /* 두 섹션 사이 간격 */
+    padding: 20px; /* 전체 콘텐츠 내부 여백 */
+    flex-wrap: wrap; /* 창 크기가 줄어들 때 줄바꿈 */
+}
+
+/* 유저 프로필 영역*/
+/* 유저 프로필 영역*/
+/* 유저 프로필 영역*/
+.profileSection {
+    background-color: white; /* 프로필 섹션의 배경색 설정 */
+    width: 300px; /* 고정된 폭 설정 */
+    height: 300px; /* 고정된 높이 설정 */
+    padding: 20px; /* 내부 여백 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    position: relative; /* 절대적인 크기를 유지하기 위해 position 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+
+.responsiveProfile {
+    @media (max-width: 1000px) {
+        display: none; /* 창 너비가 800px 이하일 때 프로필 섹션을 숨김 */
+    }
+}
+
+.profileImageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* 이미지 아래 여백 */
+}
+
+.profileImage {
+    width: 100px; /* 프로필 이미지의 폭 설정 */
+    height: 100px; /* 프로필 이미지의 높이 설정 */
+    border-radius: 50%; /* 이미지를 원형으로 만듦 */
+    object-fit: cover; /* 이미지 비율을 유지하며 잘라내기 */
+}
+
+.userName {
+    font-size: 18px; /* 닉네임 폰트 크기 설정 */
+    font-weight: bold; /* 닉네임을 굵게 표시 */
+    margin-top: 10px; /* 위 요소와의 간격 설정 */
+}
+
+.storButtonWrapper {
+    display: flex;
+    justify-content: center; /* 버튼을 중앙으로 정렬 */
+    margin-top: 15px; /* 위쪽 간격 조정 */
+}
+
+.storButton {
+    background: none; /* 버튼 배경 제거 */
+    border: none; /* 버튼 테두리 제거 */
+    cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+    padding: 10px; /* 버튼의 패딩 조정 */
+    margin-top: -10px;
+
+}
+
+.storButtonIcon {
+    width: 290px; /* 버튼 아이콘 크기 설정 */
+    height: 80px; /* 버튼 아이콘 높이 설정 */
+}
+
+
+/* 보관함 영역*/
+/* 보관함 영역*/
+/* 보관함 영역*/
+.storageSection {
+    background-color: white; /* 보관함 섹션의 배경색 설정 */
+    flex: 2; /* 보관함 섹션을 더 크게 설정 */
+    padding: 20px; /* 내부 여백 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    width: 100%; /* 보관함 섹션이 남은 공간을 차지하도록 설정 */
+    height: 500px;
+}
+
+.storageHeader {
+    display: flex;
+    justify-content: space-between; /* 탭과 휴지통 아이콘을 좌우로 배치 */
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0; /* 구분선 추가 */
+    padding-bottom: 10px; /* 구분선 위에 여백 */
+}
+
+.tabMenu {
+    display: flex;
+    gap: 10px;
+}
+
+.activeTab {
+    color: #6200ea; /* 탭 활성화 색상 */
+    font-weight: bold;
+    border-bottom: 2px solid #6200ea; /* 활성 탭 아래에 표시 */
+    padding-bottom: 5px;
+    font-size: 20px;
+}
+
+/*.trashIconWrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}*/
+.trashIcon {
+    width: 20px; /* 아이콘 크기 설정 */
+    height: 20px;
+    margin-right: 5px;
+}
+
+.deleteText {
+    font-size: 14px;
+}
+
+.noItemsMessage {
+    text-align: center; /* 메시지를 가운데 정렬 */
+    color: #9e9e9e; /* 메시지 색상 설정 */
+    margin-top: 40px; /* 상단 여백 */
+}
+
+/* 삭제 버튼의 색깔과 크기를 조절한다. */
+.trashButton {
+    background: none; /* 배경 제거 */
     border: none; /* 테두리 제거 */
-    border-radius: 5px; /* 버튼 모서리 둥글게 */
-    cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 */
+    cursor: pointer; /* 커서 포인터 표시 */
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 텍스트와 아이콘 간격 조정 */
+}
+.trashIcon{
+    width: 60px;
+    height: 60px;
 }
 
-.mainButton:hover {
-    background-color: #0056b3; /* 버튼에 호버 효과 */
+.trashButton:hover .trashIcon {
+    filter: invert(35%) sepia(93%) saturate(3029%) hue-rotate(340deg) brightness(97%) contrast(101%); /* 빨간색 느낌의 필터 효과 */
+}
+
+.trashButton:hover .deleteText {
+    color: #FF0000; /* 텍스트도 빨간색으로 변경 */
+}
+
+
+/* 테루테루로 이동하기 버튼*/
+/* 테루테루로 이동하기 버튼*/
+/* 테루테루로 이동하기 버튼*/
+.recommendButton {
+    background: none; /* 버튼 배경 제거 */
+    border: none; /* 버튼 테두리 제거 */
+    cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+    padding: 10px; /* 버튼의 패딩 조정 */
+    margin-bottom: -400px;
+
+.recommendImage{
+    width: 340px; /* 아이콘 크기 설정 */
+    height: 80px;
+    margin-left: -30px;
+}
+
 }
