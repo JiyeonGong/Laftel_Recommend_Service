@@ -26,10 +26,12 @@
     left: 18px;
     width: 39px;
     height: 39px;
-    background-color: #000;
+    background-color: #ffffff;
     border-radius: 13px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgb(163, 163, 163);
     cursor: pointer;
+    border: 2px solid #a56aed; /* 테두리 추가 */
+    margin-left: -2px;
 }
 
 .homeIcon svg {
@@ -43,8 +45,8 @@
 }
 
 .homeIcon:hover {
-    background-color: #333;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    background-color: #a56aed;
+    box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.2);
 }
 
 .homeIcon:hover svg {
@@ -63,6 +65,7 @@
 
 .storageIcon:hover {
     fill: #A696E8;
+    cursor: pointer;
 }
 
 .helpIcon {
@@ -87,14 +90,12 @@
     height: 22px;
     fill: #535353;
     transition: fill 0.3s ease;
+    cursor: pointer;
 }
 
 .log_in_out:hover {
     fill: #A696E8;
 }
-
-
-
 
 
 .profileLogo {
