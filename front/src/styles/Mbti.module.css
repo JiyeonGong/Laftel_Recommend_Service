@@ -13,6 +13,7 @@
 
 .whiteClick {
     transition: fill 0.3s ease;
+    cursor: pointer;
 }
 
 .whiteClick:hover {
