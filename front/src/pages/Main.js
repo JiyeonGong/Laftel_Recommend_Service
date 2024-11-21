@@ -74,7 +74,6 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-            {/* Footer 컴포넌트를 추가하여 페이지의 가장 아래에 위치시킴 */}
             <Footer />
         </div>
     );

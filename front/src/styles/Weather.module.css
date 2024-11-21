@@ -32,3 +32,16 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
+
+.weather-text-맑은-하늘 {
+    transform: translate(-20px, 0px);
+}
+.weather-text-구름 {
+    transform: translate(22px, 0px);
+}
+.weather-text-눈 {
+    transform: translate(7px, 0px);
+}
+.weather-text-비 {
+    transform: translate(7px, 0px);
+}

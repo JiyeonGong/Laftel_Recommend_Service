@@ -7,14 +7,153 @@ const Weather = () => {
     const [recommendations, setRecommendations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [currentWeather, setCurrentWeather] = useState(null);
+    const [currentWeather, setCurrentWeather] = useState("");
     const [cityName, setCityName] = useState("");
 
     const API_URL = process.env.REACT_APP_WEATHER_API_URL || 'http://localhost:8080/api/get-weather-recommendations';
     const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
+    useEffect(() => {
+        getUserLocation();
+    }, []);
+
+    const weatherIcons = {
+        '맑은 하늘': (
+            <svg x="55" y="105" width="165px" height="165px" viewBox="0 0 64 64">
+                <defs>
+                    <filter id="sun-shadow" x="-50%" y="-50%" width="250%" height="250%">
+                        <feDropShadow dx="2" dy="2" stdDeviation="7" flood-color="#FFE8CC" flood-opacity="0.95" />
+                    </filter>
+                    <linearGradient id="a" x1="26.75" y1="22.91" x2="37.25" y2="41.09" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stopColor="#fbbf24" />
+                        <stop offset="0.45" stopColor="#fbbf24" />
+                        <stop offset="1" stopColor="#f59e0b" />
+                    </linearGradient>
+                </defs>
+                <circle cx="32" cy="32" r="10.5" stroke="#FFBE4F" strokeMiterlimit="50" strokeWidth="0.3" fill="url(#a)" filter="url(#sun-shadow)"/>
+                <path
+                    d="M32,15.71V9.5m0,45V48.29M43.52,20.48l4.39-4.39M16.09,47.91l4.39-4.39m0-23-4.39-4.39M47.91,47.91l-4.39-4.39M15.71,32H9.5m45,0H48.29"
+                    fill="none"
+                    stroke="#fbbf24"
+                    strokeLinecap="round"
+                    strokeMiterlimit="5"
+                    strokeWidth="3"
+                >
+                    <animateTransform
+                        attributeName="transform"
+                        dur="45s"
+                        values="0 32 32; 360 32 32"
+                        repeatCount="indefinite"
+                        type="rotate"
+                    />
+                </path>
+                <rect x="855.655" y="200.803" width="14.2915" height="14.2438" rx="7.12192" fill="url(#pattern1_259_219)"/>
+            </svg>
+        ),
+        구름: (
+            <svg x="35" y="90" width="187px" height="187px" viewBox="0 0 64 64">
+            	<defs>
+            	    <filter id="cloud-shadow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#9D9D9D" flood-opacity="0.25" />
+                    </filter>
+            		<linearGradient id="a" x1="40.76" y1="23" x2="50.83" y2="40.46" gradientUnits="userSpaceOnUse">
+            			<stop offset="0" stop-color="#9ca3af"/>
+            			<stop offset="0.45" stop-color="#9ca3af"/>
+            			<stop offset="1" stop-color="#6b7280"/>
+            		</linearGradient>
+            		<linearGradient id="b" x1="22.56" y1="21.96" x2="39.2" y2="50.8" gradientUnits="userSpaceOnUse">
+            			<stop offset="0" stop-color="#f3f7fe"/>
+            			<stop offset="0.45" stop-color="#f3f7fe"/>
+            			<stop offset="1" stop-color="#deeafb"/>
+            		</linearGradient>
+            	</defs>
+            	<path d="M34.23,33.45a4.05,4.05,0,0,0,4.05,4H54.79a4.34,4.34,0,0,0,.81-8.61,3.52,3.52,0,0,0,.06-.66,4.06,4.06,0,0,0-6.13-3.48,6.08,6.08,0,0,0-11.25,3.19,6.34,6.34,0,0,0,.18,1.46h-.18A4.05,4.05,0,0,0,34.23,33.45Z" stroke="#848b98" stroke-miterlimit="10" stroke-width="0.5" fill="url(#a)">
+            		<animateTransform attributeName="transform" type="translate" values="-2.1 0; 2.1 0; -2.1 0" dur="7s" repeatCount="indefinite"/>
+            	</path>
+            	<path d="M46.5,31.5l-.32,0a10.49,10.49,0,0,0-19.11-8,7,7,0,0,0-10.57,6,7.21,7.21,0,0,0,.1,1.14A7.5,7.5,0,0,0,18,45.5a4.19,4.19,0,0,0,.5,0v0h28a7,7,0,0,0,0-14Z" stroke="#e6effc" stroke-miterlimit="10" stroke-width="0.5" fill="url(#b)"
+            	    filter="url(#cloud-shadow)">
+            		<animateTransform attributeName="transform" type="translate" values="-3 0; 3 0; -3 0" dur="7s" repeatCount="indefinite"/>
+            	</path>
+            </svg>
+        ),
+        눈: (
+            <svg x="42" y="85" width="187px" height="187px" viewBox="0 0 64 64">
+            	<defs>
+            		<linearGradient id="a" x1="22.56" y1="21.96" x2="39.2" y2="50.8" gradientUnits="userSpaceOnUse">
+            			<stop offset="0" stop-color="#f3f7fe"/>
+            			<stop offset="0.45" stop-color="#f3f7fe"/>
+            			<stop offset="1" stop-color="#deeafb"/>
+            		</linearGradient>
+            		<linearGradient id="b" x1="30.12" y1="43.48" x2="31.88" y2="46.52" gradientUnits="userSpaceOnUse">
+            			<stop offset="0" stop-color="#86c3db"/>
+            			<stop offset="0.45" stop-color="#86c3db"/>
+            			<stop offset="1" stop-color="#5eafcf"/>
+            		</linearGradient>
+            		<linearGradient id="c" x1="29.67" y1="42.69" x2="32.33" y2="47.31" href="#b"/>
+            		<linearGradient id="d" x1="23.12" y1="43.48" x2="24.88" y2="46.52" href="#b"/>
+            		<linearGradient id="e" x1="22.67" y1="42.69" x2="25.33" y2="47.31" href="#b"/>
+            		<linearGradient id="f" x1="37.12" y1="43.48" x2="38.88" y2="46.52" href="#b"/>
+            		<linearGradient id="g" x1="36.67" y1="42.69" x2="39.33" y2="47.31" href="#b"/>
+            	</defs>
+            	<path d="M46.5,31.5l-.32,0a10.49,10.49,0,0,0-19.11-8,7,7,0,0,0-10.57,6,7.21,7.21,0,0,0,.1,1.14A7.5,7.5,0,0,0,18,45.5a4.19,4.19,0,0,0,.5,0v0h28a7,7,0,0,0,0-14Z" stroke="#e6effc" stroke-miterlimit="10" stroke-width="0.5" fill="url(#a)"/>
+            	<g>
+            		<circle cx="31" cy="45" r="1.25" fill="none" stroke-miterlimit="10" stroke="url(#b)"/>
+            		<path d="M33.17,46.25l-1.09-.63m-2.16-1.24-1.09-.63M31,42.5v1.25m0,3.75V46.25m-1.08-.63-1.09.63m4.34-2.5-1.09.63" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke="url(#c)"/>
+            		<animateTransform attributeName="transform" type="translate" additive="sum" values="-1 -6; 1 12" dur="4s" repeatCount="indefinite"/>
+            		<animateTransform attributeName="transform" type="rotate" additive="sum" values="0 31 45; 360 31 45" dur="9s" repeatCount="indefinite"/>
+            		<animate attributeName="opacity" values="0;1;1;1;0" dur="4s" repeatCount="indefinite"/>
+            	</g>
+            	<g>
+            		<circle cx="24" cy="45" r="1.25" fill="none" stroke-miterlimit="10" stroke="url(#d)"/>
+            		<path d="M26.17,46.25l-1.09-.63m-2.16-1.24-1.09-.63M24,42.5v1.25m0,3.75V46.25m-1.08-.63-1.09.63m4.34-2.5-1.09.63" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke="url(#e)"/>
+            		<animateTransform attributeName="transform" type="translate" additive="sum" values="1 -6; -1 12" begin="-2s" dur="4s" repeatCount="indefinite"/>
+            		<animateTransform attributeName="transform" type="rotate" additive="sum" values="0 24 45; 360 24 45" dur="9s" repeatCount="indefinite"/>
+            		<animate attributeName="opacity" values="0;1;1;1;0" begin="-2s" dur="4s" repeatCount="indefinite"/>
+            	</g>
+            	<g>
+            		<circle cx="38" cy="45" r="1.25" fill="none" stroke-miterlimit="10" stroke="url(#f)"/>
+            		<path d="M40.17,46.25l-1.09-.63m-2.16-1.24-1.09-.63M38,42.5v1.25m0,3.75V46.25m-1.08-.63-1.09.63m4.34-2.5-1.09.63" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke="url(#g)"/>
+            		<animateTransform attributeName="transform" type="translate" additive="sum" values="1 -6; -1 12" begin="-1s" dur="4s" repeatCount="indefinite"/>
+            		<animateTransform attributeName="transform" type="rotate" additive="sum" values="0 38 45; 360 38 45" dur="9s" repeatCount="indefinite"/>
+            		<animate attributeName="opacity" values="0;1;1;1;0" begin="-1s" dur="4s" repeatCount="indefinite"/>
+            	</g>
+            </svg>
+        ),
+        비: (
+            <svg x="42" y="87" width="187px" height="187px" viewBox="0 0 64 64">
+            	<defs>
+            		<linearGradient id="a" x1="22.56" y1="21.96" x2="39.2" y2="50.8" gradientUnits="userSpaceOnUse">
+            			<stop offset="0" stop-color="#f3f7fe"/>
+            			<stop offset="0.45" stop-color="#f3f7fe"/>
+            			<stop offset="1" stop-color="#deeafb"/>
+            		</linearGradient>
+            		<linearGradient id="b" x1="22.53" y1="42.95" x2="25.47" y2="48.05" gradientUnits="userSpaceOnUse">
+            			<stop offset="0" stop-color="#4286ee"/>
+            			<stop offset="0.45" stop-color="#4286ee"/>
+            			<stop offset="1" stop-color="#0950bc"/>
+            		</linearGradient>
+            		<linearGradient id="c" x1="29.53" y1="42.95" x2="32.47" y2="48.05" href="#b"/>
+            		<linearGradient id="d" x1="36.53" y1="42.95" x2="39.47" y2="48.05" href="#b"/>
+            	</defs>
+            	<path d="M46.5,31.5l-.32,0a10.49,10.49,0,0,0-19.11-8,7,7,0,0,0-10.57,6,7.21,7.21,0,0,0,.1,1.14A7.5,7.5,0,0,0,18,45.5a4.19,4.19,0,0,0,.5,0v0h28a7,7,0,0,0,0-14Z" stroke="#e6effc" stroke-miterlimit="10" stroke-width="0.5" fill="url(#a)"/>
+            	<line x1="24.39" y1="43.03" x2="23.61" y2="47.97" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" stroke="url(#b)">
+            		<animateTransform attributeName="transform" type="translate" values="1 -5; -2 10" dur="0.7s" repeatCount="indefinite"/>
+            		<animate attributeName="opacity" values="0;1;1;0" dur="0.7s" repeatCount="indefinite"/>
+            	</line>
+            	<line x1="31.39" y1="43.03" x2="30.61" y2="47.97" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" stroke="url(#c)">
+            		<animateTransform attributeName="transform" begin="-0.4s" type="translate" values="1 -5; -2 10" dur="0.7s" repeatCount="indefinite"/>
+            		<animate attributeName="opacity" begin="-0.4s" values="0;1;1;0" dur="0.7s" repeatCount="indefinite"/>
+            	</line>
+            	<line x1="38.39" y1="43.03" x2="37.61" y2="47.97" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" stroke="url(#d)">
+            		<animateTransform attributeName="transform" begin="-0.2s" type="translate" values="1 -5; -2 10" dur="0.7s" repeatCount="indefinite"/>
+            		<animate attributeName="opacity" begin="-0.2s" values="0;1;1;0" dur="0.7s" repeatCount="indefinite"/>
+            	</line>
+            </svg>
+        ),
+    };
+
     const weatherTexts = {
-        맑음: ["햇살", " 가득한 날, 이 애니메이션과 함께!"],
+        '맑은 하늘': ["햇살", " 가득한 날, 이 애니메이션과 함께!"],
         구름: ["구름", "이 많은 날엔 마음이 따뜻해지는 이야기를!"],
         눈: ["겨울", " 감성 가득한 이 작품 어떠세요?"],
         비: ["비", "와 어울리는 잔잔한 애니메이션은 어때요?"],
@@ -153,39 +292,9 @@ const Weather = () => {
                 />
 
                 {/* 날씨 아이콘 */}
-                <svg
-                    x="58"
-                    y="105"
-                    width="165px"
-                    height="165px"
-                    viewBox="0 0 64 64"
-                >
-                    <defs>
-                        <linearGradient id="a" x1="26.75" y1="22.91" x2="37.25" y2="41.09" gradientUnits="userSpaceOnUse">
-                            <stop offset="0" stopColor="#fbbf24" />
-                            <stop offset="0.45" stopColor="#fbbf24" />
-                            <stop offset="1" stopColor="#f59e0b" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="32" cy="32" r="10.5" stroke="#FFBE4F" strokeMiterlimit="50" strokeWidth="0.3" fill="url(#a)" />
-                    <path
-                        d="M32,15.71V9.5m0,45V48.29M43.52,20.48l4.39-4.39M16.09,47.91l4.39-4.39m0-23-4.39-4.39M47.91,47.91l-4.39-4.39M15.71,32H9.5m45,0H48.29"
-                        fill="none"
-                        stroke="#fbbf24"
-                        strokeLinecap="round"
-                        strokeMiterlimit="5"
-                        strokeWidth="3"
-                    >
-                        <animateTransform
-                            attributeName="transform"
-                            dur="45s"
-                            values="0 32 32; 360 32 32"
-                            repeatCount="indefinite"
-                            type="rotate"
-                        />
-                    </path>
-                </svg>
-                <rect x="855.655" y="200.803" width="14.2915" height="14.2438" rx="7.12192" fill="url(#pattern1_259_219)"/>
+                <g>
+                    {weatherIcons[currentWeather]}
+                </g>
 
                 <text
                     fontSize="17" fontWeight="500" fill="black" letterSpacing="0.5"
@@ -200,6 +309,7 @@ const Weather = () => {
                     x="70" y="303"
                     fontSize="17" fontWeight="500" fill="black"
                     fontFamily="Gumi Romance TTF, sans-serif"
+                    className={styles[`weather-text-${currentWeather ? currentWeather.replace(' ', '-') : 'default'}`]}
                 >
                     지금
                     <tspan fill="#7B7B7B"> {cityName}</tspan>
@@ -224,38 +334,6 @@ const Weather = () => {
                     <tspan>{weatherText[1]}</tspan>
                 </text>
             </svg>
-        </div>
-
-        <div>
-            <div className={styles.weatherCont}>
-                <h2>날씨 기반 애니메이션 추천 시스템</h2>
-                <button onClick={getUserLocation} disabled={loading}>
-                    {loading ? "로딩 중..." : "추천 받기"}
-                </button>
-
-                {loading && <p>추천을 가져오는 중...</p>}
-
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-
-                {currentWeather && cityName && (
-                    <p>
-                        지금 <strong>{cityName}</strong>의 날씨는 <strong>{currentWeather}</strong>입니다!
-                    </p>
-                )}
-
-                {recommendations.length > 0 && (
-                    <div>
-                        <h3>추천된 애니메이션 리스트:</h3>
-                        <ul>
-                            {recommendations.map((anime, index) => (
-                                <li key={index}>
-                                    {anime.name} (평점: {anime.avg_rating})
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-            </div>
         </div>
     </div>
     );

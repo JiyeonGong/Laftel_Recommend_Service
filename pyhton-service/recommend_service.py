@@ -16,7 +16,8 @@ app.secret_key = 'your_secret_key'  # 세션을 사용하기 위해 필요한 �
 CORS(app)
 
 # 데이터베이스 설정
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://codingping:1234@172.20.10.12/coding_ping'
+#172.20.10.12
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://codingping:1234@localhost/coding_ping'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -270,8 +271,8 @@ def get_episode_detail():
             "avg_rating": str(episode.avg_rating) if episode.avg_rating is not None else "N/A",
             "img_url": episode.img_url,
             "air_year_quarter": episode.air_year_quarter if episode.air_year_quarter else "정보 없음",
-            "genre": genres_list,     # 장르 리스트 추가
-            "tags": tags_list          # 태그 리스트 추가
+            "genre": genres_list,
+            "tags": tags_list
         }
         return jsonify(episode_data)
 

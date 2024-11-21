@@ -138,7 +138,7 @@ itsdangerous==2.0.1
 jaraco.classes==3.2.1
 jdcal==1.4.1
 jedi==0.18.1
-Jinja2==2.11.3 '. '
+Jinja2==2.11.3
 jinja2-time==0.2.0
 jmespath==0.10.0
 joblib==1.1.0

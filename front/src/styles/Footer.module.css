@@ -1,20 +1,21 @@
 .footer {
-    background-color: #FFFFFF; /* 배경색을 하얀색으로 설정 */
-    border-top: 1px solid #E4E4E4; /* 상단에 얇은 경계선 추가 */
-    padding: 20px 0; /* 위아래로 적당한 패딩 추가 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    width: 100%; /* 너비를 전체로 설정 */
-    position: relative; /* 기본 위치 설정 */
-    bottom: 0; /* 페이지 하단에 고정 */
+    background-color: #FFFFFF;
+    border-top: 0.1px solid #E4E4E4;
+    padding: 30px 0;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    margin-top: 25px;
 }
 
 .footerContent {
-    max-width: 1200px; /* 최대 너비를 설정해 푸터 콘텐츠가 너무 넓어지지 않도록 함 */
-    margin: 0 auto; /* 가운데 정렬 */
-    font-size: 14px; /* 텍스트 크기 설정 */
-    color: #7B7B7B; /* 글자 색상을 약간 어둡게 설정 */
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 14px;
+    color: #7B7B7B;
 }
 
 .footerContent p {
-    margin: 5px 0; /* 각 문단 간의 간격 설정 */
+    margin: 5px 0;
 }
