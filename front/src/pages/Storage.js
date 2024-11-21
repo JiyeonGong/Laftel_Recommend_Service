@@ -27,11 +27,13 @@ function Storage() {
 
     {/* 메인으로 버튼을 클릭하면 /main으로 이동하는 클릭 이벤트 함수 */}
     const handleMainButtonClick = () => {
+        console.log('메인으로 눌림')
         navigate('/Main');
     };
 
     {/* 테루테루 추천 버튼을 누르면 /chat/teruteru으로 이동하는 클릭 이벤트 함수 */}
     const handleRecommendButtonClick = () => {
+        console.log('채팅 버튼 눌림')
         navigate('/chat/teruteru');
     };
 
