@@ -16,7 +16,7 @@ app.secret_key = 'your_secret_key'  # 세션을 사용하기 위해 필요한 �
 CORS(app)
 
 # 데이터베이스 설정
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/AniTest'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://codingping:1234@172.20.10.12/coding_ping'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
