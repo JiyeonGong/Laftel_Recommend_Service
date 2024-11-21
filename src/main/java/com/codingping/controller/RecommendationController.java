@@ -66,4 +66,15 @@ public class RecommendationController {
                 .map(ResponseEntity::ok)
                 .onErrorResume(error -> Mono.just(ResponseEntity.status(500).body("Failed to get weather recommendations from Python server")));
     }
+
+    // 에피소드 상세 정보 API 엔드포인트 추가
+    @GetMapping("/get-episode-detail")
+    public Mono<ResponseEntity<Object>> getEpisodeDetail(@RequestParam String id) {
+        return webClient.get()
+                .uri(pythonServerUrl + "/api/episode_detail?id=" + id)
+                .retrieve()
+                .bodyToMono(Object.class)
+                .map(ResponseEntity::ok)
+                .onErrorResume(error -> Mono.just(ResponseEntity.status(500).body("Failed to get episode details from Python server")));
+    }
 }
