@@ -5,10 +5,21 @@ from datetime import datetime
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from flask_session import Session  # Flask-Session 추가
+from flask_sqlalchemy import SQLAlchemy
+from models import Series, Episode, Genre, Tag, EpisodeGenre, EpisodeTag
+# pip install pymysql
+# pip install SQLAlchemy
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 세션을 사용하기 위해 필요한 키
 CORS(app)
+
+# 데이터베이스 설정
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/AniTest'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 # Flask-Session 설정
 app.config['SESSION_TYPE'] = 'filesystem'  # 세션 데이터를 파일 시스템에 저장
@@ -203,7 +214,7 @@ def get_mbti_recommendations():
 
     # 추천 결과 반환
     response_data = [
-        {"name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre"), "img_url": anime.get("img_url")}
+        {"id": anime.get("id"), "name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre"), "img_url": anime.get("img_url")}
         for anime in recommended_animes
     ]
 
@@ -219,6 +230,54 @@ def is_valid_mbti(mbti_input):
     ]
     return mbti_input.upper() in valid_mbti_types
 
+
+# 에피소드 모델 정의
+class Episode(db.Model):
+    __tablename__ = 'episodes'
+    episode_id = db.Column(db.Integer, primary_key=True)
+    series_id = db.Column(db.Integer, db.ForeignKey('series.series_id'), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.Text, nullable=True)
+    rating = db.Column(db.Integer, nullable=True)
+    avg_rating = db.Column(db.Numeric(2, 1), nullable=True)
+    img_url = db.Column(db.String(2083), nullable=True)
+    air_year_quarter = db.Column(db.String(50), nullable=True)
+    
+    
+# 에피소드 상세 정보 API 엔드포인트 추가
+@app.route('/api/episode_detail', methods=['GET'])
+def get_episode_detail():
+    episode_id = request.args.get('id')  # React에서 전달받는 episode_id
+
+    # 에피소드 찾기 (DB에서)
+    episode = Episode.query.filter_by(episode_id=episode_id).first()
+
+    if episode:
+        # 에피소드 장르 쿼리 (EpisodeGenre 매핑 테이블을 통해 Genre 테이블의 데이터를 가져옴)
+        genres = db.session.query(Genre.name).join(EpisodeGenre).filter(EpisodeGenre.episode_id == episode_id).all()
+        genres_list = [genre[0] for genre in genres]  # 쿼리 결과를 리스트로 변환
+
+        # 에피소드 태그 쿼리 (EpisodeTag 매핑 테이블을 통해 Tag 테이블의 데이터를 가져옴)
+        tags = db.session.query(Tag.name).join(EpisodeTag).filter(EpisodeTag.episode_id == episode_id).all()
+        tags_list = [tag[0] for tag in tags]  # 쿼리 결과를 리스트로 변환
+
+        # 에피소드 데이터 구성
+        episode_data = {
+            "id": episode.episode_id,
+            "name": episode.name,
+            "content": episode.content,
+            "rating": episode.rating,
+            "avg_rating": str(episode.avg_rating) if episode.avg_rating is not None else "N/A",
+            "img_url": episode.img_url,
+            "air_year_quarter": episode.air_year_quarter if episode.air_year_quarter else "정보 없음",
+            "genre": genres_list,     # 장르 리스트 추가
+            "tags": tags_list          # 태그 리스트 추가
+        }
+        return jsonify(episode_data)
+
+    # 에피소드가 없는 경우
+    return jsonify({"error": "해당 에피소드를 찾을 수 없습니다."}), 404
+
+    
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
-
