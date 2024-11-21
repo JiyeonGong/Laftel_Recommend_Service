@@ -12,6 +12,7 @@
 }
 
 .whiteClick {
+    cursor: pointer;
     transition: fill 0.3s ease;
     cursor: pointer;
 }

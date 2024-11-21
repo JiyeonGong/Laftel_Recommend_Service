@@ -60,6 +60,7 @@
     width: 22px;
     height: 22px;
     fill: #535353;
+    cursor: pointer;
     transition: fill 0.3s ease;
 }
 
@@ -75,6 +76,7 @@
     width: 23px;
     height: 22px;
     fill: #535353;
+    cursor: pointer;
     transition: fill 0.3s ease;
 }
 
@@ -89,6 +91,7 @@
     width: 23px;
     height: 22px;
     fill: #535353;
+    cursor: pointer;
     transition: fill 0.3s ease;
     cursor: pointer;
 }

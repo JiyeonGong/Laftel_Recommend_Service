@@ -5,17 +5,30 @@
     height: 500px;
 }
 
-.cloudImg {
-    position: absolute;
-    width: 220px;
-    height: 220px;
-    top: 1080px;
-    left: 650px;
+.weatherContainer {
+    width: 100%;
 }
 
+.retryBtn {
+    cursor: pointer;
+    transition: fill 0.3s ease;
+}
 
+.retryBtn:hover {
+    fill: #E3E2E2;
+}
 
+.aniTitle {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Gothic A1, sans-serif;
+    text-align: center;
+    color: #2E2E2E;
+    margin: 7px;
+}
 
-.weatherContainer {
-    padding-top: 50px;
+.aniImageBtn {
+    background-color: #000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }

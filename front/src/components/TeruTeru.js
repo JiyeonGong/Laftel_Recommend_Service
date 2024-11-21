@@ -21,8 +21,8 @@ const TeruTeru = () => {
                     onClick={handleBtn}
                 />
                 <image href={chatImg} x="60" y="30" width="100" height="100" />
-                <text fontSize="13" fill="#616060" textAnchor="middle" fontFamily="Gumi Romance TTF, sans-serif">
-                    <tspan x="111" dy="160  ">테루테루에게</tspan>
+                <text fontSize="13" fill="#4C4C4C" textAnchor="middle" fontFamily="Gumi Romance TTF, sans-serif">
+                    <tspan x="111" dy="160">테루테루에게</tspan>
                     <tspan x="110" dy="23">추천받기</tspan>
                 </text>
                 <text
@@ -34,7 +34,7 @@ const TeruTeru = () => {
                     이동
                 </text>
             </svg>
-            <svg height="10px" viewBox="0 -960 960 960" width="19px" fill="#308452" className={styles.arrowIcon}>
+            <svg viewBox="0 -960 960 960" pointerEvents="none" className={styles.arrowIcon}>
                 <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
             </svg>
         </div>
