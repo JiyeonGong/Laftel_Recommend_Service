@@ -15,7 +15,7 @@ const Main = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const handleSearch = async (mbtiValue) => {
+    const handleSearch = async (mbti) => {
         const scrollPosition = window.scrollY;
         setLoading(true);
         setError("");
@@ -23,7 +23,7 @@ const Main = () => {
 
         try {
             const API_URL = process.env.REACT_APP_MBTI_API_URL || 'http://localhost:5001/api/mbti_recommendations';
-            const response = await axios.post(API_URL, { mbti: mbtiValue });
+            const response = await axios.post(API_URL, { mbti });
             setRecommendations(response.data);
         } catch (err) {
             console.error("Error fetching MBTI recommendations", err);
@@ -62,13 +62,13 @@ const Main = () => {
                     <div className={styles.thirdSection}>
                         <MbtiResult
                             mbti={mbti}
-                            recommendations={recommendations}
+                            recommendations={recommendations.length > 0 ? recommendations : []}
                             loading={loading}
                             error={error}
                             handleSearch={handleSearch}
                         />
                     </div>
-                    <div>
+                    <div className={styles.fourthSection}>
                         <Weather />
                     </div>
                 </div>

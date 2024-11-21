@@ -4,6 +4,7 @@
 }
 
 .moveBtn {
+    cursor: pointer;
     transition: fill 0.3s ease;
 }
 
@@ -13,6 +14,9 @@
 
 .arrowIcon {
     position: absolute;
+    height: 10px;
+    width: 19px;
     top: 222.5px;
     left: 115px;
+    fill: #308452;
 }
