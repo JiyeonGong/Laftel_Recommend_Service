@@ -4,9 +4,10 @@ import Header from '../components/Header';
 import Top from '../components/Top';
 import Weather from '../components/Weather';
 import Mbti from '../components/Mbti';
-import MbtiResult from '../components/MbtiResult'
-import TeruTeru from '../components/TeruTeru'
-import titleLogo from "../assets/titleLogo.png"
+import Footer from '../components/Footer';
+import MbtiResult from '../components/MbtiResult';
+import TeruTeru from '../components/TeruTeru';
+import titleLogo from "../assets/titleLogo.png";
 import styles from '../styles/Main.module.css'; //Main css 파일
 
 const Main = () => {
@@ -39,7 +40,7 @@ const Main = () => {
     useEffect(() => {
         handleSearch(mbti);
         console.log('mbti 값 변경: ' + mbti);
-    }, [mbti])
+    }, [mbti]);
 
     return (
         <div className={styles.mainContainer}>
@@ -73,6 +74,8 @@ const Main = () => {
                     </div>
                 </div>
             </div>
+            {/* Footer 컴포넌트를 추가하여 페이지의 가장 아래에 위치시킴 */}
+            <Footer />
         </div>
     );
 };

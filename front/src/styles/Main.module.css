@@ -50,3 +50,37 @@
     margin-top: 8px;
     width: 100%;
 }
+
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 전체 화면 높이를 차지하도록 설정 */
+}
+
+.contentContainer {
+    flex: 1; /* 중간 컨텐츠를 확장하여 푸터가 항상 아래에 위치하도록 */
+}
+
+.headerContainer {
+    margin-bottom: 20px;
+}
+
+.infoContainer {
+    padding: 20px;
+}
+
+.secondSection, .thirdSection, .fourthSection {
+    margin-bottom: 20px; /* 각 섹션 간 여백 추가 */
+}
+
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.logo {
+    width: 200px; /* 로고 크기 설정 (원하는 크기로 변경 가능) */
+}
