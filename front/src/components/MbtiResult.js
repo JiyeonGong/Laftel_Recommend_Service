@@ -152,21 +152,23 @@ const MbtiResult = ({ mbti, recommendations, error, loading, handleSearch }) => 
 
                         {/* 에피소드 상세 정보 */}
                         {selectedEpisode.img_url && (
-                            <img src={selectedEpisode.img_url} alt={selectedEpisode.name} className={styles.modalImage} />
+                            <img src={selectedEpisode.img_url} alt={selectedEpisode.name}
+                                 className={styles.modalImage}/>
                         )}
                         <h2>{selectedEpisode.name}</h2>
                         <p>{selectedEpisode.content}</p>
-                        <p>평점: {selectedEpisode.avg_rating}</p>
-                        <p>방영분기: {selectedEpisode.air_year_quarter}</p>
-
+                        <h3>평점: {selectedEpisode.avg_rating}</h3>
+                        <h3>방영분기</h3>
+                        <p>{selectedEpisode.air_year_quarter}</p>
+                        <h3>장르</h3>
                         {/* 장르 표시 */}
                         {selectedEpisode.genre && selectedEpisode.genre.length > 0 && (
-                            <p>장르: {selectedEpisode.genre.join(", ")}</p>
+                            <p>{selectedEpisode.genre.join(", ")}</p>
                         )}
-
+                        <h3>태그</h3>
                         {/* 태그 표시 */}
                         {selectedEpisode.tags && selectedEpisode.tags.length > 0 && (
-                            <p>태그: {selectedEpisode.tags.join(", ")}</p>
+                            <p>{selectedEpisode.tags.join(", ")}</p>
                         )}
                     </div>
                 )}
