@@ -6,7 +6,11 @@ const Footer = () => {
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
                 <p>© 2024 Coding Ping - TeruTeru. All rights reserved.</p>
-                <p>Contact us: gamja_da@naver.com</p>
+                <p>Contact us
+                    <br></br>
+                    🇰🇷 miki:  gamja_da@naver.com
+                    <br></br>
+                    🇰🇷 yubin: yubin@naver.com</p>
             </div>
         </footer>
     );
