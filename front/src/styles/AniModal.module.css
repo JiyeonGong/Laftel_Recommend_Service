@@ -1,0 +1,135 @@
+.modal {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: auto;
+    max-width: 700px;
+    max-height: 90%;
+    z-index: 1000;
+    border-radius: 13px;
+    overflow: hidden;
+    outline: none;
+    opacity: 98%;
+    display: flex;
+}
+
+.modalWrapper {
+    background-color: #1A1A1A;
+    border-radius: 13px;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex: 1;
+}
+
+.modalWrapper::-webkit-scrollbar {
+    width: 4px;
+    display: none;
+}
+
+.modalWrapper::-webkit-scrollbar-track {
+    background: none;
+    border-radius: 10px;
+}
+
+.modalWrapper::-webkit-scrollbar-thumb {
+    background: #B4B4B4;
+    border-radius: 10px;
+}
+
+.modalWrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 모달 배경 어둡게 처리 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.closeButton {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    z-index: 1010;
+    transition: color 0.2s ease-in-out;
+}
+
+.closeButton:hover {
+    color: #000;
+}
+
+.modalImage {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modalContent {
+    position: relative;
+    margin: 25px 23px;
+
+    font-family: Pretendard-Medium, sans-serif;
+    line-height: 1.6;
+    color: #DEDEDE;
+}
+
+.modalContent h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modalContent p {
+    margin-bottom: 10px;
+}
+
+.heartBtn {
+     position: absolute;
+     background: transparent;
+     top: 180px;
+     left: 480px;
+     height: 22px;
+     width: 22px;
+     border: none;
+     cursor: pointer;
+     padding: 0
+}
+
+.heartIcon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    fill: #6B61F6;
+}
+
+.infoTitle {
+    margin-top: 38px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.infoText {
+    margin-top: 2px;
+    font-size: 15px;
+}

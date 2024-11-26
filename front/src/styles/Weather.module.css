@@ -36,6 +36,8 @@
     text-align: center;
     color: #2E2E2E;
     margin: 7px;
+    lineHeight: 1.4;
+    letterSpacing: 0.1px;
 }
 
 .aniImageBtn {
