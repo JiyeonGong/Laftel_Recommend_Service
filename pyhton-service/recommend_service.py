@@ -17,7 +17,7 @@ CORS(app)
 
 # 데이터베이스 설정
 #172.20.10.12
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/AniTest'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/coding_ping'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -188,7 +188,7 @@ def get_weather_recommendations():
         "city": city_name,
         "weather": current_weather,
         "recommendations": [
-            {"name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre"), "img_url": anime.get("img_url")}
+            {"id": anime.get("id"), "name": anime.get("name"), "avg_rating": anime.get("avg_rating"), "genre": anime.get("genre"), "img_url": anime.get("img_url")}
             for anime in recommended_animes
         ]
     }

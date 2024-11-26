@@ -55,22 +55,16 @@
     z-index: 999;
 }
 
-.closeButton {
-    position: absolute;
-    top: 0px;
-    right: 10px;
-    background-color: transparent;
-    border: none;
+.closeIcon {
+    position: relative;
+    top: -5px;
+    left: 625px;
+    transition: transform 0.3s ease;
     cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    z-index: 1010;
-    transition: color 0.2s ease-in-out;
 }
 
-.closeButton:hover {
-    color: #000;
+.closeIcon:hover {
+    transform: scale(1.1);
 }
 
 .modalImage {
@@ -86,7 +80,6 @@
 .modalContent {
     position: relative;
     margin: 25px 23px;
-
     font-family: Pretendard-Medium, sans-serif;
     line-height: 1.6;
     color: #DEDEDE;

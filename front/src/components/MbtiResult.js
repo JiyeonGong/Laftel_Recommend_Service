@@ -1,37 +1,25 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import Modal from 'react-modal';
+import CustomModal from './CustomModal'
 import styles from '../styles/MbtiResult.module.css';
-import modalStyles from '../styles/AniModal.module.css';
-
-// 최상위 엘리먼트 설정
-Modal.setAppElement('#root');
 
 const MbtiResult = ({ mbti, recommendations, error, loading, handleSearch }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedEpisode, setSelectedEpisode] = useState(null);
-    const [isFavorite, setIsFavorite] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    if (loading) return <div>로딩 중 ..</div>;
+    if (error) return <div style={{ color: "red" }}>{error}</div>;
 
     const openModal = (episodeId) => {
-        fetch(`http://localhost:8080/api/get-episode-detail?id=${episodeId}`)
-            .then(response => response.json())
-            .then(data => {
-                setSelectedEpisode(data);
-                setModalIsOpen(true);
-            })
-            .catch(error => {
-                console.error("Error fetching episode details:", error);
-            });
+        setSelectedEpisode(episodeId);
+        setModalIsOpen(true);
     };
 
     const closeModal = () => {
         setModalIsOpen(false);
         setSelectedEpisode(null);
     };
-
-    if (loading) return <div>로딩 중 ..</div>;
-    if (error) return <div style={{ color: "red" }}>{error}</div>;
 
     const rectPositions = [
         { x: 30, y: 95, width: 152, height: 205 },
@@ -40,43 +28,6 @@ const MbtiResult = ({ mbti, recommendations, error, loading, handleSearch }) => 
         { x: 516, y: 95, width: 152, height: 205 },
         { x: 678, y: 95, width: 152, height: 205 },
     ];
-
-    const saveStorage = async (episodeId) => {
-        try {
-            const userId = localStorage.getItem("userId");
-
-            //로그인이 되지 않은 상태면 로그인 안내 문구
-            if (!userId) {
-                alert("로그인 후 이용해주세요.");
-                return;
-            }
-
-            const data = {
-                userId: userId,
-                episodeId: episodeId,
-                status: "즐겨찾기"
-            };
-
-            const response = await fetch("http://localhost:8080/storage", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log("Saved successfully:", result);
-            } else {
-                console.error("Failed to save.");
-                alert("에피소드 저장에 실패했습니다. 다시 시도해주세요.");
-            }
-        } catch (error) {
-            console.error("An error occurred:", error);
-            alert("에피소드 저장 중 오류가 발생했습니다. 네트워크 상태를 확인해주세요.");
-        }
-    };
 
     return (
         <>
@@ -105,7 +56,6 @@ const MbtiResult = ({ mbti, recommendations, error, loading, handleSearch }) => 
                     {/* 하얀색 배경 */}
                     <path opacity="0.8" d="M0 20C0 8.9543 8.95431 0 20 0H880C891.046 0 900 8.95431 900 20V360C900 371.046 891.046 380 880 380H20C8.9543 380 0 371.046 0 360V20Z" fill="white" />
 
-                    {/* 리스트 형태의 결과 값 */}
                     {rectPositions.map((rect, index) => (
                         <motion.g
                             key={index}
@@ -180,53 +130,7 @@ const MbtiResult = ({ mbti, recommendations, error, loading, handleSearch }) => 
 
             <AnimatePresence>
                 {modalIsOpen && (
-                    <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                        contentLabel="Episode Detail"
-                        className={modalStyles.modal}
-                        overlayClassName={modalStyles.overlay}
-                    >
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className={modalStyles.modalWrapper}
-                        >
-                            <div className={modalStyles.modalContent}>
-                                {/* X 버튼 */}
-                                <button onClick={closeModal} className={modalStyles.closeButton}>X</button>
-
-                                {selectedEpisode.img_url && (
-                                    <img src={selectedEpisode.img_url} alt={selectedEpisode.name}
-                                        className={modalStyles.modalImage}/>
-                                )}
-                                <h2>{selectedEpisode.name}</h2>
-                                <p className={modalStyles.infoTitle}>줄거리</p>
-                                <p className={modalStyles.infoText}>{selectedEpisode.content}</p>
-                                <p className={modalStyles.infoTitle}>방영분기</p>
-                                <p className={modalStyles.infoText}>{selectedEpisode.air_year_quarter}</p>
-                                <p className={modalStyles.infoTitle}>장르</p>
-                                {selectedEpisode.genre && selectedEpisode.genre.length > 0 && (
-                                    <p className={modalStyles.infoText}>{selectedEpisode.genre.join(", ")}</p>
-                                )}
-                                <p className={modalStyles.infoTitle}>태그</p>
-                                {selectedEpisode.tags && selectedEpisode.tags.length > 0 && (
-                                    <p className={modalStyles.infoText}>#{selectedEpisode.tags.join(" #")}</p>
-                                )}
-
-                                <button onClick={() => saveStorage(selectedEpisode.id)} className={modalStyles.heartBtn}>
-                                    <svg viewBox="0 -960 960 960" className={modalStyles.heartIcon}>
-                                        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/>
-                                        <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
-                                    </svg>
-                                </button>
-                                </div>
-                            </motion.div>
-
-                    </Modal>
-
+                    <CustomModal isOpen={modalIsOpen} onClose={closeModal} episodeId={selectedEpisode} />
                 )}
             </AnimatePresence>
         </>
