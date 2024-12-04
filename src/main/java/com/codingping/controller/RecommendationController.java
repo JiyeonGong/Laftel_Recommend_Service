@@ -1,20 +1,24 @@
 package com.codingping.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true") // React 프론트엔드 접근 허용 (포트 맞추기)
 @RestController
 @RequestMapping("/api")
+
 public class RecommendationController {
 
     @Value("${python.server.url}") // application.properties에서 Python 서버 URL 설정
@@ -77,4 +81,32 @@ public class RecommendationController {
                 .map(ResponseEntity::ok)
                 .onErrorResume(error -> Mono.just(ResponseEntity.status(500).body("Failed to get episode details from Python server")));
     }
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private static final String FLASK_BASE_URL = "http://localhost:5001/api";
+
+    @PostMapping("/chatbot")
+    public ResponseEntity<?> getChatbotRecommendation(@RequestBody Map<String, Object> userRequest) {
+        String message = (String) userRequest.get("message");
+        Double latitude = (Double) userRequest.get("latitude");
+        Double longitude = (Double) userRequest.get("longitude");
+        String apiKey = (String) userRequest.get("api_key");
+
+        // Flask 서버에 보낼 요청 구성
+        Map<String, Object> flaskRequest = new HashMap<>();
+        flaskRequest.put("message", message);
+        flaskRequest.put("latitude", latitude);
+        flaskRequest.put("longitude", longitude);
+        flaskRequest.put("api_key", apiKey);
+
+        // Flask의 챗봇 엔드포인트로 요청을 전송
+        String flaskUrl = FLASK_BASE_URL + "/chatbot";
+        ResponseEntity<String> flaskResponse = restTemplate.postForEntity(flaskUrl, flaskRequest, String.class);
+
+        // Flask 서버에서 받은 응답 반환
+        return ResponseEntity.ok(flaskResponse.getBody());
+    }
+
+
 }
