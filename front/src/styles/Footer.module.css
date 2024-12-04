@@ -1,12 +1,11 @@
 .footer {
+    position: relative;
     background-color: #FFFFFF;
-    border-top: 0.1px solid #E4E4E4;
-    padding: 30px 0;
+    border-top: 0.03px solid #E4E4E4;
+    padding: 35px 0;
     text-align: center;
     width: 100%;
-    position: relative;
-    bottom: 0;
-    margin-top: 100px;
+    margin-top: 60px;
 }
 
 .footerContent {

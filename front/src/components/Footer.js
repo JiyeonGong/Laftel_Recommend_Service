@@ -10,7 +10,7 @@ const Footer = () => {
                     <br></br>
                     🇰🇷 miki:  gamja_da@naver.com
                     <br></br>
-                    🇰🇷 yubin: yubin@naver.com</p>
+                    🇰🇷 sto: yuvin3493@gmail.com</p>
             </div>
         </footer>
     );

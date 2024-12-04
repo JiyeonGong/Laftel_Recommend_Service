@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Modal from "react-modal";
 import modalStyles from "../styles/CustomModal.module.css";
 
 Modal.setAppElement("#root");
 
-const CustomModal = ({ isOpen, onClose, episodeId }) => {
+const CustomModal = ({ isOpen, onClose, episodeId, fetchStorageItems }) => {
     const [data, setData] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [toastVisible, setToastVisible] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+    const toastTimeoutRef = useRef(null);
 
     useEffect(() => {
         if (isOpen && episodeId) {
@@ -28,6 +31,14 @@ const CustomModal = ({ isOpen, onClose, episodeId }) => {
             }
         }
     }, [isOpen, episodeId]);
+
+    useEffect(() => {
+        return () => {
+            if (toastTimeoutRef.current) {
+                clearTimeout(toastTimeoutRef.current);
+            }
+        };
+    }, []);
 
     const toggleFavorite = async () => {
         const user = localStorage.getItem("user");
@@ -52,12 +63,31 @@ const CustomModal = ({ isOpen, onClose, episodeId }) => {
 
             if (response.ok) {
                 setIsFavorite(!isFavorite);
+                showToast(!isFavorite ? '찜 목록에 추가했습니다!' : '찜 목록에서 제거했습니다!');
+                fetchStorageItems();
+                console.log(response);
             } else {
                 alert("즐겨찾기 상태 변경에 실패했습니다.");
             }
         } catch (error) {
-            alert("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+            /* 수정 필요 */
         }
+    };
+
+    const showToast = (message) => {
+        if (toastTimeoutRef.current) {
+            clearTimeout(toastTimeoutRef.current);
+        }
+
+        setToastMessage(message);
+        setToastVisible(false);
+        setTimeout(() => {
+            setToastVisible(true);
+            toastTimeoutRef.current = setTimeout(() => {
+                setToastVisible(false);
+                setToastMessage("");
+            }, 2500);
+        });
     };
 
     if (!data) return null;
@@ -76,17 +106,17 @@ const CustomModal = ({ isOpen, onClose, episodeId }) => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className={modalStyles.modalWrapper}
             >
+                <p className={modalStyles.modalTitle}>상세정보</p>
                 {/* 닫기 버튼 */}
-                <button onClick={onClose} className={modalStyles.closeButton}>
-                    <svg
-                        viewBox="0 -960 960 960"
-                        height="22px" width="22px"
-                        fill="#D7D7D7"
-                        className={modalStyles.closeIcon}
-                    >
-                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                    </svg>
-                </button>
+                <svg
+                    viewBox="0 -960 960 960"
+                    height="22px" width="22px"
+                    fill="#D7D7D7"
+                    className={modalStyles.closeIcon}
+                    onClick={onClose}
+                >
+                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
 
                 <div className={modalStyles.modalContent}>
                     {data.img_url && (
@@ -97,6 +127,16 @@ const CustomModal = ({ isOpen, onClose, episodeId }) => {
                         />
                     )}
                     <h2>{data.name}</h2>
+                    <p>
+                        <a
+                            href={`https://laftel.net/item/${data.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={modalStyles.link}
+                        >
+                            라프텔에서 보기
+                        </a>
+                    </p>
                     <p className={modalStyles.infoTitle}>줄거리</p>
                     <p className={modalStyles.infoText}>{data.content}</p>
                     <p className={modalStyles.infoTitle}>방영분기</p>
@@ -110,8 +150,13 @@ const CustomModal = ({ isOpen, onClose, episodeId }) => {
                         <p className={modalStyles.infoText}>#{data.tags.join(" #")}</p>
                     )}
 
-                    <button onClick={toggleFavorite} className={modalStyles.heartBtn}>
+                    {/* 찜 버튼 */}
+                    <button
+                        onClick={() => { toggleFavorite(); }}
+                        className={modalStyles.heartBtn}
+                    >
                         <svg viewBox="0 -960 960 960" className={modalStyles.heartIcon}>
+                            <title>찜 목록에 추가/삭제</title>
                             {isFavorite ? (
                                 <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z" />
                             ) : (
@@ -121,6 +166,11 @@ const CustomModal = ({ isOpen, onClose, episodeId }) => {
                     </button>
                 </div>
             </motion.div>
+            {toastVisible && (
+                <div className={modalStyles.toast}>
+                    {toastMessage}
+                </div>
+            )}
         </Modal>
     );
 };

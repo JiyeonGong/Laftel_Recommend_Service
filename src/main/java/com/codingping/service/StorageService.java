@@ -3,6 +3,8 @@ package com.codingping.service;
 import com.codingping.entity.Storage;
 import com.codingping.repository.StorageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,11 @@ import java.util.List;
 @Service
 public class StorageService {
     private final StorageRepository storageRepository;
+
+    // 보관함 리스트 조회
+    public Page<Storage> findByUserId(Long userId, Pageable pageable) {
+            return storageRepository.findByUserId(userId, pageable);
+    }
 
     // 즐겨찾기 여부 확인
     public boolean isFavorite(Long userId, Integer episodeId) {

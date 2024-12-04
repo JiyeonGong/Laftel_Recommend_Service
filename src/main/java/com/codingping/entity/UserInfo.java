@@ -13,6 +13,7 @@ import lombok.*;
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @Column(name = "kakao_id", nullable = false)

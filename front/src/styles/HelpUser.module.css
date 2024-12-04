@@ -1,0 +1,150 @@
+html {
+    height: 100vh;
+    background-color: #FAFAFA;
+}
+
+button {
+    width: 45px;
+    height: 30px;
+    font-size: 12px;
+    border: none;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+}
+
+.logo {
+    width: 115px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    font-family: Pretendard-Medium, sans-serif;
+}
+
+.listContainer {
+    width: 650px;
+    padding: 30px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f7f7f7;
+}
+
+.contactContainer {
+    background: #ffffff;
+    padding: 30px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 480px;
+    margin-left: 25px;
+    line-height: 1.6;
+    background-color: #f7f7f7;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 45px;
+    color: #333;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    gap: 15px;
+}
+
+.formContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.input,
+.textarea {
+    width: 480px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border-color 0.2s;
+    font-family: Pretendard-Medium, sans-serif;
+}
+
+.input:focus,
+.textarea:focus {
+    border-color: #B0A3FF;
+    outline: none;
+}
+
+.textarea {
+    resize: none;
+}
+
+.submitBtn {
+    width: 50px;
+    height: 32px;
+    background-color: #836FF6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: center;
+    transition: background-color 0.3s;
+    margin: 5px auto 0;
+}
+
+.submitBtn:hover {
+    background-color: #7660F5;
+}
+
+.helpItem {
+     border-bottom: 1px solid #ddd;
+}
+
+.helpData {
+    display: flex;
+    padding: 5px 0px;
+}
+
+.infoContainer {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+    font-size: 14px;
+    color: #666;
+    padding-right: 10px;
+    padding-top: 5px;
+    gap: 18px;
+}
+
+.helpDetails {
+    margin: 25px 0px;
+}
+
+.editBtn {
+    margin-right: 6px;
+    border-color: black;
+    border-width: 0.1px;
+    background-color: #5177FF;
+}
+
+.deleteBtn {
+    background-color: #FF6161;
+}

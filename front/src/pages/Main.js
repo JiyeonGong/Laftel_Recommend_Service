@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../api/AuthContext";
 import axios from 'axios';
 import Header from '../components/Header';
 import Top from '../components/Top';
@@ -8,17 +10,16 @@ import Footer from '../components/Footer';
 import MbtiResult from '../components/MbtiResult';
 import TeruTeru from '../components/TeruTeru';
 import titleLogo from "../assets/titleLogo.png";
-import styles from '../styles/Main.module.css'; //Main css 파일
+import styles from '../styles/Main.module.css';
 
 const Main = () => {
     const [mbti, setMbti] = useState('ENFP');
     const [recommendations, setRecommendations] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleSearch = async (mbti) => {
         const scrollPosition = window.scrollY;
-        setLoading(true);
         setError("");
         setRecommendations([]);
 
@@ -30,7 +31,6 @@ const Main = () => {
             console.error("Error fetching MBTI recommendations", err);
             setError("추천을 가져오는 도중 문제가 발생했습니다.");
         } finally {
-            setLoading(false);
             setTimeout(() => {
                 window.scrollTo(0, scrollPosition); // DOM 업데이트 후 스크롤 복구
             }, 0);
@@ -39,13 +39,12 @@ const Main = () => {
 
     useEffect(() => {
         handleSearch(mbti);
-        console.log('mbti 값 변경: ' + mbti);
     }, [mbti]);
 
     return (
         <div className={styles.mainContainer}>
             <div className={styles.logoContainer}>
-                <img src={titleLogo} alt="titleLogo" className={styles.logo} />
+                <img src={titleLogo} alt="titleLogo" className={styles.logo} onClick={() => navigate("/")}/>
             </div>
             <div className={styles.contentContainer}>
                 <div className={styles.headerContainer}>
@@ -64,7 +63,6 @@ const Main = () => {
                         <MbtiResult
                             mbti={mbti}
                             recommendations={recommendations.length > 0 ? recommendations : []}
-                            loading={loading}
                             error={error}
                             handleSearch={handleSearch}
                         />

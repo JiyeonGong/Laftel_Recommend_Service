@@ -4,6 +4,8 @@ import com.codingping.dto.FavoriteRequest;
 import com.codingping.entity.Storage;
 import com.codingping.service.StorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,5 +36,10 @@ public class StorageController {
     public ResponseEntity<?> removeFavorite(@RequestBody FavoriteRequest request) {
         storageService.removeFavorite(request.getUserId(), request.getEpisodeId());
         return ResponseEntity.ok().body("{\"message\": \"Favorite removed successfully\"}");
+    }
+
+    @GetMapping("/list")
+    public Page<Storage> getStorageItems(@RequestParam Long userId, Pageable pageable) {
+        return storageService.findByUserId(userId, pageable);
     }
 }

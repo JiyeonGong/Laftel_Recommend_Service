@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import Modal from 'react-modal';
 import CustomModal from './CustomModal'
@@ -13,6 +13,8 @@ const Weather = () => {
     const [error, setError] = useState("");
     const [currentWeather, setCurrentWeather] = useState("");
     const [region, setRegion] = useState(null);
+    const textRef = useRef(null);
+    const [textX, setTextX] = useState(110);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedEpisode, setSelectedEpisode] = useState(null);
@@ -34,6 +36,14 @@ const Weather = () => {
     useEffect(() => {
         getUserLocation();
     }, []);
+
+    useEffect(() => {
+        if (textRef.current) {
+            const textWidth = textRef.current.getComputedTextLength();
+            const centerX = 250;
+            setTextX(centerX - textWidth / 2);
+        }
+    }, [currentWeather, region]);
 
     const weatherIcons = {
         '맑은 하늘': (
@@ -223,7 +233,6 @@ const Weather = () => {
             });
 
             const { recommendations, weather } = response.data;
-            console.log("Fetched Recommendations:", recommendations);
             setRecommendations(recommendations);
             setCurrentWeather(weather);
         } catch (err) {
@@ -350,7 +359,8 @@ const Weather = () => {
                     </text>
 
                     <text
-                        x="110" y="303"
+                        ref={textRef}
+                        x={textX} y="303"
                         textAnchor="middle"
                         fontSize="17" fontWeight="500" fill="black"
                         fontFamily="Gumi Romance TTF, sans-serif"

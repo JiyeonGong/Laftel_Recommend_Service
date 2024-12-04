@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             const userData = JSON.parse(localStorage.getItem("user"));
-            const kakaoAccessToken = userData?.kakaoAccessToken;
+            const kakaoAccessToken = userData.kakaoAccessToken;
 
             if (!kakaoAccessToken) {
                 throw new Error("kakaoAccessToken이 없습니다.");
@@ -54,11 +54,17 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
             localStorage.clear();
             sessionStorage.clear();
-            console.log("로그아웃 성공");
-
             navigate("/");
         } catch (error) {
-            console.error("로그아웃 실패:", error);
+            if (error.response?.status === 401 || error.message === "Failed to fetch") {
+                localStorage.clear();
+                sessionStorage.clear();
+                setIsLoggedIn(false);
+                setUser(null);
+                navigate('/');
+            } else {
+                console.error("로그아웃 처리 중 오류 발생:", error);
+            }
         }
     };
 

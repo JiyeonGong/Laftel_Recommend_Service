@@ -1,7 +1,7 @@
 .mainContainer {
     background-color: #ECECEF;
-    min-height: 100vh; /* 화면 전체 높이 */
-    width: 100vw; /* 화면 전체 너비 */
+    min-height: 100vh;
+    width: 100vw;
 }
 
 .contentContainer {
@@ -76,5 +76,6 @@
 }
 
 .logo {
-    width: 200px; /* 로고 크기 설정 (원하는 크기로 변경 가능) */
+    width: 200px;
+    cursor: pointer;
 }
