@@ -1,19 +1,22 @@
 import json
 import requests
 import random
+import openai # chat GPT 이용을 위한 openai
 from datetime import datetime
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
-from flask_session import Session  # Flask-Session 추가
+from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from models import Series, Episode, Genre, Tag, EpisodeGenre, EpisodeTag
-# pip install pymysql
-# pip install SQLAlchemy
 
 
+# 기초적인 셋팅
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 세션을 사용하기 위해 필요한 키
 CORS(app)
+
+# OpenAI API 키
+openai.api_key = ''
 
 # 데이터베이스 설정
 #172.20.10.12
@@ -26,6 +29,7 @@ db = SQLAlchemy(app)
 app.config['SESSION_TYPE'] = 'filesystem'  # 세션 데이터를 파일 시스템에 저장
 app.config['SESSION_PERMANENT'] = False
 Session(app)
+
 
 # 계절과 날씨 데이터를 기반으로 한 애니메이션 장르 분류 정보
 anime_genre_season_weather = {
@@ -52,14 +56,13 @@ anime_genre_season_weather = {
     }
 }
 
-# JSON 데이터 로드 함수
+# JSON 데이터파일 로드 함수
 def load_anime_data(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return data
 
-# MBTI 데이터 로드 함수
-def load_mbti_data():
+def load_mbti_data(): # mbti
     try:
         with open('mbti_genre_tags.json', 'r', encoding='utf-8') as f:
             mbti_data = json.load(f)
@@ -67,6 +70,14 @@ def load_mbti_data():
         print("MBTI 데이터 파일을 찾을 수 없습니다.")
         mbti_data = {}
     return mbti_data
+
+def load_rating_data(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    # 리스트 형태의 데이터를 딕셔너리로 변환 (series_id를 키로 사용)
+    rating_dict = {item['id']: item for item in data}
+    return rating_dict
+
 
 # 계절 판별 함수
 def get_current_season():
@@ -81,6 +92,9 @@ def get_current_season():
         return "가을"
     else:
         return "겨울"
+
+
+
 
 # 날씨 데이터 가져오기 (위도와 경도 사용)
 def get_weather(api_key, latitude, longitude):
@@ -107,6 +121,9 @@ def get_weather(api_key, latitude, longitude):
         print(f"Error fetching weather data: {response.status_code}")
         return None, None
 
+
+
+
 # 애니메이션 추천 함수 (날씨 기반)
 def recommend_anime_weather(season, weather, anime_data):
     # 계절과 날씨에 맞는 장르 목록 가져오기
@@ -127,6 +144,9 @@ def recommend_anime_weather(season, weather, anime_data):
         recommendations = random.sample(recommendations, 5)
 
     return recommendations
+
+
+
 
 # 애니메이션 추천 함수 (MBTI 기반)
 def recommend_anime_mbti(mbti, anime_data, mbti_data):
@@ -157,6 +177,9 @@ def recommend_anime_mbti(mbti, anime_data, mbti_data):
         recommendations = random.sample(recommendations, 5)
 
     return recommendations
+
+
+
 
 # 애니메이션 추천 API 엔드포인트 (날씨 기반)
 @app.route('/api/weather_recommendations', methods=['POST'])
@@ -195,6 +218,10 @@ def get_weather_recommendations():
 
     return jsonify(response_data)
 
+
+
+
+
 # 애니메이션 추천 API 엔드포인트 (MBTI 기반)
 @app.route('/api/mbti_recommendations', methods=['POST'])
 def get_mbti_recommendations():
@@ -206,7 +233,7 @@ def get_mbti_recommendations():
     anime_data = load_anime_data(file_path)
     mbti_data = load_mbti_data()  # 여기에서 함수 호출 시 오류가 발생하지 않도록 load_mbti_data가 정의된 위치 이후에 호출
 
-    # MBTI 입력 검증
+    # MBTI 입력 검증(필요 x)
     if not user_mbti or not is_valid_mbti(user_mbti):
         return jsonify({"error": "유효한 MBTI를 입력해주세요. (예: INFP, ENTP 등)"}), 400
 
@@ -221,7 +248,7 @@ def get_mbti_recommendations():
 
     return jsonify(response_data)
 
-# MBTI 유효성 체크 함수
+# MBTI 유효성 체크 함수(필요 없을 것으로 예상)
 def is_valid_mbti(mbti_input):
     valid_mbti_types = [
         "INTJ", "INTP", "ENTJ", "ENTP",
@@ -230,6 +257,9 @@ def is_valid_mbti(mbti_input):
         "ISTP", "ISFP", "ESTP", "ESFP"
     ]
     return mbti_input.upper() in valid_mbti_types
+
+
+
 
 
 # 에피소드 모델 정의
@@ -243,7 +273,7 @@ class Episode(db.Model):
     avg_rating = db.Column(db.Numeric(2, 1), nullable=True)
     img_url = db.Column(db.String(2083), nullable=True)
     air_year_quarter = db.Column(db.String(50), nullable=True)
-    
+       
     
 # 에피소드 상세 정보 API 엔드포인트 추가
 @app.route('/api/episode_detail', methods=['GET'])
@@ -279,6 +309,134 @@ def get_episode_detail():
     # 에피소드가 없는 경우
     return jsonify({"error": "해당 에피소드를 찾을 수 없습니다."}), 404
 
+# 평점 계산 함수(인기 기반 추천 알고리즘을 반영)
+def calculate_steam_score(statistics):
+    # 긍정 리뷰 수는 count_score_35부터 count_score_50까지의 합으로 정의
+    positive_votes = sum(statistics.get(f"count_score_{i}", 0) for i in range(30, 55, 5))
+    total_votes = statistics.get("count_score", 0)
     
+    # 총 리뷰 수가 0인 경우를 방지
+    if total_votes == 0:
+        return 0
+
+    # 기본 평균 계산
+    average = positive_votes / total_votes
+    # 스팀 알고리즘 기반 평점 계산
+    score = average - (average - 3.0) * 2 ** (-np.log10(total_votes + 1))
+    return score * 100
+
+
+
+
+# 애니메이션 추천 함수 (날씨와 MBTI 결합 기반)
+def recommend_anime_weather_mbti(season, weather, mbti, anime_data, mbti_data, rating_data):
+    # 계절과 날씨에 맞는 장르 목록 가져오기
+    weather_genres = anime_genre_season_weather.get(season, {}).get(weather, [])
+    # MBTI 기반 선호 장르와 태그 가져오기
+    mbti_upper = mbti.upper()
+    preferred_genres = mbti_data.get(mbti_upper, {}).get("Preferred_Genre", [])
+    preferred_tags = mbti_data.get(mbti_upper, {}).get("Preferred_Tags", [])
+
+    # 장르와 일치하는 애니메이션 필터링, 'GL 백합'과 'BL'을 제외
+    recommendations = []
+    for series_list in anime_data.values():
+        for series in series_list:
+            anime_genres = series.get("genre", [])
+            anime_tags = series.get("tags", [])
+            series_id = series.get("id")
+            statistics = rating_data.get(series_id, {})
+
+            # 스팀 알고리즘 기반 평점 계산
+            steam_score = calculate_steam_score(statistics)
+            series["steam_score"] = steam_score
+
+            matches_weather_genre = any(genre in anime_genres for genre in weather_genres)
+            matches_mbti_genre = any(genre in anime_genres for genre in preferred_genres)
+            matches_mbti_tag = any(tag in anime_tags for tag in preferred_tags)
+
+            # 날씨 기반 또는 MBTI 기반으로 장르나 태그와 일치하고 'GL 백합'과 'BL'을 제외
+            if (matches_weather_genre or matches_mbti_genre or matches_mbti_tag) and not ("GL 백합" in anime_genres or "BL" in anime_genres):
+                recommendations.append(series)
+
+     # 평점 순으로 정렬 후 상위 10개 선택 (다양성 확보를 위해 더 많은 후보를 선택)
+    recommendations.sort(key=lambda x: x["steam_score"], reverse=True)
+    top_recommendations = recommendations[:10]
+
+    # 상위 10개의 애니메이션 중(정확히는 라프텔에서 감상 가능한 애니) 5개를 먼저 선정
+    if len(top_recommendations) > 5:
+        recommendations = random.sample(top_recommendations, 3)
+    else:
+        recommendations = top_recommendations
+
+    return recommendations
+
+#gpt가 검색 api를 사용하여 나머지 2개 애니를 추천한다.
+
+
+
+
+# 애니메이션 추천 챗봇 API 엔드포인트 (날씨 + MBTI 기반)
+@app.route('/api/chatbot', methods=['POST'])
+def get_combined_recommendations():
+    data = request.json
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
+    api_key = data.get('api_key')
+    user_mbti = data.get('mbti')
+    anime_file_path = "grouped_by_series_id_no_production.json"
+    rating_file_path = "laftel_statistics_output.json"
+
+    if not latitude or not longitude or not api_key or not user_mbti:
+        return jsonify({"error": "필수 정보가 누락되었습니다."}), 400
+
+    # JSON 데이터 로드
+    anime_data = load_anime_data(anime_file_path)
+    mbti_data = load_mbti_data()
+    rating_data = load_rating_data(rating_file_path)
+
+    # 현재 계절과 날씨 가져오기
+    current_season = get_current_season()
+    city_name, current_weather = get_weather(api_key, latitude, longitude)
+
+    if not current_weather or not city_name:
+        return jsonify({"error": "날씨 데이터를 가져올 수 없습니다."}), 500
+
+    # 애니메이션 추천 실행 (날씨 및 MBTI 기반)
+    recommended_animes = recommend_anime_weather_mbti(current_season, current_weather, user_mbti, anime_data, mbti_data, rating_data)
+
+   # 추천 목록을 기반으로 GPT 프롬프트 생성
+    anime_list = ", ".join([anime['name'] for anime in recommended_animes])
+    prompt = (f"현재 위치는 {city_name}이며, 날씨는 {current_weather}입니다. 사용자 성향은 {user_mbti}입니다." 
+              f"이런 날씨와 성향에 맞는 애니메이션 추천은 다음과 같습니다: {anime_list}. 이 애니메이션들을 사용자에게 추천해주세요. 추천을 시작할 때 'Laftel에서 감상 가능한 애니 중 이런 작품은 어떠세요?' 로 문장을 시작하세요."
+              f"{city_name}의 {current_weather}와 {user_mbti}에 맞는 추가적인 추천 애니메이션을 두 가지 더 추천하세요.추천을 시작할 때 'Laftel 외 추천 목록을 알려드려요.' 로 문장을 시작하세요"
+              f"애니메이션 제목 사이에 <와 >를 추가해 가독성을 높여주세요."
+              )
+
+
+    try:
+        # OpenAI API 호출
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=2000,
+            temperature=0.7
+        )
+        chatbot_response = response['choices'][0]['message']['content'].strip()
+        
+        # 응답 확인을 위한 로그 출력
+        print(f"Chatbot Response: {chatbot_response}")
+        
+        if not chatbot_response:
+            chatbot_response = "추천할 수 있는 애니메이션이 없습니다. 다른 질문을 해보세요."
+
+    except openai.error.OpenAIError as e:
+        print(f"OpenAI 호출 중 오류 발생: {e}")
+        return jsonify({"error": "OpenAI API 호출 중 오류가 발생했습니다.", "details": str(e)}), 500
+
+    return jsonify({"response": chatbot_response})
+
+        
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
