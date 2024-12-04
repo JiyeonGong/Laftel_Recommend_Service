@@ -1,0 +1,209 @@
+/* Chatting.module.css */
+@font-face {
+    font-family: 'Pretendard-Medium'; /* 사용할 폰트의 이름을 정의 */
+    src: url('../fonts/Pretendard-Medium.otf'); /* 폰트 파일의 위치 */
+}
+
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('../fonts/Pretendard-Light.otf');
+
+}
+
+/* 페이지 전체 배경색을 지정 */
+.body {
+    background-color: #F2F2F8;
+    height: 100vh; /* 페이지 전체 높이를 채우기 위해 설정 */
+    margin: 0;
+    padding: 0;
+    font-family: Pretendard-Light, sans-serif; /* 기본 폰트 스타일 설정 */
+}
+
+/* 추가적으로 전체 컨테이너 스타일을 정의하여, 내용이 중앙에 배치되도록 조정 */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* 메뉴바 영역*/
+/* 메뉴바 영역*/
+/* 메뉴바 영역*/
+.menuBar {
+    background-color: white; /* 메뉴바 색상을 흰색으로 설정 */
+    padding: 10px 20px; /* 메뉴바에 패딩 추가 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 메뉴바에 약간의 그림자 효과 추가 */
+    display: flex; /* 요소들을 수평으로 나열 */
+    align-items: center; /* 세로 가운데 정렬 */
+    height: 50px; /* 메뉴바의 높이 설정 */
+}
+
+.mainContent {
+    padding: 20px; /* 메인 콘텐츠 영역에 패딩 추가 */
+}
+
+/* 로고 영역*/
+/* 로고 영역*/
+/* 로고 영역*/
+.logo {
+    height: 35px; /* 로고의 높이 설정 */
+    margin-right: 20px; /* 로고와 텍스트 사이 여백 설정 */
+    margin-left: 10px; /* 왼쪽에 여백 추가 */
+
+}
+
+.centerLogo {
+    @media (max-width: 1000px) {
+        margin: 0 auto; /* 로고를 가운데에 배치 */
+        display: block; /* 가운데 정렬을 위해 블록으로 설정 */
+        text-align: center; /* 로고가 페이지의 정가운데 위치하도록 정렬 */
+    }
+}
+
+
+.centerOnSmallScreen {
+    @media (max-width: 1000px) {
+        margin: 0 auto; /* 로고를 중앙에 배치 */
+        display: block; /* 중앙 정렬을 위해 블록으로 변경 */
+    }
+}
+
+.hideOnSmallScreen {
+    @media (max-width: 1000px) {
+        display: none; /* 1000px 이하일 때 요소 숨기기 */
+    }
+}
+
+.goToMainWrapper {
+    margin-left: 15px; /* 로고와 "메인으로" 이미지를 좌우로 떨어뜨림 */
+}
+
+.mainButtonIcon {
+    width: 50px;
+    height: 20px; /* 메인으로 이동 아이콘의 높이 설정 */
+    cursor: pointer; /* 마우스를 올렸을 때 포인터 표시 */
+    position: relative;
+}
+
+.contentWrapper {
+    display: flex; /* 프로필 정보와 보관함을 가로로 배치 */
+    gap: 20px; /* 두 섹션 사이 간격 */
+    padding: 20px; /* 전체 콘텐츠 내부 여백 */
+    flex-wrap: wrap; /* 창 크기가 줄어들 때 줄바꿈 */
+}
+
+
+/* 테루테루 대화 영역 */
+/* 채팅 전체 영역 스타일 */
+.chatContainer {
+    background-color: #ffffff;  /* 하얀색 배경 */
+    width: 90%;  /* 전체 너비 */
+    max-width: 750px;  /* 최대 너비 */
+    min-height: 530px;  /* 최소 높이 */
+    border-radius: 15px;  /* 모서리 둥글게 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* 그림자 추가 */
+    padding: 30px;
+    margin-top: 50px;  /* 로고바 아래 공간 확보 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto; /* 페이지 중앙에 위치시키기 위해 좌우 여백 자동 설정 */
+}
+
+/* 채팅 박스 스타일 */
+.chat-box {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    min-height: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 auto;
+    font-family: Pretendard-Medium, sans-serif;
+}
+
+/* 채팅 입력 영역 스타일 */
+.chat-input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.inputField {
+    flex: 1;
+    padding: 20px;
+    font-size: 15px;
+    border: 0px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px;
+    background-size: 100%; /* 이미지 크기 조정 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+    background-position: center; /* 이미지 중앙 정렬 */
+    height: 10px; /* 텍스트 박스 크기 키우기 */
+    width: 540px;
+    font-family: Pretendard-Light, sans-serif;
+    outline: none; /* 기본 outline 제거(클릭시 outline없음) */
+}
+
+.selectField {
+    padding: 10px;
+    font-size: 15px;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-family: Pretendard-Medium, sans-serif;
+}
+
+
+.button {
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: #9e60e1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+
+.response {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+.speechBubbleWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.speechBubble {
+    position: absolute;
+    width: 100%;
+    max-width: 400px; /* 말풍선 이미지 크기 조정 */
+}
+
+.speechText {
+    position: relative;
+    padding: 20px;
+    font-size: 16px;
+    color: #333;
+    z-index: 1; /* 말풍선 위에 텍스트를 보이게 함 */
+    max-width: 360px;
+    margin-left: 20px;
+}
