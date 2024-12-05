@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import Modal from 'react-modal';
 import CustomModal from './CustomModal'
@@ -37,10 +37,10 @@ const Weather = () => {
         getUserLocation();
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (textRef.current) {
             const textWidth = textRef.current.getComputedTextLength();
-            const centerX = 250;
+            const centerX = 190;
             setTextX(centerX - textWidth / 2);
         }
     }, [currentWeather, region]);

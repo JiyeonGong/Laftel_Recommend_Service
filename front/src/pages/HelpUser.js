@@ -10,6 +10,7 @@ const HelpUser = () => {
     const [userId, setUserId] = useState("");
     const [helpsData, setHelpsData] = useState([]);
     const [selectedHelp, setSelectedHelp] = useState(null);
+    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
         const user = localStorage.getItem("user");
@@ -99,6 +100,9 @@ const HelpUser = () => {
     };
 
     const handleDelete = async (id) => {
+        const userConfirmed = window.confirm("정말 삭제하시겠습니까?");
+        if (!userConfirmed) return;
+
         try {
             const res = await fetch(`${process.env.REACT_APP_BACKEND_URI}/helps/${id}`, {
                 method: "DELETE",
@@ -109,10 +113,6 @@ const HelpUser = () => {
         } catch {
             console.log("삭제 요청 실패");
         }
-    };
-
-    const handleUpdate = async () => {
-
     };
 
     return (
@@ -139,8 +139,12 @@ const HelpUser = () => {
                                 {selectedHelp?.id === help.id && (
                                     <div className={styles.helpDetails}>
                                         <p>{help.content}</p>
-                                        <button className={styles.editBtn} onClick={handleUpdate}>수정</button>
-                                        <button className={styles.deleteBtn} onClick={() => handleDelete(help.id)}>삭제</button>
+                                        <button
+                                            className={styles.deleteBtn}
+                                            onClick={() => handleDelete(help.id)}
+                                        >
+                                            삭제
+                                        </button>
                                     </div>
                                 )}
                             </div>

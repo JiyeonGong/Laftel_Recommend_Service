@@ -78,7 +78,7 @@ const Header = () => {
                     {/* 홈 버튼 */}
                     <button
                         onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' })}}
-                        className={styles.homeBtn}
+                        className={`${styles.button} ${styles.homeBtn}`}
                     >
                         <svg className={styles.homeBtnBg} width="40" height="40" viewBox="0 0 92 92" fill="none">
                             <rect width="92" height="92" rx="30" fill="#101010"/>
@@ -89,7 +89,7 @@ const Header = () => {
                     </button>
 
                     {/* 보관함 버튼 */}
-                    <button onClick={handleStorageBtnClick}>
+                    <button onClick={handleStorageBtnClick} className={styles.button}>
                         <svg viewBox="0 -960 960 960" className={styles.storageIcon}
                         >
                             <title>애니메이션 보관함</title>
@@ -98,7 +98,7 @@ const Header = () => {
                     </button>
 
                     {/* 문의 버튼 */}
-                    <button onClick={handleHelpBtnClick}>
+                    <button onClick={handleHelpBtnClick} className={styles.button}>
                         <svg viewBox="0 -960 960 960" className={styles.helpIcon}
                         >
                             <title>문의</title>
