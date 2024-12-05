@@ -64,4 +64,17 @@ public class HelpService {
 
         helpRepository.save(help);
     }
+
+    public List<HelpResponse> getAllHelps() {
+        return helpRepository.findAll().stream()
+            .map(help -> new HelpResponse(
+                help.getId(),
+                help.getTitle(),
+                help.getContent(),
+                help.getStatus().name(),
+                help.getCreatedAt().toString(),
+                help.getUserId().getKakaoId()
+            ))
+            .toList();
+    }
 }

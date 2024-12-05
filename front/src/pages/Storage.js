@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import CustomModal from '../components/CustomModal'
 import styles from '../styles/Storage.module.css'; // 스타일을 별도의 CSS 파일로 분리하여 관리합니다.
 import logo from '../assets/logo.svg'; // 로고 파일 임포트
@@ -8,17 +8,18 @@ import goToMainIcon from '../assets/GoToMain.svg'; // 메인으로 이동 버튼
 import profileImage from '../assets/profileImage.svg'; // 유저 프로필 임시 이미지 임포트
 import storButtonIcon from '../assets/StorButton.svg'; // 보관함 버튼 이미지 임포트
 import recommendImage from '../assets/recommend1.svg'; // 추천 버튼 이미지 임포트
+import Footer from '../components/Footer';
 
 function Storage() {
     const navigate = useNavigate();
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 1000);
-    const [userInfo, setUserInfo] = useState(null);
     const [episodesData, setEpisodesData] = useState([]);
     const [error, setError] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedEpisode, setSelectedEpisode] = useState(null);
     const [sortOption, setSortOption] = useState("addedDate");
     const [userName, setUserName] = useState("");
+    const [scrollY, setScrollY] = useState(0);
 
     const openModal = (episodeId) => {
         setSelectedEpisode(episodeId);
@@ -39,7 +40,6 @@ function Storage() {
             }
 
             const data = await response.json();
-            setUserInfo(data);
             setUserName(data.name);
         } catch (error) {
             setError(error.message);
@@ -102,22 +102,25 @@ function Storage() {
         }
      };
 
-    {/* 인터넷 창의 크기가 1000 이하일 때 실행되는 함수 */}
-    useEffect(() => {
-        const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 1000);
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
 
     useEffect(() => {
         fetchStorageItems();
-    }, []);
 
+        {/* 인터넷 창의 크기가 1000 이하일 때 실행되는 함수 */}
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth <= 1000);
+        };
+        window.addEventListener('resize', handleResize);
+
+        {/* 스크롤 모션 */}
+        const handleScroll = () => setScrollY(window.scrollY);
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const handleMainButtonClick = () => {
         navigate('/');
@@ -130,7 +133,6 @@ function Storage() {
     return (
         <div className={styles.pageContainer}>
             <div className={styles.menuBar}>
-                {/* 로고와 메뉴바 내용 추가 */}
                 <img
                     src={logo}
                     alt="Logo"
@@ -152,28 +154,33 @@ function Storage() {
                 )}
             </div>
 
-            {/* 유저 프로필 섹션*/}
             <div className={styles.contentWrapper}>
-                <div className={`${styles.profileSection} ${styles.responsiveProfile}`}>
-                    <h2>나의 프로필</h2>
-                    <div className={styles.profileImageWrapper}>
-                        <img src={profileImage} alt="User Profile" className={styles.profileImage} />
-                    </div>
+                <motion.header
+                    animate={{
+                        y: scrollY * 0.93,
+                    }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 30,
+                    }}
+                >
+                    {/* 유저 프로필 섹션*/}
+                    <div className={`${styles.profileSection} ${styles.responsiveProfile}`}>
+                        <h2>나의 프로필</h2>
+                        <div className={styles.profileImageWrapper}>
+                            <img src={profileImage} alt="User Profile" className={styles.profileImage} />
+                        </div>
 
-                    {/* 유저 닉네임 부분*/}
-                    <p className={styles.userName}>{userName}</p>
-                    <div className={styles.storButtonWrapper}>
+                        {/* 유저 닉네임 부분*/}
+                        <p className={styles.userName}>{userName}</p>
                         <button className={styles.storButton}>
                             <img src={storButtonIcon} alt="Stor Button" className={styles.storButtonIcon} />
                         </button>
-                    </div>
-
-                    <div className={styles.recommendSection}>
                         <button className={styles.recommendButton} onClick={handleRecommendButtonClick}>
                             <img src={recommendImage} alt="Recommend" className={styles.recommendImage} />
                         </button>
                     </div>
-                </div>
+                </motion.header>
 
                 {/* 찜목록 섹션 */}
                 <div className={styles.storageSection}>
@@ -225,6 +232,7 @@ function Storage() {
                     />
                 )}
             </AnimatePresence>
+            <Footer />
         </div>
     );
 }
