@@ -16,7 +16,7 @@ app.secret_key = 'your_secret_key'  # 세션을 사용하기 위해 필요한 �
 CORS(app)
 
 # OpenAI API 키
-openai.api_key = ''
+openai.api_key = 'TEST'
 
 # 데이터베이스 설정
 #172.20.10.12
