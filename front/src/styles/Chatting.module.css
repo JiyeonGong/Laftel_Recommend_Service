@@ -99,6 +99,7 @@
 /* 테루테루 대화 영역 */
 /* 채팅 전체 영역 스타일 */
 .chatContainer {
+    flex: 2; /* 채팅 컨테이너가 이미지보다 조금 더 많은 공간 차지 */
     background-color: #ffffff;  /* 하얀색 배경 */
     width: 90%;  /* 전체 너비 */
     max-width: 750px;  /* 최대 너비 */
@@ -206,4 +207,29 @@
     z-index: 1; /* 말풍선 위에 텍스트를 보이게 함 */
     max-width: 360px;
     margin-left: 20px;
+}
+
+
+/* 설명 이미지 컨테이너 추가*/
+.explainImage {
+    max-width: 300px; /* 이미지의 최대 너비 설정 */
+    height: auto; /* 이미지의 비율을 유지하면서 크기 조정 */
+    border-radius: 10px; /* 이미지에 약간의 모서리 곡선 추가 */
+}
+
+/* 이미지 컨테이너 스타일 */
+.imageContainer {
+    flex: 1; /* 이미지가 공간을 적절히 차지하도록 설정 */
+    display: flex;
+    justify-content: center; /* 이미지 중앙 정렬 */
+    align-items: center;
+}
+
+.mainContainer {
+    display: flex; /* Flexbox 사용으로 가로 배치 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    align-items: flex-start; /* 세로 상단 정렬 */
+    gap: 10px; /* 컨테이너 간 간격 추가 */
+    margin-top: 50px; /* 메뉴바 아래 공간 확보 */
+    padding: 20px; /* 내부 여백 */
 }

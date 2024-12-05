@@ -5,7 +5,7 @@ import CustomModal from '../components/CustomModal'
 import styles from '../styles/Storage.module.css'; // 스타일을 별도의 CSS 파일로 분리하여 관리합니다.
 import logo from '../assets/logo.svg'; // 로고 파일 임포트
 import goToMainIcon from '../assets/GoToMain.svg'; // 메인으로 이동 버튼 이미지 임포트
-import profileImage from '../assets/duck.png'; // 유저 프로필 임시 이미지 임포트
+import profileImage from '../assets/profileImage.svg'; // 유저 프로필 임시 이미지 임포트
 import storButtonIcon from '../assets/StorButton.svg'; // 보관함 버튼 이미지 임포트
 import recommendImage from '../assets/recommend1.svg'; // 추천 버튼 이미지 임포트
 

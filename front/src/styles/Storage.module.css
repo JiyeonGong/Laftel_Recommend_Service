@@ -124,6 +124,7 @@
     width: 290px; /* 버튼 아이콘 크기 설정 */
     height: 80px; /* 버튼 아이콘 높이 설정 */
     margin-top: 50px;
+    position: absolute;
 }
 
 /* 보관함 영역*/
@@ -135,6 +136,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     width: 100%; /* 보관함 섹션이 남은 공간을 차지하도록 설정 */
     height: auto;
+
 }
 
 .storageHeader {
@@ -168,11 +170,12 @@
 .recommendButton {
     background: none; /* 버튼 배경 제거 */
     border: none; /* 버튼 테두리 제거 */
-    margin-top: 90px;
-    margin-left: 30px;
+    margin-top: 115px;
+    margin-left: -7px;
     cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
     padding: 10px; /* 버튼의 패딩 조정 */
     margin-bottom: -400px;
+    position: absolute;
 }
 
 .recommendImage{

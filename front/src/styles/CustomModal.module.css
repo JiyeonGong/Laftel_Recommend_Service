@@ -127,6 +127,12 @@
     font-size: 18px;
     font-weight: bold;
 }
+/*작품 정보 css*/
+.modalTitle {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
 
 .infoText {
     margin-top: 2px;

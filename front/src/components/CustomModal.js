@@ -106,7 +106,7 @@ const CustomModal = ({ isOpen, onClose, episodeId, fetchStorageItems }) => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className={modalStyles.modalWrapper}
             >
-                <p className={modalStyles.modalTitle}>상세정보</p>
+                <p className={modalStyles.modalTitle}>작품 정보</p>
                 {/* 닫기 버튼 */}
                 <svg
                     viewBox="0 -960 960 960"
