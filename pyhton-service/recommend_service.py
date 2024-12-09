@@ -392,9 +392,7 @@ def get_combined_recommendations():
         # OpenAI API 호출
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
+            messages=[{"role": "user", "content": prompt}],
             max_tokens=2000,
             temperature=0.7
         )
@@ -407,7 +405,7 @@ def get_combined_recommendations():
             chatbot_response = "추천할 수 있는 애니메이션이 없습니다. 다른 질문을 해보세요."
 
     #디버깅
-    except openai.error.OpenAIError as e:
+    except OpenAIError as e:
         print(f"OpenAI 호출 중 오류 발생: {e}")
         return jsonify({"error": "OpenAI API 호출 중 오류가 발생했습니다.", "details": str(e)}), 500
 
