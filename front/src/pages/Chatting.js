@@ -5,6 +5,7 @@ import logo from '../assets/logo.svg'; // 로고 파일 임포트
 import goToMainIcon from '../assets/GoToMain.svg'; // 메인으로 이동 버튼 아이콘
 import textAreaBackground from '../assets/textArea.svg'; // 채팅 입력 배경 이미지
 import explainImage from '../assets/explain.svg'; // 채팅페이지 설명 이미지 파일
+import miniTeruImage from '../assets/miniLAF.svg'; // 테루테루 이미지 예시 파일
 import { useNavigate } from 'react-router-dom';
 
 function Chatting() {
@@ -151,19 +152,20 @@ function Chatting() {
             <div className={styles.mainContainer}>
                 {/* 설명 이미지 추가 */}
                 <div className={styles.imageContainer}>
-                    <img src={explainImage} alt="Explanation" className={styles.explainImage} />
+                    <img src={miniTeruImage} alt="Mini Teru" className={styles.miniTeruImage}/>
+                    <img src={explainImage} alt="Explanation" className={styles.explainImage}/>
                 </div>
 
 
                 {/* 채팅 전체 컨테이너 */}
-            <div className={styles.chatContainer}>
-                {/* 채팅 박스 */}
-                <div className={styles.chatBox}>
-                    <h1>테루테루 :</h1>
+                <div className={styles.chatContainer}>
+                    {/* 채팅 박스 */}
+                    <div className={styles.chatBox}>
+                        <h1>테루테루 :</h1>
 
-                    {/* 채팅 응답 */}
-                    <div className={styles.response}>
-                        <p>{displayedResponse && displayedResponse !== "undefined" ? displayedResponse : "안녕하세요! 좋은 하루 보내셨나요? 아직 추천을 받지 않으셨네요!"}</p>
+                        {/* 채팅 응답 */}
+                        <div className={styles.response}>
+                            <p>{displayedResponse && displayedResponse !== "undefined" ? displayedResponse : "안녕하세요! 좋은 하루 보내셨나요? 아직 추천을 받지 않으셨네요!"}</p>
                     </div>
 
                 </div>
@@ -215,6 +217,15 @@ function Chatting() {
                 </div>
             </div>
         </div>
+            {/* Footer 추가 */}
+            <footer className={styles.footer}>
+                <p>© 2024 TERU-TERU. All rights reserved.</p>
+                <div className={styles.footerLinks}>
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/contact">Contact Us</a>
+                </div>
+            </footer>
         </div>
     );
 }

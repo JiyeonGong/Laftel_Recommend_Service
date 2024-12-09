@@ -99,20 +99,29 @@
 /* 테루테루 대화 영역 */
 /* 채팅 전체 영역 스타일 */
 .chatContainer {
-    flex: 2; /* 채팅 컨테이너가 이미지보다 조금 더 많은 공간 차지 */
+    flex: 2;
     background-color: #ffffff;  /* 하얀색 배경 */
-    width: 90%;  /* 전체 너비 */
-    max-width: 750px;  /* 최대 너비 */
-    min-height: 530px;  /* 최소 높이 */
-    border-radius: 15px;  /* 모서리 둥글게 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* 그림자 추가 */
+    width: 90%;
+    max-width: 740px;
+    min-height: 530px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    margin-top: 50px;  /* 로고바 아래 공간 확보 */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left: auto;
-    margin-right: auto; /* 페이지 중앙에 위치시키기 위해 좌우 여백 자동 설정 */
+    position: relative; /* 가상 요소의 절대 위치 기준이 되도록 설정 */
+    margin-top: -20px;
+}
+
+.chatContainer:before {
+    content: "";
+    position: absolute;
+    top: 80px; /* 삼각형의 위쪽 위치 조정 */
+    left: -90px; /* 채팅 컨테이너 왼쪽에 위치하도록 조정 */
+    border-width: 45px; /* 삼각형 크기 설정 */
+    border-style: solid;
+    border-color: transparent white transparent transparent; /* 말풍선 꼬리의 색상 설정 */
 }
 
 /* 채팅 박스 스타일 */
@@ -210,26 +219,74 @@
 }
 
 
-/* 설명 이미지 컨테이너 추가*/
+/* 메인 컨테이너 스타일 수정 - 채팅과 이미지를 나란히 배치 */
+.mainContainer {
+    display: flex; /* Flexbox 사용으로 가로 배치 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    align-items: flex-start; /* 세로 상단 정렬 */
+    gap: 10px; /* 컨테이너 간 간격 줄이기 (기존 20px에서 10px으로) */
+    margin-top: 50px; /* 메뉴바 아래 공간 확보 */
+    padding: 20px; /* 내부 여백 */
+}
+
+
+/* 이미지 컨테이너 스타일 */
+.imageContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* 수직 정렬로 두 이미지를 상하로 배치 */
+    justify-content: flex-start; /* 위쪽부터 정렬 */
+    align-items: center; /* 수평 가운데 정렬 */
+    max-width: 300px;
+    position: relative;
+    align-self: flex-end; /* 이미지 컨테이너를 세로 방향 하단으로 이동 */
+
+}
+
+/* 설명 이미지 스타일 */
 .explainImage {
     max-width: 300px; /* 이미지의 최대 너비 설정 */
     height: auto; /* 이미지의 비율을 유지하면서 크기 조정 */
     border-radius: 10px; /* 이미지에 약간의 모서리 곡선 추가 */
 }
 
-/* 이미지 컨테이너 스타일 */
-.imageContainer {
-    flex: 1; /* 이미지가 공간을 적절히 차지하도록 설정 */
-    display: flex;
-    justify-content: center; /* 이미지 중앙 정렬 */
-    align-items: center;
+/* Mini Teru 이미지 스타일 */
+.miniTeruImage {
+    width: 200px; /* Mini Teru 이미지 크기 설정 */
+    height: auto;
 }
 
-.mainContainer {
-    display: flex; /* Flexbox 사용으로 가로 배치 */
-    justify-content: center; /* 가로 가운데 정렬 */
-    align-items: flex-start; /* 세로 상단 정렬 */
-    gap: 10px; /* 컨테이너 간 간격 추가 */
-    margin-top: 50px; /* 메뉴바 아래 공간 확보 */
-    padding: 20px; /* 내부 여백 */
+/* Footer 스타일링 */
+.footer {
+    width: 100%;
+    background-color: #FFFFFF; /* 밝은 회색 배경색 */
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #e0e0e0; /* 위쪽에 약간의 구분선을 추가 */
+    margin-top: 25px; /* 메인 컨테이너와의 간격 추가 */
+}
+
+.footer p {
+    margin: 0;
+    color: #555; /* 텍스트 색상은 약간 어두운 회색 */
+    font-size: 14px;
+    font-family: Pretendard-Light, sans-serif;
+}
+
+.footerLinks {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* 링크 사이의 간격 */
+}
+
+.footerLinks a {
+    color: #9e60e1; /* 링크 색상 설정 */
+    text-decoration: none; /* 기본 링크 밑줄 제거 */
+    font-size: 14px;
+    font-family: Pretendard-Light, sans-serif;
+}
+
+.footerLinks a:hover {
+    text-decoration: underline; /* 마우스를 올렸을 때 밑줄 추가 */
 }
