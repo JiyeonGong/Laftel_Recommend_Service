@@ -121,12 +121,13 @@
 
 /* 보관함 영역*/
 .storageSection {
+    min-height: 600px;
     background-color: white;
     flex: 2; /* 보관함 섹션을 더 크게 설정 */
     padding: 0px 20px; /* 내부 여백 */
     border-radius: 10px; /* 모서리를 둥글게 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    width: 100%; /* 보관함 섹션이 남은 공간을 차지하도록 설정 */
+    width: 100%; /*보관함 섹션이 남은 공간을 차지하도록 설정 */
     height: auto;
 }
 
