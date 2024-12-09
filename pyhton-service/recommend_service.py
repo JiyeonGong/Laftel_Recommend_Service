@@ -384,9 +384,11 @@ def get_combined_recommendations():
    # 추천 목록을 기반으로 GPT 프롬프트 생성
     anime_list = ", ".join([anime['name'] for anime in recommended_animes])
     prompt = (f"현재 위치는 {city_name}이며, 날씨는 {current_weather}입니다. 사용자 성향은 {user_mbti}입니다." 
-              f"이런 날씨와 성향에 맞는 애니메이션 추천은 다음과 같습니다: {anime_list}. 이 애니메이션들을 사용자에게 추천해주세요. 추천을 시작할 때 'Laftel에서 감상 가능한 애니 중 이런 작품은 어떠세요?' 로 문장을 시작하세요."
-              f"{city_name}의 {current_weather}와 {user_mbti}에 맞는 추가적인 추천 애니메이션을 두 가지 더 추천하세요.추천을 시작할 때 'Laftel 외 추천 목록을 알려드려요.' 로 문장을 시작하세요"
+              f"이런 날씨와 성향에 맞는 애니메이션 추천은 다음과 같습니다: {anime_list}. 이 애니메이션들을 사용자에게 추천해주세요. 추천을 시작할 때 'Laftel에서 감상 가능한 애니 중 이런 작품은 어떠세요?' 로 문장을 시작하세요.\n"
+              f"{city_name}의 {current_weather}와 {user_mbti}에 맞는 추가적인 추천 애니메이션을 두 가지 더 추천하세요.추천을 시작할 때 'Laftel 외 추천 목록을 알려드려요.' 로 문장을 시작하세요\n"
               f"애니메이션 제목 사이에 <와 >를 추가해 가독성을 높여주세요."
+              f"애니메이션을 추천한 이유를 설명하세요.\n"
+              f"대화를 끝내기 전 추천 리스트를 제목만 따로 출력하세요.\n"
               )
     try:
         # OpenAI API 호출
