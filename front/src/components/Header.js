@@ -59,11 +59,11 @@ const Header = () => {
         <motion.header
               className={styles.header}
               animate={{
-                y: scrollY * 0.85,
+                y: scrollY * 0.83,
               }}
               transition={{
                 type: "spring",
-                stiffness: 50,
+                stiffness: 30,
               }}
         >
             <div className={styles.headerContainer}>

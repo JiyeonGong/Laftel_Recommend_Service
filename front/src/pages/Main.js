@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../api/AuthContext";
 import axios from 'axios';
 import Header from '../components/Header';
 import Top from '../components/Top';
@@ -15,12 +14,10 @@ import styles from '../styles/Main.module.css';
 const Main = () => {
     const [mbti, setMbti] = useState('ENFP');
     const [recommendations, setRecommendations] = useState([]);
-    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const handleSearch = async (mbti) => {
         const scrollPosition = window.scrollY;
-        setError("");
         setRecommendations([]);
 
         try {
@@ -29,7 +26,6 @@ const Main = () => {
             setRecommendations(response.data);
         } catch (err) {
             console.error("Error fetching MBTI recommendations", err);
-            setError("추천을 가져오는 도중 문제가 발생했습니다.");
         } finally {
             setTimeout(() => {
                 window.scrollTo(0, scrollPosition); // DOM 업데이트 후 스크롤 복구
@@ -63,7 +59,6 @@ const Main = () => {
                         <MbtiResult
                             mbti={mbti}
                             recommendations={recommendations.length > 0 ? recommendations : []}
-                            error={error}
                             handleSearch={handleSearch}
                         />
                     </div>

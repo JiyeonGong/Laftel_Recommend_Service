@@ -10,7 +10,6 @@ const HelpUser = () => {
     const [userId, setUserId] = useState("");
     const [helpsData, setHelpsData] = useState([]);
     const [selectedHelp, setSelectedHelp] = useState(null);
-    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
         const user = localStorage.getItem("user");
@@ -116,7 +115,7 @@ const HelpUser = () => {
     };
 
     return (
-        <>
+        <div className={styles.pageContainer}>
             <img
                 src={logo}
                 alt="Logo"
@@ -138,7 +137,7 @@ const HelpUser = () => {
                                 </div>
                                 {selectedHelp?.id === help.id && (
                                     <div className={styles.helpDetails}>
-                                        <p>{help.content}</p>
+                                        <p onClick={(event) => event.stopPropagation()}>{help.content}</p>
                                         <button
                                             className={styles.deleteBtn}
                                             onClick={() => handleDelete(help.id)}
@@ -154,7 +153,7 @@ const HelpUser = () => {
                     )}
                 </div>
                 <div className={styles.contactContainer}>
-                    <h1 className={styles.title}>문의하기</h1>
+                    <h1 className={styles.title}>ℹ️ 문의하기</h1>
                     <form className={styles.formContainer} onSubmit={handleSubmit}>
                         <div className={styles.formContent}>
                             <label htmlFor="title" className={styles.label}>제목</label>
@@ -186,8 +185,8 @@ const HelpUser = () => {
                     </form>
                 </div>
             </div>
-            <Footer />
-        </>
+            <Footer style={{ backgroundColor: '#151515', color: 'white', borderColor: 'black' }}/>
+        </div>
     )
 }
 

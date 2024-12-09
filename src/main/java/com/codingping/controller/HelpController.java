@@ -59,4 +59,10 @@ public class HelpController {
             return ResponseEntity.status(500).body("문의 수정 중 오류가 발생했습니다.");
         }
     }
+
+    @GetMapping("/admin/all")
+    public ResponseEntity<List<HelpResponse>> getAllHelps() {
+        List<HelpResponse> allHelps = helpService.getAllHelps();
+        return ResponseEntity.ok(allHelps);
+    }
 }

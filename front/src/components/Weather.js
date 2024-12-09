@@ -9,8 +9,6 @@ Modal.setAppElement('#root');
 
 const Weather = () => {
     const [recommendations, setRecommendations] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
     const [currentWeather, setCurrentWeather] = useState("");
     const [region, setRegion] = useState(null);
     const textRef = useRef(null);
@@ -186,7 +184,7 @@ const Weather = () => {
         눈: ["겨울", " 감성 가득한 이 작품 어떠세요?"],
         비: ["비", "와 어울리는 잔잔한 애니메이션은 어때요?"],
     };
-    const weatherText = weatherTexts[currentWeather] || "날씨에 맞는 작품을 추천드릴게요!";
+    const weatherText = weatherTexts[currentWeather] || "날씨 추천 결과를 받아오지 못했어요 ..";
 
     const rectPositions = [
         { x: 310, y: 92, width: 162, height: 210 },
@@ -218,12 +216,10 @@ const Weather = () => {
 
     const fetchWeatherRecommendations = async (latitude, longitude) => {
         if (!OPENWEATHER_API_KEY) {
-            setError("API 키가 설정되지 않았습니다. 관리자에게 문의하세요.");
+            console.log("API 키가 설정되지 않았습니다. 관리자에게 문의하세요.");
             return;
         }
 
-        setLoading(true);
-        setError("");
         try {
             // 위치 정보와 API 키를 포함하여 Spring Boot 서버로 POST 요청 전송
             const response = await axios.post(API_URL, {
@@ -237,13 +233,6 @@ const Weather = () => {
             setCurrentWeather(weather);
         } catch (err) {
             console.error("Error fetching weather recommendations", err);
-            if (err.response) {
-                setError(`추천을 가져오는 도중 문제가 발생했습니다: ${err.response.data.error || '서버 오류'}`);
-            } else {
-                setError("추천을 가져오는 도중 문제가 발생했습니다. 네트워크 오류를 확인하세요.");
-            }
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -262,11 +251,8 @@ const Weather = () => {
                 },
                 (error) => {
                     console.error("Error obtaining location:", error);
-                    setError("위치 정보를 가져오는 데 실패했습니다. 위치 서비스가 활성화되어 있는지 확인하세요.");
                 }
             );
-        } else {
-            setError("이 브라우저는 위치 기반 서비스를 지원하지 않습니다.");
         }
     };
 
@@ -353,7 +339,7 @@ const Weather = () => {
                         fontSize="17" fontWeight="500" fill="black" letterSpacing="0.5"
                         fontFamily="Gumi Romance TTF, sans-serif"
                     >
-                        <tspan x="82" dy="55" fill="#3D65E7"> 날씨</tspan>
+                        <tspan x="82" dy="55" fill="#3D65E7">날씨</tspan>
                         에 딱 맞는
                         <tspan x="63" dy="1.65em">작품을 추천할게요!</tspan>
                     </text>
@@ -382,11 +368,17 @@ const Weather = () => {
 
                     <text
                         x="310" y="55"
-                        fontSize="17" fontWeight="500" fill="black" letterSpacing="0.5"
+                        fontSize="17" fontWeight="500" fill="#2F2F2F" letterSpacing="0.5"
                         fontFamily="Gumi Romance TTF, sans-serif"
                     >
-                        <tspan fill="#5BC733">{weatherText[0]}</tspan>
-                        <tspan>{weatherText[1]}</tspan>
+                        {!recommendations ? (
+                            <>
+                                <tspan fill="#5BC733">{weatherText[0]}</tspan>
+                                <tspan>{weatherText[1]}</tspan>
+                            </>
+                        ) : (
+                            <>{weatherText} </>
+                        )}
                     </text>
                 </svg>
             </div>

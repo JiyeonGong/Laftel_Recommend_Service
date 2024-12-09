@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
-import Modal from 'react-modal';
 import CustomModal from '../components/CustomModal'
 import styles from '../styles/MbtiResult.module.css';
 
-const MbtiResult = ({ mbti, recommendations, error, handleSearch }) => {
+const MbtiResult = ({ mbti, recommendations, handleSearch }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedEpisode, setSelectedEpisode] = useState(null);
-
-    if (error) return <div style={{ color: "red" }}>{error}</div>;
 
     const openModal = (episodeId) => {
         setSelectedEpisode(episodeId);
