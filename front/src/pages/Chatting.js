@@ -118,10 +118,6 @@ function Chatting() {
             }
         }, 30);
     };
-    // 렌더링 시 상태값 추적을 위한 콘솔 로그 추가
-   //console.log("렌더링 시 chatResponse:", chatResponse);
-    //console.log("렌더링 시 displayedResponse:", displayedResponse);
-
 
     return (
         <div className={styles.body}>
