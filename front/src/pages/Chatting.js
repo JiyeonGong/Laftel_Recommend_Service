@@ -38,7 +38,7 @@ function Chatting() {
                 }
             );
         } else {
-            alert("Geolocation을 지원하지 않는 브라우저입니다.");
+            alert("위치 정보를 지원하지 않는 브라우저입니다.");
         }
 
         const handleResize = () => {
@@ -157,71 +157,69 @@ function Chatting() {
                 <div className={styles.chatContainer}>
                     {/* 채팅 박스 */}
                     <div className={styles.chatBox}>
-                        <h1>테루테루 :</h1>
-
                         {/* 채팅 응답 */}
                         <div className={styles.response}>
-                            <p>{displayedResponse && displayedResponse !== "undefined" ? displayedResponse : "안녕하세요! 좋은 하루 보내셨나요? 아직 추천을 받지 않으셨네요!"}</p>
+                            {displayedResponse && displayedResponse !== "undefined" ? displayedResponse : "안녕하세요! 저는 테루테루에요. 당신에게 딱 알맞는 애니메이션을 추천해드릴게요!"}
+                        </div>
+
                     </div>
 
-                </div>
+                    {/* 채팅 입력 영역 */}
+                    <div className={styles.chatInputContainer}>
+                        <select
+                            id="mbti-select"
+                            value={mbti}
+                            onChange={(e) => setMbti(e.target.value)}
+                            className={styles.selectField}
+                        >
+                            <option value="">MBTI</option>
+                            <option value="INTJ">INTJ</option>
+                            <option value="INTP">INTP</option>
+                            <option value="ENTJ">ENTJ</option>
+                            <option value="ENTP">ENTP</option>
+                            <option value="INFJ">INFJ</option>
+                            <option value="INFP">INFP</option>
+                            <option value="ENFJ">ENFJ</option>
+                            <option value="ENFP">ENFP</option>
+                            <option value="ISTJ">ISTJ</option>
+                            <option value="ISFJ">ISFJ</option>
+                            <option value="ESTJ">ESTJ</option>
+                            <option value="ESFJ">ESFJ</option>
+                            <option value="ISTP">ISTP</option>
+                            <option value="ISFP">ISFP</option>
+                            <option value="ESTP">ESTP</option>
+                            <option value="ESFP">ESFP</option>
+                        </select>
 
-                {/* 채팅 입력 영역 */}
-                <div className={styles.chatInputContainer}>
-                    <select
-                        id="mbti-select"
-                        value={mbti}
-                        onChange={(e) => setMbti(e.target.value)}
-                        className={styles.selectField}
-                    >
-                        <option value="">MBTI</option>
-                        <option value="INTJ">INTJ</option>
-                        <option value="INTP">INTP</option>
-                        <option value="ENTJ">ENTJ</option>
-                        <option value="ENTP">ENTP</option>
-                        <option value="INFJ">INFJ</option>
-                        <option value="INFP">INFP</option>
-                        <option value="ENFJ">ENFJ</option>
-                        <option value="ENFP">ENFP</option>
-                        <option value="ISTJ">ISTJ</option>
-                        <option value="ISFJ">ISFJ</option>
-                        <option value="ESTJ">ESTJ</option>
-                        <option value="ESFJ">ESFJ</option>
-                        <option value="ISTP">ISTP</option>
-                        <option value="ISFP">ISFP</option>
-                        <option value="ESTP">ESTP</option>
-                        <option value="ESFP">ESFP</option>
-                    </select>
+                        <input
+                            type="text"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            className={styles.inputField}
+                            placeholder="MBTI를 선택하고 테루테루에게 애니메이션을 추천받아보세요."
+                            style={{
+                                backgroundImage: `url(${textAreaBackground})`,
+                                backgroundSize: 'cover',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
+                            }}
+                        />
 
-                    <input
-                        type="text"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        className={styles.inputField}
-                        placeholder="MBTI를 선택하고 테루테루에게 애니메이션을 추천받아보세요."
-                        style={{
-                            backgroundImage: `url(${textAreaBackground})`,
-                            backgroundSize: 'cover',
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'center',
-                        }}
-                    />
-
-                    <button onClick={sendMessage} className={styles.button}>
-                        ⛅︎
-                    </button>
+                        <button onClick={sendMessage} className={styles.button}>
+                            ⛅︎
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
             {/* Footer 추가 */}
-            <footer className={styles.footer}>
+            {/*<footer className={styles.footer}>
                 <p>© 2024 TERU-TERU. All rights reserved.</p>
                 <div className={styles.footerLinks}>
                     <a href="/privacy">Privacy Policy</a>
                     <a href="/terms">Terms of Service</a>
                     <a href="/contact">Contact Us</a>
                 </div>
-            </footer>
+            </footer>*/}
         </div>
     );
 }
