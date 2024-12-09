@@ -37,4 +37,3 @@ out/
 .vscode/
 
 front/.env
-pyhton-service/.env
