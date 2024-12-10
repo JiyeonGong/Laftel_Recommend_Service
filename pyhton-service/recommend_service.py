@@ -22,7 +22,7 @@ openai.api_key = os.getenv('REACT_APP_OPENAI_API_KEY')
 load_dotenv()
 
 # DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/coding_ping'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://codingping:1234@172.20.10.12/coding_ping'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

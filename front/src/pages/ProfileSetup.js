@@ -1,18 +1,26 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { AuthContext } from "../api/AuthContext";
 import styles from '../styles/ProfileSetup.module.css';
 import axios from "axios";
 
 const ProfileSetup = () => {
     const navigate = useNavigate();
-    const { login, tempAuth, clearTempAuth } = useContext(AuthContext);
+    const { login, tempAuth } = useContext(AuthContext);
     const [nickname, setNickname] = useState('');
     const [gender, setGender] = useState('');
     const [ageRange, setAgeRange] = useState('');
     const [mbti, setMbti] = useState('');
     const [error, setError] = useState('');
-    const kakaoId = tempAuth?.kakaoId;
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const kakaoId = queryParams.get("kakaoId");
+    const kakaoAccessToken = queryParams.get("kakaoAccessToken");
+    const jwtToken = queryParams.get("jwtToken");
+    const refreshToken = queryParams.get("refreshToken");
 
     const validateForm = () => {
         if (!nickname || !gender || !ageRange || !mbti) {
@@ -37,17 +45,20 @@ const ProfileSetup = () => {
         }
 
         const formData = new FormData();
-            formData.append('kakaoId', kakaoId);
-            formData.append('nickname', nickname);
-            formData.append('gender', gender);
-            formData.append('ageRange', ageRange);
-            formData.append('mbti', mbti);
+        formData.append('kakaoId', kakaoId);
+        formData.append('nickname', nickname);
+        formData.append('gender', gender);
+        formData.append('ageRange', ageRange);
+        formData.append('mbti', mbti);
+
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
 
         // DB에 저장
         try {
             await axios.post(`${process.env.REACT_APP_BACKEND_URI}/user/profile/setup`, formData);
-            login(tempAuth);
-            clearTempAuth();
+            login({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
             navigate("/");
         } catch (error) {
             console.error('서버 요청 중 오류가 발생했습니다.', error);

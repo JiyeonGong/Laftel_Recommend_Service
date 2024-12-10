@@ -29,8 +29,10 @@ const LoginCallback = () => {
                         login({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
                         navigate("/");
                     } else {
-                        storeTempAuth({ kakaoAccessToken, jwtToken, refreshToken, kakaoId });
-                        navigate("/user/profile/setup");
+                        const queryString = `?kakaoId=${kakaoId}&kakaoAccessToken=${encodeURIComponent(kakaoAccessToken)}&jwtToken=${encodeURIComponent(jwtToken)}&refreshToken=${encodeURIComponent(refreshToken)}`;
+                        const url = `/user/profile/setup${queryString}`;
+                        console.log(url);
+                        navigate(url);
                     }
 
                 } catch (error) {

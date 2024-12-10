@@ -48,18 +48,30 @@ function Storage() {
 
     const fetchEpisodesData = async (episodeIds) => {
         try {
-            const episodeFetchPromises = episodeIds.map((id) =>
-                fetch(`${process.env.REACT_APP_BACKEND_URI}/episodes/${id}`).then((res) => {
-                    if (!res.ok) {
-                        throw new Error(`Failed to fetch episode with id ${id}`);
-                    }
-                    return res.json();
-                })
-            );
+            const episodeFetchPromises = episodeIds.map((id) => {
+                console.log('Fetching episode with Id: ', id);
 
+                return fetch(`${process.env.REACT_APP_BACKEND_URI}/episodes/${id}`)
+                    .then((res) => {
+                        if (!res.ok) {
+                            throw new Error(`Failed to fetch episode with id ${id}`);
+                        }
+                        return res.json();
+                    })
+                    .then((data) => {
+                        console.log(data);
+                        return data;
+                    })
+                    .catch((error) => {
+                        console.error(`Error fetching episode ${id}:`, error);
+                        return null;
+                    });
+            });
+
+            console.log(episodeFetchPromises);
             const episodes = await Promise.all(episodeFetchPromises);
-            setEpisodesData(episodes);
             console.log(episodes);
+            setEpisodesData(episodes);
         } catch (err) {
             setError("에피소드 데이터를 가져오는 중 오류가 발생했습니다.");
             console.error(err);
@@ -96,6 +108,7 @@ function Storage() {
             }
 
             const data = await res.json();
+            console.log(data.content);
             fetchEpisodesData(data.content.map(item => item.episodeId));
         } catch (err) {
             setError(err.message);
