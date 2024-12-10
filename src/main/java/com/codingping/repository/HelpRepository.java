@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface HelpRepository extends JpaRepository<Help, Long> {
-    @Query("SELECT h FROM Help h WHERE h.userId.kakaoId = :kakaoId")
+    @Query("SELECT h FROM Help h WHERE h.user.kakaoId = :kakaoId")
     List<Help> findByKakaoId(@Param("kakaoId") Long kakaoId);
 }

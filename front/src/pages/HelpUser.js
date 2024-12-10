@@ -10,6 +10,7 @@ const HelpUser = () => {
     const [userId, setUserId] = useState("");
     const [helpsData, setHelpsData] = useState([]);
     const [selectedHelp, setSelectedHelp] = useState(null);
+    const [comments, setComments] = useState("");
 
     useEffect(() => {
         const user = localStorage.getItem("user");
@@ -33,6 +34,20 @@ const HelpUser = () => {
             console.log("/helps/list api 요청 실패");
         }
     }
+
+    const fetchComments = async (helpId) => {
+        try {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URI}/helps/${helpId}/comments`);
+            if (!res.ok) {
+                throw new Error("댓글 데이터를 가져오는 데 실패했습니다.");
+            }
+
+            const comment = await res.json();
+            return comment;
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -82,6 +97,15 @@ const HelpUser = () => {
         return statusMap[status] || status;
     };
 
+    const getStatusStyle = (status) => {
+        const statusStyleMap = {
+            pending: { color: "#DF8F44", fontWeight: "bold" },
+            resolved: { color: "#63E95C" },
+            in_progress: { color: "#3E68FF" },
+        };
+        return statusStyleMap[status] || { color: "gray" };
+    };
+
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         return date.toLocaleString("ko-KR", {
@@ -94,8 +118,20 @@ const HelpUser = () => {
         });
     };
 
-    const handleSelectHelp = (help) => {
-        setSelectedHelp(help === selectedHelp ? null : help);
+    const handleSelectHelp = async (help) => {
+        if (help === selectedHelp) {
+            setSelectedHelp(null);
+            setComments([]);
+        } else {
+            setSelectedHelp(help);
+            try {
+                const comment = await fetchComments(help.id);
+                setComments(comment);
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+                setComments([]);
+            }
+        }
     };
 
     const handleDelete = async (id) => {
@@ -127,24 +163,38 @@ const HelpUser = () => {
                     <h1 className={styles.title}>문의 목록</h1>
                     {helpsData.length > 0 ? (
                         helpsData.map((help, index) => (
-                            <div key={index} className={styles.helpItem} onClick={() => handleSelectHelp(help)}>
+                            <div
+                                key={index}
+                                className={`${styles.helpItem} ${selectedHelp?.id === help.id ? styles.selected : ''}`}
+                                onClick={() => handleSelectHelp(help)}
+                            >
                                 <div className={styles.helpData}>
-                                    <p>{help.title}</p>
+                                    <p style={{ marginLeft: "8px" }}>{help.title}</p>
                                     <div className={styles.infoContainer}>
                                         <p>{formatDateTime(help.createdAt)}</p>
-                                        <p>{getStatusInKorean(help.status)}</p>
+                                        <p style={getStatusStyle(help.status)}>{getStatusInKorean(help.status)}</p>
                                     </div>
                                 </div>
                                 {selectedHelp?.id === help.id && (
-                                    <div className={styles.helpDetails}>
-                                        <p onClick={(event) => event.stopPropagation()}>{help.content}</p>
-                                        <button
-                                            className={styles.deleteBtn}
-                                            onClick={() => handleDelete(help.id)}
-                                        >
-                                            삭제
-                                        </button>
-                                    </div>
+                                    <>
+                                        <div className={styles.helpDetails}>
+                                            <p onClick={(event) => event.stopPropagation()}>{help.content}</p>
+                                            <button
+                                                className={styles.deleteBtn}
+                                                onClick={() => handleDelete(help.id)}
+                                            >
+                                                삭제
+                                            </button>
+                                        </div>
+                                        <div className={styles.commentContainer}>
+                                            <p style={{ color: '#B0A3FF' }}><strong>[ 관리자 코멘트 ]</strong></p>
+                                            {comments.length > 0 ? (
+                                                comments.map((comment, index) => <p key={index}>{comment}</p>)
+                                            ) : (
+                                                <p>아직 답변이 없습니다.</p>
+                                            )}
+                                        </div>
+                                    </>
                                 )}
                             </div>
                         ))
@@ -185,7 +235,12 @@ const HelpUser = () => {
                     </form>
                 </div>
             </div>
-            <Footer style={{ backgroundColor: '#151515', color: 'white', borderColor: 'black' }}/>
+            <Footer style={{
+                backgroundColor: '#161616',
+                color: '#BDBDBD',
+                borderTop: "0.01px solid #D7D7D7",
+                padding: "15px 0px"
+            }}/>
         </div>
     )
 }

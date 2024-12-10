@@ -166,7 +166,7 @@ function Storage() {
                 >
                     {/* 유저 프로필 섹션*/}
                     <div className={`${styles.profileSection} ${styles.responsiveProfile}`}>
-                        <h2>나의 프로필</h2>
+                        <p style={{ fontSize: "20px", fontWeight: "bold" }}>프로필 정보</p>
                         <div className={styles.profileImageWrapper}>
                             <img src={profileImage} alt="User Profile" className={styles.profileImage} />
                         </div>
@@ -174,7 +174,9 @@ function Storage() {
                         {/* 유저 닉네임 부분*/}
                         <p className={styles.userName}>{userName}</p>
                         <button className={styles.storButton}>
-                            <img src={storButtonIcon} alt="Stor Button" className={styles.storButtonIcon} />
+                            <img src={storButtonIcon} alt="Stor Button" className={styles.storButtonIcon}
+                                onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' })}}
+                            />
                         </button>
                         <button className={styles.recommendButton} onClick={handleRecommendButtonClick}>
                             <img src={recommendImage} alt="Recommend" className={styles.recommendImage} />
@@ -199,8 +201,6 @@ function Storage() {
                             </select>
                         </div>
                     </div>
-
-                    {error && <div className={styles.errorMessage}>{error}</div>}
 
                     {sortedEpisodes.length > 0 ? (
                         <div className={styles.storageList}>

@@ -1,6 +1,7 @@
 .footer {
     position: relative;
     background-color: #FFFFFF;
+    color: #7B7B7B;
     border-top: 0.03px solid #E4E4E4;
     padding: 30px 0;
     text-align: center;
@@ -11,8 +12,8 @@
 .footerContent {
     max-width: 1200px;
     margin: 0 auto;
-    font-size: 14px;
-    color: #7B7B7B;
+    font-size: 14px
+
 }
 
 .footerContent p {

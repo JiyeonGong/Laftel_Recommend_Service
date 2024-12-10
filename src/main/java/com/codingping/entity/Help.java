@@ -20,7 +20,7 @@ public class Help {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserInfo userId;
+    private UserInfo user;
 
     @Column(nullable = false, length = 255)
     private String title;

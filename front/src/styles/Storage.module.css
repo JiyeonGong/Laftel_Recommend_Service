@@ -12,7 +12,7 @@
 .menuBar {
     background-color: white; /* 메뉴바 색상을 흰색으로 설정 */
     padding: 10px 20px; /* 메뉴바에 패딩 추가 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 메뉴바에 약간의 그림자 효과 추가 */
+    box-shadow: 0 0.1px 1px rgba(0, 0, 0, 0.1); /* 메뉴바에 약간의 그림자 효과 추가 */
     display: flex; /* 요소들을 수평으로 나열 */
     align-items: center; /* 세로 가운데 정렬 */
     height: 50px; /* 메뉴바의 높이 설정 */
@@ -71,11 +71,12 @@
 /* 유저 프로필 영역*/
 .profileSection {
     background-color: white; /* 프로필 섹션의 배경색 설정 */
+    color: #353535;
     width: 270px; /* 고정된 폭 설정 */
-    height: 350px; /* 고정된 높이 설정 */
+    height: 355px; /* 고정된 높이 설정 */
     padding: 20px; /* 내부 여백 */
     border-radius: 10px; /* 모서리를 둥글게 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     position: relative; /* 절대적인 크기를 유지하기 위해 position 설정 */
     text-align: center; /* 텍스트 가운데 정렬 */
 }
@@ -98,11 +99,12 @@
     width: 130px; /* 프로필 이미지의 폭 설정 */
     height: 130px; /* 프로필 이미지의 높이 설정 */
     border-radius: 50%; /* 이미지를 원형으로 만듦 */
+    box-shadow: 5px 6px 15px rgba(0, 0, 0, 0.03);
     object-fit: cover; /* 이미지 비율을 유지하며 잘라내기 */
 }
 
 .userName {
-    font-size: 20px; /* 닉네임 폰트 크기 설정 */
+    font-size: 18.5px; /* 닉네임 폰트 크기 설정 */
     font-weight: bold; /* 닉네임을 굵게 표시 */
     margin-top: 10px; /* 위 요소와의 간격 설정 */
 }
@@ -126,8 +128,8 @@
     flex: 2; /* 보관함 섹션을 더 크게 설정 */
     padding: 0px 20px; /* 내부 여백 */
     border-radius: 10px; /* 모서리를 둥글게 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    width: 100%; /*보관함 섹션이 남은 공간을 차지하도록 설정 */
+    box-shadow: 0 0.1px 1px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    width: 100%; /* 보관함 섹션이 남은 공간을 차지하도록 설정 */
     height: auto;
 }
 
@@ -152,18 +154,18 @@
 }
 
 .noItemsMessage {
-    text-align: center; /* 메시지를 가운데 정렬 */
-    color: #9e9e9e; /* 메시지 색상 설정 */
-    margin-top: 40px; /* 상단 여백 */
+    text-align: center;
+    color: #9e9e9e;
+    margin-top: 40px;
 }
 
 .recommendButton {
     position: relative;
     right: 24px;
-    background: none; /* 버튼 배경 제거 */
-    border: none; /* 버튼 테두리 제거 */
-    margin-top: 28px;
-    cursor: pointer; /* 마우스를 올렸을 때 포인터 커서 표시 */
+    background: none;
+    border: none;
+    margin-top: 32px;
+    cursor: pointer;
 }
 
 .recommendImage{

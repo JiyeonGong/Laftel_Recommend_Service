@@ -46,19 +46,6 @@
     cursor: pointer;
 }
 
-.weather-text-맑은-하늘 {
-    transform: translate(-20px, 0px);
-}
-.weather-text-구름 {
-    transform: translate(22px, 0px);
-}
-.weather-text-눈 {
-    transform: translate(7px, 0px);
-}
-.weather-text-비 {
-    transform: translate(7px, 0px);
-}
-
 /* 모달 전체 스타일 */
 .modal {
     position: fixed;

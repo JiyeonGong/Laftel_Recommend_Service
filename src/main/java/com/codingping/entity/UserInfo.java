@@ -1,7 +1,11 @@
 package com.codingping.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -39,4 +43,18 @@ public class UserInfo {
 
     @Column(name = "role")
     private String role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Help> helps = new ArrayList<>();
+
+    @PrePersist
+    private void prePersist() {
+        if (favGenre == null) {
+            this.favGenre = "unknown";
+        }
+        if (favTag == null) {
+            this.favTag = "unknown";
+        }
+    }
 }

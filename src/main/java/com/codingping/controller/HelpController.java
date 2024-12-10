@@ -1,9 +1,8 @@
 package com.codingping.controller;
 
-import com.codingping.dto.HelpRequest;
-import com.codingping.dto.HelpResponse;
-import com.codingping.dto.HelpUpdateRequest;
+import com.codingping.dto.*;
 import com.codingping.entity.Help;
+import com.codingping.entity.HelpComment;
 import com.codingping.service.HelpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -48,21 +48,28 @@ public class HelpController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateHelp(@PathVariable Long id, @RequestBody HelpUpdateRequest request) {
-        try {
-            helpService.updateHelp(id, request);
-            return ResponseEntity.ok("문의가 성공적으로 수정되었습니다.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(404).body("해당 ID의 문의를 찾을 수 없습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("문의 수정 중 오류가 발생했습니다.");
-        }
-    }
-
     @GetMapping("/admin/all")
     public ResponseEntity<List<HelpResponse>> getAllHelps() {
         List<HelpResponse> allHelps = helpService.getAllHelps();
         return ResponseEntity.ok(allHelps);
+    }
+
+    @PostMapping("comment")
+    public ResponseEntity<Void> createHelpComment(@RequestBody HelpCommentRequest helpCommentRequest) {
+        helpService.saveHelpComment(helpCommentRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{helpId}/status")
+    public ResponseEntity<String> updateHelpStatus(@PathVariable Long helpId, @RequestBody Map<String, String> statusUpdate) {
+        String newStatus = statusUpdate.get("status");
+        helpService.updateHelpStatus(helpId, newStatus);
+        return ResponseEntity.ok("상태가 성공적으로 업데이트되었습니다.");
+    }
+
+    @GetMapping("/{helpId}/comments")
+    public ResponseEntity<List<String>> getCommentsByHelpId(@PathVariable Long helpId) {
+        List<String> comments = helpService.getHelpCommentsByHelpId(helpId);
+        return ResponseEntity.ok(comments);
     }
 }

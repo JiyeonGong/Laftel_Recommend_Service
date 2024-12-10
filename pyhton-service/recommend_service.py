@@ -1,7 +1,7 @@
 import json
 import requests
 import random
-import openai 
+import openai
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -10,6 +10,7 @@ from flask_cors import CORS
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from models import Series, Episode, Genre, Tag, EpisodeGenre, EpisodeTag
+from openai.error import OpenAIError
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # 세션을 사용하기 위해 필요한 키
@@ -95,7 +96,7 @@ def get_current_season():
         return "겨울"
 
 
-# 날씨 데이터 가져오기 
+# 날씨 데이터 가져오기
 def get_weather(api_key, latitude, longitude):
     url = f"http://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={api_key}&lang=kr"
     response = requests.get(url)

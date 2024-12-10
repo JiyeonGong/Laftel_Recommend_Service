@@ -19,13 +19,14 @@
 .modalWrapper {
     background-color: #1A1A1A;
     border-radius: 13px;
-    padding: 20px;
+    padding: 5px 15px 25px 15px;
     overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     flex: 1;
 }
 
 .modalWrapper::-webkit-scrollbar {
+    display: none;
     width: 4px;
 }
 
@@ -62,11 +63,12 @@
 }
 
 .closeIcon {
-    position: relative;
-    top: -22px;
-    left: 635px;
+    position: fixed;
+    top: 23px;
+    left: 660px;
     transition: transform 0.3s ease;
     cursor: pointer;
+    z-index: 1002;
 }
 
 .closeIcon:hover {
@@ -85,7 +87,7 @@
 
 .modalContent {
     position: relative;
-    margin: 0px 20px;
+    margin: 0px 10px;
     font-family: Pretendard-Medium, sans-serif;
     line-height: 1.6;
     color: #DEDEDE;

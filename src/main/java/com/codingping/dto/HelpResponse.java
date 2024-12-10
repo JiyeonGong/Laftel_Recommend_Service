@@ -12,4 +12,5 @@ public class HelpResponse {
     private String status;
     private String createdAt;
     private Long userId;
+    private String name;
 }

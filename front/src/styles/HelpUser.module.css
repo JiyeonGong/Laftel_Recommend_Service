@@ -70,19 +70,17 @@
     border: 1px solid #545454;
     border-radius: 4px;
     font-size: 14px;
-    background-color: #1E1E1E;
+    background-color: #2F2F2F;
+    color: #DFDFDF;
     transition: border-color 0.2s;
     font-family: Pretendard-Medium, sans-serif;
+    resize: none;
 }
 
 .input:focus,
 .textarea:focus {
     border-color: #B0A3FF;
     outline: none;
-}
-
-.textarea {
-    resize: none;
 }
 
 .submitBtn {
@@ -146,10 +144,20 @@
     border-radius: 10px;
     background-color: #7660F5;
     color: white;
-    margin-top: 30px;
+    margin-top: 25px;
     transition: background-color 0.3s;
 }
 
 .deleteBtn:hover {
     background-color: #54479C;
+}
+
+.selected {
+    background-color: #2A2A2A;
+}
+
+.commentContainer {
+    margin: 40px 0px;
+    padding: 0px 30px;
+    font-size: 15px;
 }

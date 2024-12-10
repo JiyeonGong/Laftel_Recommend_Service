@@ -9,9 +9,6 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
 
-    // 1. JWT 토큰 만료시 refreshToken으로 재발급 하는 함수
-    // 2. JWT 토큰 만료 시간 체크하는 함수
-
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         const storedIsLoggedIn = localStorage.getItem("isLoggedIn");

@@ -38,7 +38,7 @@ const Weather = () => {
     useLayoutEffect(() => {
         if (textRef.current) {
             const textWidth = textRef.current.getComputedTextLength();
-            const centerX = 190;
+            const centerX = 137;
             setTextX(centerX - textWidth / 2);
         }
     }, [currentWeather, region]);
@@ -347,10 +347,9 @@ const Weather = () => {
                     <text
                         ref={textRef}
                         x={textX} y="303"
-                        textAnchor="middle"
+
                         fontSize="17" fontWeight="500" fill="black"
                         fontFamily="Gumi Romance TTF, sans-serif"
-                        className={styles[`weather-text-${currentWeather ? currentWeather.replace(' ', '-') : 'default'}`]}
                     >
                         지금
                         <tspan fill="#7B7B7B"> {region?.region_2depth_name || "Empty city name"} </tspan>
@@ -371,13 +370,13 @@ const Weather = () => {
                         fontSize="17" fontWeight="500" fill="#2F2F2F" letterSpacing="0.5"
                         fontFamily="Gumi Romance TTF, sans-serif"
                     >
-                        {!recommendations ? (
+                        {weatherTexts[currentWeather] ? (
                             <>
                                 <tspan fill="#5BC733">{weatherText[0]}</tspan>
                                 <tspan>{weatherText[1]}</tspan>
                             </>
                         ) : (
-                            <>{weatherText} </>
+                            <>{ weatherText }</>
                         )}
                     </text>
                 </svg>

@@ -3,9 +3,8 @@ import axios from "axios";
 import { AuthContext } from "../api/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Storage from '../pages/Storage'
 import styles from '../styles/Header.module.css';
-//import profileLogo from "../assets/logo.png"
+import profileImage from '../assets/profileImage.svg';
 
 const Header = () => {
     const API_KEY = process.env.REACT_APP_API_KEY;
@@ -38,9 +37,9 @@ const Header = () => {
             return;
         }
         const kakaoId = JSON.parse(user).kakaoId;
-
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URI}/user/profile/${kakaoId}`);
+            console.log(response);
 
             if (response.data.role === 'ADMIN') {
                 navigate('/help/admin');
@@ -74,6 +73,13 @@ const Header = () => {
                         <circle cx="78" cy="50" r="8" fill="#FFBD44"/>
                         <circle cx="106" cy="50" r="8" fill="#00CA4E"/>
                     </svg>
+
+                    {isLoggedIn && (
+                        <>
+                            <img src={profileImage} alt="User Profile" className={styles.profileImage}/>
+                            <div className={styles.thinLine}></div>
+                        </>
+                    )}
 
                     {/* 홈 버튼 */}
                     <button
