@@ -340,10 +340,10 @@ def recommend_anime_weather_mbti(season, weather, mbti, anime_data, mbti_data, r
 
      # 평점 순으로 정렬 후 상위 10개 선택 (다양성 확보를 위해 더 많은 후보를 선택)
     recommendations.sort(key=lambda x: x["steam_score"], reverse=True)
-    top_recommendations = recommendations[:10]
+    top_recommendations = recommendations[:20]
 
     # 상위 10개의 애니메이션 중(정확히는 라프텔에서 감상 가능한 애니) 5개를 먼저 선정
-    if len(top_recommendations) > 5:
+    if len(top_recommendations) > 10:
         # 3개만 추천
         recommendations = random.sample(top_recommendations, 3)
     else:
@@ -356,6 +356,7 @@ def recommend_anime_weather_mbti(season, weather, mbti, anime_data, mbti_data, r
 @app.route('/api/chatbot', methods=['POST'])
 def get_combined_recommendations():
     data = request.json
+    user_msg = data.get('message')
     latitude = data.get('latitude')
     longitude = data.get('longitude')
     api_key = data.get('api_key')
@@ -395,7 +396,10 @@ def get_combined_recommendations():
         # OpenAI API 호출
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": user_msg}
+            ],
             max_tokens=2000,
             temperature=0.7
         )

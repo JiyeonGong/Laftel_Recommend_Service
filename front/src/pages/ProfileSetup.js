@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { AuthContext } from "../api/AuthContext";
+import { useLocation } from "react-router-dom";
 import styles from '../styles/ProfileSetup.module.css';
 import axios from "axios";
 
