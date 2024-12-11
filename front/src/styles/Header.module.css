@@ -116,3 +116,29 @@
     background-color: #DFDFDF;
     z-index: 100;
 }
+
+.toast {
+    position: fixed;
+    top: 600px;
+    right: 1160px;
+    transform: translateX(-50%);
+    background-color: #2F2F2F;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInOut 2.5s ease-in-out;
+    z-index: 1000;
+}
+
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}

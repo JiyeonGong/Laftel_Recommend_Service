@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import axios from "axios";
 import { AuthContext } from "../api/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ const Header = () => {
     const { isLoggedIn, logout } = useContext(AuthContext);
     const [scrollY, setScrollY] = useState(0);
     const [error, setError] = useState(null);
+    const [toastVisible, setToastVisible] = useState(false);
+    const toastTimeoutRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,7 +28,8 @@ const Header = () => {
         if (isLoggedIn) {
             navigate("/storage");
         } else {
-            window.location.href = kakaoURL;
+            alert("로그인 후 이용해주세요.");
+            return;
         }
     };
 
@@ -53,6 +56,20 @@ const Header = () => {
             console.error("사용자 정보 조회 실패:", error.response?.data || error.message);
         }
     }
+
+    const showToast = (message) => {
+        if (toastTimeoutRef.current) {
+            clearTimeout(toastTimeoutRef.current);
+        }
+
+        setToastVisible(false);
+        setTimeout(() => {
+            setToastVisible(true);
+            toastTimeoutRef.current = setTimeout(() => {
+                setToastVisible(false);
+            }, 2500);
+        });
+    };
 
     return (
         <motion.header
@@ -125,11 +142,19 @@ const Header = () => {
                         <svg
                             viewBox="0 -960 960 960"
                             className={styles.log_in_out}
-                            onClick={logout}
+                            onClick={() => {
+                                logout();
+                                showToast();
+                            }}
                         >
                             <title>로그아웃</title>
                             <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
                         </svg>
+                    )}
+                    {toastVisible && (
+                        <div className={styles.toast}>
+                            로그아웃 했습니다.
+                        </div>
                     )}
                 </div>
             </div>

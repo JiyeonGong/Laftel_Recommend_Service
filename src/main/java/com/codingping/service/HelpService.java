@@ -54,10 +54,11 @@ public class HelpService {
                 .toList();
     }
 
+    @Transactional
     public void deleteHelpById(Long id) {
-        if (!helpRepository.existsById(id)) {
-            throw new IllegalArgumentException("해당 ID의 문의를 찾을 수 없습니다.");
-        }
+        Help help = helpRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 문의를 찾을 수 없습니다."));
+        commentRepository.deleteByHelpId(help.getId());
         helpRepository.deleteById(id);
     }
 
