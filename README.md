@@ -30,7 +30,7 @@ OTT 서비스를 사용하면서 영화 관람 전 작품을 고르는데 더 �
 
 ## 상세 내용
 
-# 프로젝트 결과
+<img width="1124" alt="스크린샷 2025-04-28 오후 9 00 37" src="https://github.com/user-attachments/assets/717d6be2-6286-4537-beeb-d688fdf5772a" />
 
 
 ## Thanks To 
