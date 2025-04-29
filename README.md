@@ -32,10 +32,16 @@ OTT 서비스를 사용하면서 영화 관람 전 작품을 고르는데 더 �
 
 <img width="1124" alt="스크린샷 2025-04-28 오후 9 00 37" src="https://github.com/user-attachments/assets/717d6be2-6286-4537-beeb-d688fdf5772a" />
 <img width="1482" alt="스크린샷 2025-04-28 오후 9 01 29" src="https://github.com/user-attachments/assets/c05fe564-0501-488f-ba38-43dc8bfdd4ba" />
+ 날씨 기반 추천 시스템은 내가 위치한 지역의 날씨를 실시간으로 받아와 날씨에 맞는 애니메이션을 추천합니다. 성향 기반 추천 시스템과 동일한 알고리즘과 방법으로 설계하였습니다.
 <img width="1483" alt="스크린샷 2025-04-28 오후 9 01 44" src="https://github.com/user-attachments/assets/c47e23f9-55b5-4c40-9662-d0df1a7227aa" />
+ 작품의 포스터를 클릭하면 작품의 상세 정보를 볼 수 있습니다. 작품의 줄거리, 태그, 장르, 평점, 제작사, 방영시기, 감독, 캐스팅 정보를 알 수 있습니다. 하트 버튼을 통해 찜 목록에 작품을 추가할 수 있으며, ‘라프텔에서 보기’ 버튼을 통해 해당 작품을 바로 라프텔에서 볼 수 있습니다.
 <img width="1197" alt="스크린샷 2025-04-28 오후 9 02 25" src="https://github.com/user-attachments/assets/e766a4b5-daa2-4450-b410-f6991f5479b5" />
+ 찜 목록에 추가한 작품은 보관함에서 볼 수 있습니다. 추가일 순, 가나다 순으로 정렬할 수 있습니다. 언제든지 찜 목록을 관리(추가/삭제)할 수 있습니다.
 <img width="1471" alt="스크린샷 2025-04-28 오후 9 02 54" src="https://github.com/user-attachments/assets/0e78f9ed-0722-4432-88a7-a7faab27c0b0" />
+ ‘테루테루(Teru-Teru)’는 날씨와 사용자의 성향을 결합하여 애니메이션을 추천해주는 생성형 AI 챗봇입니다. MBTI를 선택하고 추천받고싶은 애니메이션에 대한 질문을 입력하면 현재 날씨를 고려하여 각 정보를 결합하여 애니메이션을 추천합니다. 라프텔에 존재하는 애니메이션을 우선적으로 추천하며, 추가적으로 검색을 통해 추가적인 추천 리스트를 제공하기도 합니다.  
+ 
 <img width="1494" alt="스크린샷 2025-04-28 오후 9 03 51" src="https://github.com/user-attachments/assets/d8ce02c3-b0cb-4fdd-a0a6-579c750a0bfe" />
+문의 게시판을 통해 추가하고싶은 애니메이션이나 오류등을 신고할 수 있습니다.
 
 ## Thanks To 
 <img width="273" alt="스크린샷 2025-01-05 오후 4 58 26" src="https://github.com/user-attachments/assets/23b54343-3508-4de0-8ff2-6082acb6d0a5" />
